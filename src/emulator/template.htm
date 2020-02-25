@@ -1,0 +1,52 @@
+<html>
+<head>
+  <title>Emulator</title>
+  <script src="./emulator/vue/vue.js"></script>
+  <link rel="stylesheet" type="text/css" href="./static/zmdi/css/material-design-iconic-font.min.css">
+  <link rel="stylesheet" type="text/css" href="./emulator/example.css">
+  <style>
+    .navbar {
+      box-shadow: 0 4px 5px -4px rgba(0,0,0,.5);
+      -webkit-app-region: drag;
+      box-sizing: border-box;
+      color: #fff;
+      text-overflow: ellipsis;
+      width: 100vw;
+      background-color: #df3000;
+      font-weight: 500;
+      font-size: 17px;
+      padding-left: 15px;
+      line-height: 40px;
+      word-spacing: 0;
+    }
+
+    .navbar i {
+      padding-right: 18px;
+    }
+    p {
+      margin-top: 16px;
+      margin-left: 8px;
+      color: #555;
+    }
+    body{
+      background-color: #fefefe;
+      user-select: none; 
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="navbar"><i class="zmdi zmdi-menu"></i>Emulator</div>
+    <p>{{ message }}</p>
+  </div>
+
+  <script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue!'
+    }
+  })
+  </script>
+</body>
+</html>

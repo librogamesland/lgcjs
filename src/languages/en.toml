@@ -1,0 +1,22 @@
+
+
+
+[navbar.file]
+title = "File"
+items = {new = "New", open = "Open...", save = "Save"}
+
+[navbar.edit]
+title = "Edit"
+items = { }
+
+[navbar.view]
+title = "View"
+items = {}
+
+[navbar.code]
+title = "Code"
+items = {}
+
+[navbar.help]
+title = "Help"
+items = {guide = "Guide", forum = "Lgc3 forum", about = "About"}
