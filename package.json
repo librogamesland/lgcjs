@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",
+    "release": "npm run build; cp -fr ./dist ./release",
     "dev": "rollup -c -w"
   },
   "devDependencies": {
