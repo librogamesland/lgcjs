@@ -1,9 +1,0 @@
-body, html{
-  font-family: arial,sans-serif;
-
-  --color-primary: #001b31;
-  --color-secondary: #fff;
-  --color-background: #bbcee8;
-  --navbar-color: var(--color-primary, #001b31);
-  --navbar-color-text: #fff;
-}
