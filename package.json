@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",
-    "release": "rm -fr ./release; mkdir ./release; npm run build; cp -fr ./dist/* ./release",
+    "clean": "rm -fr ./release; rm -fr ./dist/build",
+    "release": "npm run clean; npm run build; mkdir ./release; cp -fr ./dist/* ./release",
     "dev": "rollup -c -w"
   },
   "devDependencies": {

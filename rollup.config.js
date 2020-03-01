@@ -2,7 +2,6 @@ import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import toml from 'rollup-plugin-toml';
-import livereload from 'rollup-plugin-livereload';
 import globImport from 'rollup-plugin-glob-import'// Resolve glob inside imports
 import serve from 'rollup-plugin-serve'
 import { terser } from 'rollup-plugin-terser';
@@ -43,7 +42,6 @@ export default {
       openPage: '/lgcjs/dist/index.html',
       host: 'localhost',
       port: 10015,
-    }),
-    !production && livereload(),  // Livereload on watch
-	],
+    })
+  ],
 };
