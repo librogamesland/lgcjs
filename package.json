@@ -21,13 +21,6 @@
     "rollup-plugin-toml": "^1.0.0",
     "svelte": "^3.0.0",
     "svelte-i18n": "^3.0.1"
-  },
-  "dependencies": {
-    "carlo": "^0.9.46"
-  },
-  "bin": "./example.js",
-  "pkg": {
-    "assets": "dist/**/*"
   }
 
 }

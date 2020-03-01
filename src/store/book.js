@@ -1,12 +1,12 @@
 import {writable} from 'svelte/store'
-import {test1} from '../book/tests.js'
 import { encode, decode } from '../utils/xlgcParser.js'
-import emptyBook from './empty.xlgc'
+import emptyBook from '../tests/1.xlgc' // './empty.xlgc'
 
 
 let filename = "empty"
 let book = decode(emptyBook)
 console.log(book)
+
 
 const load = (fileName, text) => {
 
@@ -24,11 +24,6 @@ const chapterList = refreshable(() => Object.keys(book.entities).filter( k => (!
 const sectionList = refreshable(() => Object.keys(book.entities).filter( k => book.entities[k].type === 'section'))
 
 
-const Entity = () => ({
-  save: "ed",
-  open: "f"
-})
-
-const currentEntity = Entity()
+const currentEntity = writable("1")
 
 export {entityList, chapterList, sectionList, currentEntity}

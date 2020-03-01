@@ -1,38 +1,36 @@
 <script>
   import Tabbar from './Tabbar.svelte'
 
-  import {test1} from '../book/tests.js'
   import { encode, decode } from '../utils/xlgcParser.js'
-  import { chapterList } from '../store/book.js'
-  console.log(decode(test1))
-
-  let c = chapterList
-  $: console.log($c)
+  import { currentEntity, chapterList, sectionList } from '../store/book.js'
 
   const tabs = {
     book: 'Libro',
     code: 'Code'
   }
 
-
-
-  let selected = '1'
+  const open = (entity) => {
+    currentEntity.set(entity)
+  }
 </script>
 
 <section class="sidemenu">
   <Tabbar {tabs}/>
   <div class="sidemenu-container">
-  <h1>{$c}</h1>
     <h1>Paragrafi</h1>
-    {#each [...Array(400).keys()] as number }
+    {#each $chapterList as entity }
       <div
-      class={number == selected ? 'selected' : ''}
-      on:click={ () => selected = number}
-      >{number}</div>
+      class:selected={entity == $currentEntity}
+      on:click={ () => open(entity)}
+      >{entity}</div>
     {/each}
     <h1>Sezioni</h1>
-    <div>intro</div>
-    <div>rules</div>
+    {#each $sectionList as entity }
+      <div
+      class:selected={entity == $currentEntity}
+      on:click={ () => open(entity)}
+      >{entity}</div>
+    {/each}
   </div>
 </section>
 
