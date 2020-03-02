@@ -3,6 +3,10 @@
   import { addMessages, init } from 'svelte-i18n'
   import { showCode } from './store/settings.js'
 
+  let showParagraph = false
+
+  $: console.log(showParagraph)
+
   import en from "./languages/en.toml"
   addMessages('en', en)
   init({
@@ -13,13 +17,16 @@
 </script>
 <style>
 :global(body, html) {
+  display: flex;
+  flex-direction: column;
   overflow-y: hidden;
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 :global(main){
-  height: calc(100vh - 2.3rem);
+  flex-grow: 1;
   padding: 2.5px;
   padding-bottom: 1.6rem;
   display: flex;
@@ -37,18 +44,32 @@
   background-color: var(--color-section, #fff);
 }
 
-:global(main.resize){
-  width: 100vw;
-  padding-left: 7vw;
-  padding-right: 9vw;
+
+
+@media only screen and (min-width: 970px) {
+  :global(main.resize){
+    width: 100vw;
+    padding-left: 7vw;
+    padding-right: 9vw;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  :global(main){
+    display: grid;
+  }
+
+  :global(main > *){
+    grid-area: 1 / 1;
+  }
 }
 </style>
 
 <Dialogs/>
-<Navbar/>
+<Navbar bind:showParagraph={showParagraph}/>
 
 <main class:resize={!$showCode}>
-  <Sidemenu/>
+  <Sidemenu bind:foreground={showParagraph}/>
   <Editor/>
   {#if $showCode}
     <DevPanel/>

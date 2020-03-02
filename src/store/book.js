@@ -11,13 +11,16 @@ const refreshable = (constructor) => {
   return { subscribe, refresh: () => set(constructor())  }
 }
 
-const STORAGE_FILENAME = 'lgcjs-filename', STORAGE_BOOK = 'lgcjs-book'
+const STORAGE_FILENAME = 'lgcjs-filename'
+const STORAGE_BOOK = 'lgcjs-book'
+const STORAGE_CURRENTENTITY = 'lgcjs-currententity'
 
 let filename = localStorage.getItem(STORAGE_FILENAME) || 'empty.xlgc'
-let book = JSON.parse(localStorage.getItem(STORAGE_BOOK) || 'null') || decode(testBook)
+let book = JSON.parse(localStorage.getItem(STORAGE_BOOK) || 'null') || decode(emptyBook)
 let bookStore = refreshable(() => Object.freeze(JSON.parse(JSON.stringify(book))))
 
-const currentEntity = writable("1")
+const currentEntity = writable(localStorage.getItem(STORAGE_CURRENTENTITY) || Object.keys(book.entities)[0])
+currentEntity.subscribe(value => localStorage.setItem(STORAGE_CURRENTENTITY, value) )
 
 const loadXlgc = async(lFilename, text) => {
   currentEntity.set('')

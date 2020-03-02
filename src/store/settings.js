@@ -27,6 +27,6 @@ const localStorageWritable = (key, defaultValue) => {
 
 
 
-const showCode = localStorageWritable("showcode", true)
+const showCode = localStorageWritable("showcode", false)
 
 export { showCode }

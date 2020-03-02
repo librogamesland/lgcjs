@@ -41,8 +41,8 @@
   }
 
   .dialog-container > div {
-    padding: 1.3rem 3rem 2rem 3rem;
-    border-radius: 12px;
+    padding: 0.6rem 2rem 1.3rem 2rem;
+    border-radius: 6px;
     box-sizing: border-box;
     min-height: 200px;
     background-color: #fff;
@@ -55,7 +55,7 @@
     height: 2.5rem;
     font-size: 1rem;
     padding: 0 1.5rem;
-    margin: 0.5rem 1rem;
+    margin: 0.5rem 0.6rem;
     margin-left: 0;
     border-radius: 4px;
   }

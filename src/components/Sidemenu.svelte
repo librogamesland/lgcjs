@@ -5,17 +5,19 @@
   import { currentEntity, chapterList, sectionList } from '../store/book.js'
   import { showCode } from '../store/settings.js'
 
+  export let foreground = false
   const tabs = {
     book: 'Libro',
     ...($showCode && {"code" : "Code"})
   }
 
   const open = (entity) => {
+    foreground = false
     currentEntity.set(entity)
   }
 </script>
 
-<section class="sidemenu">
+<section class="sidemenu" class:foreground={foreground}>
   <Tabbar {tabs}/>
   <div class="sidemenu-container">
     <h1>Paragrafi</h1>
@@ -36,6 +38,7 @@
 </section>
 
 <style>
+
 :global(.sidemenu-container){
   overflow-y: scroll;
   height: 100%;
@@ -46,6 +49,24 @@
   flex-grow: 0;
   flex-basis: auto;
   width: 200px;
+}
+
+@media only screen and (max-width: 740px) {
+  :global(section.sidemenu){
+    width: 160px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  :global(.sidemenu.foreground){
+    z-index: 10000;
+  }
+
+  :global(section.sidemenu){
+    flex-grow: 1;
+    flex-basis: auto;
+    width: auto;
+  }
 }
 
 :global(.sidemenu-container div){

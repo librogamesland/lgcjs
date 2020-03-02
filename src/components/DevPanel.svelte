@@ -33,7 +33,7 @@
 :global(.devpanel iframe){
     margin-top: 40px;
     width: 225px;
-    height: 400px;
+    /* height: 400px; */
     border: 1px #ddd solid;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;

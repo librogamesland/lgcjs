@@ -4,7 +4,7 @@ import { currentEntity, loadEmptyXlgc, loadXlgc, saveXlgc } from '../store/book.
 import { confirm } from '../utils/dialogs.js'
 import { showCode } from '../store/settings.js'
 
-$: console.log($currentEntity, $showCode)
+export let showParagraph = false
 
 let navbar = {
   'file' : {
@@ -19,9 +19,7 @@ let navbar = {
     'link4' : {type: 'button', handler: null},
     */
   },
-  'view' : {
-
-  },
+  //'view' : { },
   'code' : {
     'togglecode' : {type: 'button', handler: () => showCode.update(n => !n)},
     'jsexport'   : {type: 'button', handler: () => console.log("JSExport")}
@@ -81,15 +79,25 @@ const readFile = (elem, callback) => {
     </div>
   </li>
   {/each}
+  <li class="switchpar">
+    <a
+    href="javascript:void(0)" class={"dropbtn icon-" + (showParagraph ? 'cancel' : 'menu')}
+    on:click={() => showParagraph = !showParagraph}>
+    </a>
+  </li>
 </ul>
 
 
 <style>
 
-/*
-background-color: var(--navbar-color, #001b31);
-color: var(--navbar-color-text, #fff);
-*/
+.switchpar {
+  float: right;
+
+}
+@media only screen and (min-width: 550px) {
+  .switchpar {  display: none; }
+}
+
 
 input[type=file] {
 	width: 0.1px;
@@ -110,9 +118,12 @@ ul {
   padding-left: 2.3vw;
 }
 
-ul {
-  padding-left: 11.3vw;
+ul {  padding-left: 2.3vw; }
+
+@media only screen and (min-width: 970px) {
+  ul {  padding-left: 11.3vw; }
 }
+
 
 li {
   float: left;

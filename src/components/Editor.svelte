@@ -2,10 +2,13 @@
 import Tabbar     from './Tabbar.svelte'
 import TextEditor from './TextEditor.svelte'
 import CodeEditor from './CodeEditor.svelte'
+import { currentEntity, bookRaw } from '../store/book.js'
 import { showCode } from '../store/settings.js'
 
 $: tabs = {
-  "text" : "TextEditor",
+  "text" : $currentEntity == '' ?
+              '' :
+              `${$currentEntity}   ${bookRaw.entities[$currentEntity].title || ''}`,
   ...($showCode && {"code" : "CodeEditor"})
 }
 
@@ -32,7 +35,6 @@ let active='text'
 }
 
 :global(#text-editor){
-  height: auto !important;
   overflow-y: hidden;
   flex-grow: 1;
   flex-basis: 0;

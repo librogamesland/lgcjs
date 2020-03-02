@@ -58,7 +58,6 @@
 
         linkHighlighter.highlight(editor, true)
         linkHighlighter.startHighlighting(editor)
-        console.log(displayedEntity)
         book.refresh()
       }
     }
