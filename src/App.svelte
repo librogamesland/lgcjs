@@ -3,9 +3,7 @@
   import { addMessages, init } from 'svelte-i18n'
   import { showCode } from './store/settings.js'
 
-  let showParagraph = false
-
-  $: console.log(showParagraph)
+  let showSidemenu = false
 
   import en from "./languages/en.toml"
   addMessages('en', en)
@@ -66,10 +64,10 @@
 </style>
 
 <Dialogs/>
-<Navbar bind:showParagraph={showParagraph}/>
+<Navbar bind:showSidemenu={showSidemenu}/>
 
 <main class:resize={!$showCode}>
-  <Sidemenu bind:foreground={showParagraph}/>
+  <Sidemenu bind:foreground={showSidemenu}/>
   <Editor/>
   {#if $showCode}
     <DevPanel/>

@@ -17,6 +17,8 @@ linkHighlighter.stopHighlighting(editor)         // Termina di controllare
 
 //
 export default function(Quill, clickHandler){
+  Quill.debug('error')
+
   // Ridefinisce l'oggetto link
   class Link extends Quill.import('blots/inline') {
     static create() {

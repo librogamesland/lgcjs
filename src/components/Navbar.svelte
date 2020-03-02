@@ -4,7 +4,8 @@ import { currentEntity, loadEmptyXlgc, loadXlgc, saveXlgc } from '../store/book.
 import { confirm } from '../utils/dialogs.js'
 import { showCode } from '../store/settings.js'
 
-export let showParagraph = false
+
+export let showSidemenu = false
 
 let navbar = {
   'file' : {
@@ -81,8 +82,8 @@ const readFile = (elem, callback) => {
   {/each}
   <li class="switchpar">
     <a
-    href="javascript:void(0)" class={"dropbtn icon-" + (showParagraph ? 'cancel' : 'menu')}
-    on:click={() => showParagraph = !showParagraph}>
+    href="javascript:void(0)" class={"dropbtn icon-" + (showSidemenu ? 'cancel' : 'menu')}
+    on:click={() => showSidemenu = !showSidemenu}>
     </a>
   </li>
 </ul>
@@ -92,8 +93,8 @@ const readFile = (elem, callback) => {
 
 .switchpar {
   float: right;
-
 }
+
 @media only screen and (min-width: 550px) {
   .switchpar {  display: none; }
 }
@@ -156,7 +157,7 @@ li.dropdown {
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 10000;
+  z-index: 20000;
 }
 
 .dropdown-content a, .dropdown-content label {
