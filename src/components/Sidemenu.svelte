@@ -2,8 +2,11 @@
   import Tabbar from './Tabbar.svelte'
 
   import { encode, decode } from '../utils/xlgcParser.js'
-  import { currentEntity, chapterList, sectionList } from '../store/book.js'
+  import { currentEntity, book } from '../store/book.js'
   import { showCode } from '../store/settings.js'
+
+  $: chapterList = Object.keys($book.entities).filter( k => (!$book.entities[k].type || $book.entities[k].type === 'chapter'))
+  $: sectionList = Object.keys($book.entities).filter( k => $book.entities[k].type === 'section')
 
   export let foreground = false
   const tabs = {
@@ -21,14 +24,14 @@
   <Tabbar {tabs}/>
   <div class="sidemenu-container">
     <h1>Paragrafi</h1>
-    {#each $chapterList as entity }
+    {#each chapterList as entity }
       <div
       class:selected={entity == $currentEntity}
       on:click={ () => open(entity)}
       >{entity}</div>
     {/each}
     <h1>Sezioni</h1>
-    {#each $sectionList as entity }
+    {#each sectionList as entity }
       <div
       class:selected={entity == $currentEntity}
       on:click={ () => open(entity)}

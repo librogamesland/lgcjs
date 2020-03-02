@@ -19,7 +19,9 @@ let filename = localStorage.getItem(STORAGE_FILENAME) || 'empty.xlgc'
 let book = JSON.parse(localStorage.getItem(STORAGE_BOOK) || 'null') || decode(emptyBook)
 let bookStore = refreshable(() => Object.freeze(JSON.parse(JSON.stringify(book))))
 
-const currentEntity = writable(localStorage.getItem(STORAGE_CURRENTENTITY) || Object.keys(book.entities)[0])
+const savedEntityValue = localStorage.getItem(STORAGE_CURRENTENTITY)
+const currentEntity = writable( (savedEntityValue && (savedEntityValue in book.entities)) ?
+  savedEntityValue : Object.keys(book.entities)[0] )
 currentEntity.subscribe(value => localStorage.setItem(STORAGE_CURRENTENTITY, value) )
 
 const loadXlgc = async(lFilename, text) => {
@@ -45,19 +47,9 @@ const saveXlgc = async() => {
 }
 
 
-
-const entityList  = refreshable(() => Object.keys(book.entities))
-const chapterList = refreshable(() => Object.keys(book.entities).filter( k => (!book.entities[k].type || book.entities[k].type === 'chapter')))
-const sectionList = refreshable(() => Object.keys(book.entities).filter( k => book.entities[k].type === 'section'))
-
-
-
 bookStore.subscribe( () => {
   localStorage.setItem(STORAGE_FILENAME, filename)
   localStorage.setItem(STORAGE_BOOK, JSON.stringify(book))
-  entityList.refresh()
-  chapterList.refresh()
-  sectionList.refresh()
 })
 
-export {book as bookRaw, bookStore as book, loadEmptyXlgc, loadXlgc, saveXlgc, entityList, chapterList, sectionList, currentEntity}
+export {book as bookRaw, bookStore as book, loadEmptyXlgc, loadXlgc, saveXlgc, currentEntity}

@@ -7,8 +7,7 @@ import { showCode } from '../store/settings.js'
 
 $: tabs = {
   "text" : $currentEntity == '' ?
-              '' :
-              `${$currentEntity}   ${bookRaw.entities[$currentEntity].title || ''}`,
+    '' : `${$currentEntity}   ${bookRaw.entities[$currentEntity].title || ''}`,
   ...($showCode && {"code" : "CodeEditor"})
 }
 

@@ -40,7 +40,13 @@
   $: if(foreground && editor){ editor.focus() }
 
 
-  const linkHighlighter = new LinkHighlighter(Quill, (number, value) => currentEntity.set(number))
+  const linkHighlighter = new LinkHighlighter(Quill, (number, value) => {
+    if(!(number in $book.entities)){
+      bookRaw.entities[String(number)] = { "data": "<p></p>" }
+      book.refresh()
+    }
+    currentEntity.set(number)
+  })
 
   let displayedEntity = ''
   $: {
