@@ -75,7 +75,7 @@ const decode = (xlgc) => {
     ;[...entity.children].forEach( (node) => {
       const nodeName   = node.getAttribute('name')
       const nodeValue  = node.innerHTML.substring(9, node.innerHTML.length - 3)
-      if(nodeName === 'chapter_title' && section.title) section.title = nodeValue
+      if(nodeName === 'chapter_title' && nodeValue) section.title = nodeValue
       if(nodeName === 'description')   section.data  = nodeValue
       if(nodeName.startsWith('flag_') && nodeValue === 'true'){
         if(!section.flags) section.flags = []     // Crea l'array in cui conservare le flag
@@ -85,6 +85,8 @@ const decode = (xlgc) => {
     // Inserisce nel jlgc l'oggetto section appena creato
     entities[id] = section
   })
+
+  console.log("entities", entities)
   return {info, entities}
 }
 

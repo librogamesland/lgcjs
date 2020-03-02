@@ -5,9 +5,11 @@ import CodeEditor from './CodeEditor.svelte'
 import { currentEntity, bookRaw } from '../store/book.js'
 import { showCode } from '../store/settings.js'
 
+
 $: tabs = {
   "text" : $currentEntity == '' ?
-    '' : `${$currentEntity}   ${bookRaw.entities[$currentEntity].title || ''}`,
+    '' : `${$currentEntity} ${bookRaw.entities[$currentEntity].title ?
+    ' - ' + bookRaw.entities[$currentEntity].title   : ''}`,
   ...($showCode && {"code" : "CodeEditor"})
 }
 

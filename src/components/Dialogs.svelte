@@ -1,20 +1,75 @@
 <script>
-  import {openedDialog, openedCallback, title, text } from '../utils/dialogs.js'
+  import {openedDialog, openedCallback, title, text,
+            eName, eType, eGroup, eTitle} from '../utils/dialogs.js'
+
+  let entityName = ''
+  let entityType = ''
+  let entityGroup = ''
+  let entityTitle = ''
+
+  $: {
+    entityName  = $eName
+    entityType  = $eType
+    entityGroup = $eGroup
+    entityTitle = $eTitle
+  }
+
+  const returnEntity = () => openedCallback({
+    name: entityName,
+    type: entityType,
+    group: entityGroup,
+    title: entityTitle,
+  })
 </script>
 {#if $openedDialog}
   <div class="dialog-mask"/>
   <div class="dialog-container">
-    {#if $openedDialog === 'confirm'}
+    {#if $openedDialog === 'alert'}
+    <div>
+      <h3>{$title} </h3>
+      <p>{$text}</p>
+      <button class="ok"     on:click={ () => openedCallback()}>Ok</button>
+    </div>
+    {:else if $openedDialog === 'confirm'}
     <div>
       <h3>{$title} </h3>
       <p>{$text}</p>
       <button class="ok"     on:click={ () => openedCallback(true)}>Ok</button>
       <button class="cancel" on:click={ () => openedCallback(false)}>Cancel</button>
     </div>
+    {:else if $openedDialog === 'entity'}
+    <div>
+      <h3>{$title} </h3>
+      <p><span class="min">Name </span><input
+        bind:value={entityName}
+        type='text'
+      ></p>
+      <p><span class="min">Type </span><input
+        bind:value={entityType}
+        type='text'
+      ></p>
+      <p><span class="min">Group </span><input
+        bind:value={entityGroup}
+        type='text'
+      ></p>
+      <p><span class="min">Title </span><input
+        bind:value={entityTitle}
+        type='text'
+      ></p>
+      <button class="ok"     on:click={returnEntity}>Ok</button>
+      <button class="cancel" on:click={ () => openedCallback(false)}>Cancel</button>
+    </div>
     {/if}
   </div>
 {/if}
 <style>
+  h3 {
+    margin-left: 10px;
+  }
+  span.min {
+    min-width: 100px;
+    display: inline-block;
+  }
   :global(.dialog-mask){
     display: block;
     z-index: 100000;
@@ -65,7 +120,7 @@
   }
 
   button.ok {
-    background-color: #3978cd;
+    background-color: #4670a6;
     color: white;
   }
 

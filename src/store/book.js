@@ -52,4 +52,5 @@ bookStore.subscribe( () => {
   localStorage.setItem(STORAGE_BOOK, JSON.stringify(book))
 })
 
-export {book as bookRaw, bookStore as book, loadEmptyXlgc, loadXlgc, saveXlgc, currentEntity}
+
+export {filename, book as bookRaw, bookStore as book, loadEmptyXlgc, loadXlgc, saveXlgc, currentEntity}

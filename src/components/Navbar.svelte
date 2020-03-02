@@ -1,6 +1,6 @@
 <script>
 import { _ } from 'svelte-i18n'
-import { currentEntity, loadEmptyXlgc, loadXlgc, saveXlgc } from '../store/book.js'
+import { filename, currentEntity, loadEmptyXlgc, loadXlgc, saveXlgc } from '../store/book.js'
 import { confirm } from '../utils/dialogs.js'
 import { showCode } from '../store/settings.js'
 
@@ -9,7 +9,7 @@ export let showSidemenu = false
 
 let navbar = {
   'file' : {
-    'new'  : {type: 'button', handler: async() => {if(await confirm("Sure?", "This will override old book")) loadEmptyXlgc()} },
+    'new'  : {type: 'button', handler: async() => {if(await confirm("Confirm?", `This will override "${filename}" if not saved`)) loadEmptyXlgc()} },
     'open' : {type: 'fileinput', accept: ".xlgc", handler: (info, text) => loadXlgc(info.name, text)},
     'save' : {type: 'button', handler: saveXlgc },
   },
@@ -121,7 +121,7 @@ ul {
 
 ul {  padding-left: 2.3vw; }
 
-@media only screen and (min-width: 970px) {
+@media only screen and (min-width: 1150px) {
   ul {  padding-left: 11.3vw; }
 }
 

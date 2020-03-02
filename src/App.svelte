@@ -24,9 +24,10 @@
 }
 
 :global(main){
+  height: 0;
   flex-grow: 1;
   padding: 2.5px;
-  padding-bottom: 1.6rem;
+  padding-bottom: 1.3rem;
   display: flex;
   background-color: var(--color-background, #bbcee8);
   box-sizing: border-box;
@@ -44,7 +45,7 @@
 
 
 
-@media only screen and (min-width: 970px) {
+@media only screen and (min-width: 1150px) {
   :global(main.resize){
     width: 100vw;
     padding-left: 7vw;
@@ -55,6 +56,7 @@
 @media only screen and (max-width: 550px) {
   :global(main){
     display: grid;
+    grid-template-rows: 100%;
   }
 
   :global(main > *){

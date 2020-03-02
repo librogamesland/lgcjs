@@ -20,7 +20,7 @@
             [{ 'color': [] }, { 'background': [] }],
             [{ 'font': [] }],
             [{ 'align': [] }],
-            ['clean', 'code-block', 'link']
+            ['clean', 'code-block' ]
         ]  // Include button in toolbar
       },
       theme: 'snow'
