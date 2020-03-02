@@ -1,23 +1,30 @@
 <script>
 import { _ } from 'svelte-i18n'
-import { download } from '../utils/file.js'
+import { currentEntity, loadEmptyXlgc, loadXlgc, saveXlgc } from '../store/book.js'
+import { confirm } from '../utils/dialogs.js'
+import { showCode } from '../store/settings.js'
+
+$: console.log($currentEntity, $showCode)
 
 let navbar = {
   'file' : {
-    'new'  : {type: 'button', handler: null},
-    'open' : {type: 'fileinput', accept: ".xlgc", handler: (r) => console.log(r)},
-    'save' : {type: 'button', handler: download},
+    'new'  : {type: 'button', handler: async() => {if(await confirm("Sure?", "This will override old book")) loadEmptyXlgc()} },
+    'open' : {type: 'fileinput', accept: ".xlgc", handler: (info, text) => loadXlgc(info.name, text)},
+    'save' : {type: 'button', handler: saveXlgc },
   },
-  'edit' : {
+ 'edit' : {
+   /*
     'link1' : {type: 'button', handler: null},
     'link2' : {type: 'button', handler: null},
     'link4' : {type: 'button', handler: null},
+    */
   },
   'view' : {
 
   },
   'code' : {
-
+    'togglecode' : {type: 'button', handler: () => showCode.update(n => !n)},
+    'jsexport'   : {type: 'button', handler: () => console.log("JSExport")}
   },
   'help' : {
     'guide' : {type: 'link',   href: ""},
@@ -101,6 +108,10 @@ ul {
   overflow: hidden;
   background-color: #333;
   padding-left: 2.3vw;
+}
+
+ul {
+  padding-left: 11.3vw;
 }
 
 li {

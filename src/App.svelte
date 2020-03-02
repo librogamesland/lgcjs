@@ -1,6 +1,7 @@
 <script>
-  import { Navbar, Sidemenu, Editor, DevPanel } from './components/*.svelte';
+  import { Dialogs, Navbar, Sidemenu, Editor, DevPanel } from './components/*.svelte';
   import { addMessages, init } from 'svelte-i18n'
+  import { showCode } from './store/settings.js'
 
   import en from "./languages/en.toml"
   addMessages('en', en)
@@ -36,11 +37,20 @@
   background-color: var(--color-section, #fff);
 }
 
+:global(main.resize){
+  width: 100vw;
+  padding-left: 7vw;
+  padding-right: 9vw;
+}
 </style>
+
+<Dialogs/>
 <Navbar/>
 
-<main>
+<main class:resize={!$showCode}>
   <Sidemenu/>
   <Editor/>
-  <DevPanel/>
+  {#if $showCode}
+    <DevPanel/>
+  {/if}
 </main>

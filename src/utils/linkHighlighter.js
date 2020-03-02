@@ -7,10 +7,11 @@ Uso:
 import LinkHighlighter from './linkHighlighter.js'
 
 // Inizializza passando la referenza a Quill
-const linkHighlighter = new LinkHighlighter(Quill)
+const linkHighlighter = new LinkHighlighter(Quill,  (number, value) => { handleClick()})
 
-linkHighlighter.highlight(editor, enable = true) // Tro
+linkHighlighter.highlight(editor, enable = true) // Mette/toglie tutti i link
 linkHighlighter.startHighlighting(editor)        // Inizia a controllare
+linkHighlighter.stopHighlighting(editor)         // Termina di controllare
 
 */
 

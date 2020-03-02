@@ -16,10 +16,13 @@
     editor.session.setMode("ace/mode/javascript");
   })
 
-  
+
   $: if(foreground && editor){ editor.focus() }
 </script>
 
 <div id="code-editor" style={`font-size:${fontSize}; ${(foreground ? 'z-index: 2000;' : '')}`}>
-  ddvdsfv
+{`
+if(highlight){
+  console.log("highlight is working!")
+}`}
 </div>

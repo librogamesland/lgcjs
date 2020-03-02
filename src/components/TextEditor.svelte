@@ -1,14 +1,11 @@
 <script>
   import { onMount, tick } from 'svelte'
+  import { currentEntity, book, bookRaw } from '../store/book.js'
   import LinkHighlighter from '../utils/linkHighlighter.js'
 
   export let foreground = false
   let editor =null
 
-  const linkHighlighter = new LinkHighlighter(Quill, (number,value) => {
-    console.log(`a${number}bc${value}d`)
-  })
-  window.linkHighlighter = linkHighlighter
   onMount(async () => {
     await tick()
 
@@ -41,12 +38,34 @@
   })
 
   $: if(foreground && editor){ editor.focus() }
+
+
+  const linkHighlighter = new LinkHighlighter(Quill, (number, value) => currentEntity.set(number))
+
+  let displayedEntity = ''
+  $: {
+    if(editor){
+      const changedEntity = $currentEntity
+      if( displayedEntity != ''){
+        linkHighlighter.stopHighlighting(editor)
+        linkHighlighter.highlight(editor, false)
+        bookRaw.entities[displayedEntity].data = editor.root.innerHTML
+      }
+      displayedEntity = $currentEntity
+      editor.setContents([])
+      if(displayedEntity != ''){
+        editor.clipboard.dangerouslyPasteHTML(0, bookRaw.entities[displayedEntity].data)
+
+        linkHighlighter.highlight(editor, true)
+        linkHighlighter.startHighlighting(editor)
+        console.log(displayedEntity)
+        book.refresh()
+      }
+    }
+  }
 </script>
 
 <div class="editor-container" style={foreground ? 'z-index: 2000;' : ''}>
-  <div id="text-editor">
-    <p>Hello World!</p>
-    <p>{'{link 10:2}'} ssdsfsvfsv</p>
-    <pre>cdscdsds</pre>
+  <div id="text-editor" style="border: none; font-size: 115%;">
   </div>
 </div>

@@ -3,10 +3,11 @@
 
   import { encode, decode } from '../utils/xlgcParser.js'
   import { currentEntity, chapterList, sectionList } from '../store/book.js'
+  import { showCode } from '../store/settings.js'
 
   const tabs = {
     book: 'Libro',
-    code: 'Code'
+    ...($showCode && {"code" : "Code"})
   }
 
   const open = (entity) => {

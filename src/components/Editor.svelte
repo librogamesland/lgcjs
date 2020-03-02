@@ -2,19 +2,20 @@
 import Tabbar     from './Tabbar.svelte'
 import TextEditor from './TextEditor.svelte'
 import CodeEditor from './CodeEditor.svelte'
+import { showCode } from '../store/settings.js'
 
-  const tabs = {
-    "esp1" : "CodeEditor",
-    "esp2" : "TextEditor"
-  }
+$: tabs = {
+  "text" : "TextEditor",
+  ...($showCode && {"code" : "CodeEditor"})
+}
 
-  let active='esp2'
+let active='text'
 </script>
 
 <section class="editor">
   <Tabbar {tabs} bind:active={active}/>
-  <TextEditor foreground={active === 'esp2'}/>
-  <CodeEditor foreground={active === 'esp1'}/>
+  <TextEditor foreground={active === 'text'}/>
+  <CodeEditor foreground={active === 'code'}/>
 </section>
 
 <style>
@@ -40,5 +41,10 @@ import CodeEditor from './CodeEditor.svelte'
 :global(#code-editor, .editor-container){
   grid-area: 2 / 1;
   background-color: #fff;
+}
+
+:global(.editor-container .ql-toolbar){
+  border: 0 !important;
+  border-bottom: 1px solid #ccc !important;
 }
 </style>

@@ -15,7 +15,7 @@ items = {}
 
 [navbar.code]
 title = "Code"
-items = {}
+items = {togglecode = "Show/hide code tools", jsexport = "JSExport book"}
 
 [navbar.help]
 title = "Help"
