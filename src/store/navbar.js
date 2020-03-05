@@ -7,12 +7,20 @@ import { _ } from 'svelte-i18n'
 import { showCode } from '../store/settings.js'
 import { download } from '../utils/file.js'
 import { confirm } from '../utils/dialogs.js'
-import jsExport from '../utils/jsexport.js'
+import appjsExport from '../utils/appjsExport.js'
 import {bookName, book, currentEntity } from '../store/book.js'
 
 const newFile = async() => {
   if(await confirm("Confirm?", `This will override "${bookName.get()}" if not saved`))
     book.empty()
+}
+
+const json = () => {
+  book.exportBook( (name, data ) => download(name + '.json', JSON.stringify(data, null, 2)))
+}
+
+const appjs = () => {
+  book.exportBook( (name, data ) => download(name + '.js', appjsExport(data)))
 }
 
 export default {
@@ -24,7 +32,8 @@ export default {
  'edit' : { },
   'code' : {
     'togglecode' : {type: 'button', handler: () => showCode.update(n => !n)},
-    'jsexport'   : {type: 'button', handler: () => download(bookName.get() + '.js', jsExport(book.getData()))}
+    'json'       : {type: 'button', handler: json  },
+    'appjs'      : {type: 'button', handler: appjs },
   },
   'help' : {
     'guide' : {type: 'link',   href: ""},

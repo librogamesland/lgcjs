@@ -65,7 +65,7 @@ export default function(Quill, editor, clickHandler){
   const formats = {
     'link'  : /\{link \w+:(\w|@)+\}/g,
     'todo'  : /\{todo [^\}\{]+\}/g,
-    'lgcode': /\{\{[^\}\}]+\}\}/g,
+    'lgcode': /\{\{(?:(?!\}\})[^])*(\}\})/g,
   }
 
   // Evidenzia/Toglie i link nel testo

@@ -11,7 +11,9 @@ confirm = "Confirm?"
 "edit.items" = { }
 
 "code.title" = "Code"
-"code.items" = {togglecode = "Show/hide code tools", jsexport = "JSExport book"}
+"code.items.togglecode" = "Show/hide code tools"
+"code.items.json"       = "Export json"
+"code.items.appjs"      = "Export app.js"
 
 "help.title" = "Help"
 "help.items" = {guide = "Guide", forum = "Lgl forum", about = "About"}

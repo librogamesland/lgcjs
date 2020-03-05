@@ -69,6 +69,13 @@ const book = new function(){
     currentEntity.set(oldKey)
   }
 
+  const exportBook = async(handler) => {
+    const oldKey = currentEntity.unload()
+    await tick()
+    await handler(bookName.get(), getData())
+    currentEntity.set(oldKey)
+  }
+
   const availableKey = () => {
     for(let i = 1; i < 5000; i++){
       const entity = String(i)
@@ -85,6 +92,7 @@ const book = new function(){
     update: (handler) => safeSet(handler(bookData) || bookData),
     load,
     save,
+    exportBook,
     empty: () => load("empty.xlgc", emptyBook),
     availableKey,
   })
