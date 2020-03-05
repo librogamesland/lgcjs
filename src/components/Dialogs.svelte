@@ -7,7 +7,8 @@
   let dialog, callback, params
 
   // Entity input bindings
-  let key, type, group, title
+  let key, type, group, title, flags
+  const filterFlags = () => Object.keys(flags).filter(key => flags[key])
 
   dialogStore.subscribe( (value) => {
     // Retrieve basic info
@@ -16,6 +17,12 @@
     if(dialog == 'entity'){
       key = params.key
       ;({type, group, title} = params.props)
+      const flagProps = (params.props.flags || [])
+      flags = {
+        "final": flagProps.includes("final"),
+        "fixed": flagProps.includes("fixed"),
+        "death": flagProps.includes("death")
+      }
     }
   })
 
@@ -57,13 +64,56 @@
         bind:value={title}
         type='text'
       ></p>
-      <button autofocus class="ok"     on:click={ () => callback({key, obj: {type, group, title}})}>Ok</button>
+      {#if (!type || type==='chapter')}
+      <div class="flags">
+      {#each ["final", "fixed", "death"] as flag}
+        <div class:selected={flags[flag]}
+        on:click={ () => flags[flag] = !flags[flag]}>
+          <img src={`./static/flags/${flag}.png`}>
+        </div>
+      {/each}
+      </div>
+      {/if}
+      <button autofocus class="ok"
+      on:click={ () => callback({key, obj: {type, group, title, flags: filterFlags()}})}>Ok</button>
       <button class="cancel" on:click={ () => callback({}) }>Cancel</button>
     </div>
     {/if}
   </div>
 {/if}
 <style>
+  .flags{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 2.5rem;
+    box-sizing: border-box;
+    margin: 1rem 0;
+    background-color: #f3f2f2;
+    border: 1px solid #555;
+  }
+
+  .flags > div {
+    box-sizing: border-box;
+    flex: 1 0 auto;
+    text-align: center;
+    height: 100%;
+    justify-content: center;
+  }
+
+  .flags > div:hover {
+    background-color: #ddd;
+  }
+
+  .flags > div.selected {
+    background-color: #cbcbcb;
+  }
+
+  img {
+    box-sizing: border-box;
+    margin-top: calc( (2.5rem - 20px) / 2);
+  }
+
   h3 {
     margin-left: 10px;
   }

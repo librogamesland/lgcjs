@@ -106,6 +106,7 @@ const entities = {
     type:  '',
     group: '',
     title: '',
+    flags: [],
     data : '<p></p>'
   }),
   format: (rawEntity) => {
@@ -116,6 +117,7 @@ const entities = {
     if(entity.title == '') delete entity.title
     if(entity.group == '') delete entity.group
     if(entity.type  == '' || entity.type  == 'chapter') delete entity.type
+    if(!entity.flags || entity.flags.length === 0) delete entity.flags
     return entity
   }
 }

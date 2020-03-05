@@ -21,6 +21,24 @@ $: tabs = {
 </section>
 
 <style>
+/* Markup editor */
+:global(.editor todo){
+  font-weight: 600;
+  background-color: #f1ceff;
+}
+
+:global(.editor lgcode){
+  /*background-color: #f5efef; */
+  color: #9f0000;
+  font-weight: 550;
+  font-family: monospace, monospace;
+}
+:global(.editor a){
+  font-weight: 600;
+}
+
+
+/* Markup del componente */
 :global(section.editor){
   flex-grow: 2;
   flex-basis: 0;

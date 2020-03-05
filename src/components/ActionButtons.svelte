@@ -41,8 +41,12 @@
     const entity    = currentEntity.unload()
     const entityObj = $book.entities[entity]
     const {key, obj} = await dialog.entity(`Edit entity "${entity}"`, entity, entityObj)
-    if(!key) return
+    if(!key){
+      currentEntity.set(entity)
+      return
+    }
     if((entity !== key) && (key in $book.entities)){
+      currentEntity.set(entity)
       await dialog.alert('Error', 'New entity already exists')
       return
     }

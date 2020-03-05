@@ -4,7 +4,7 @@
 */
 
 import { currentEntity, book } from '../store/book.js'
-import LinkHighlighter from '../utils/linkHighlighter.js'
+import LinkHighlighter from '../utils/highlighter.js'
 
 // Istanza di quill
 let quillEditor = null

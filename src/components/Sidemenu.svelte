@@ -23,14 +23,18 @@
 <section class:foreground={foreground}>
   <ActionButtons bind:foreground={foreground} />
   <div>
-    <h1>Paragrafi</h1>
+    <h1>Chapters</h1>
     {#each chapterList as entity }
       <p
       class:selected={entity == $currentEntity}
       on:click={ () => open(entity)}
-      >{entity} <b> {$book.entities[entity].title || ''}</b></p>
+      >{entity} <b> {$book.entities[entity].title || ''}</b>
+      {#each ($book.entities[entity].flags || []) as flag}
+        <img src={`./static/flags/${flag}.png`}>
+      {/each}
+      </p>
     {/each}
-    <h1>Sezioni</h1>
+    <h1>Sections</h1>
     {#each sectionList as entity }
       <p
       class:selected={entity == $currentEntity}
@@ -45,6 +49,7 @@ b{
   margin-left: 10px;
   color: #555;
 }
+
 
 section {
   flex-grow: 0;

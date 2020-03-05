@@ -10,7 +10,8 @@ Esempio di come appare un libro codificato come oggetto jlgc:
 {
   "info": {
     "title": "Esempio",
-    "author": "Luca Fabbian"
+    "author": "Luca Fabbian",
+    "map": "/path/to/map.jpg"
   },
   "entities": {
     "1": {
@@ -19,6 +20,7 @@ Esempio di come appare un libro codificato come oggetto jlgc:
       "data": "<p> {link 2:@T} o {link intro:Introduzione}</p>"
     },
     "2": {
+      "map":
       "group": "esempio",
       "data": "<p></p>"
     },
@@ -68,6 +70,16 @@ const decode = (xlgc) => {
       return // Termina qui, non aggiunge questa entità a section
     }
 
+    if(type === 'entity' && id === 'map_data'){
+      ;[...entity.children].forEach( (node) => {
+        const nodeName   = node.getAttribute('name')
+        const nodeValue  = node.innerHTML.substring(9, node.innerHTML.length - 3)
+        // Whitelist delle flag riconosciute
+        if( nodeName === 'map_file') info.map = nodeValue
+      })
+      return // Termina qui, non aggiunge questa entità a section
+    }
+
     let section = {}
     if(group)                     section.group = group
     if(type && type != 'chapter') section.type = type
@@ -77,6 +89,7 @@ const decode = (xlgc) => {
       const nodeValue  = node.innerHTML.substring(9, node.innerHTML.length - 3)
       if(nodeName === 'chapter_title' && nodeValue) section.title = nodeValue
       if(nodeName === 'description')   section.data  = nodeValue
+      if(nodeName === 'map_position')  section.map   = nodeValue
       if(nodeName.startsWith('flag_') && nodeValue === 'true'){
         if(!section.flags) section.flags = []     // Crea l'array in cui conservare le flag
         section.flags.push(nodeName.substring(5)) // Aggiunge la flag
@@ -114,6 +127,14 @@ const encodeInfo = (info) =>
   `<attribute name="editing_chapter" type="string"><![CDATA[${info.editing_chapter || '1'}]]></attribute>` +
 `</entity>`
 
+const encodeMap =(info) => !info.map ? '' :
+`<entity group="setup" name="map_data" type="entity">` +
+  `<attribute name="description" type="string"><![CDATA[<p></p>]]></attribute>` +
+  `<attribute name="chapter_title" type="string"/>` +
+  `<attribute name="map_file" type="string"><![CDATA[${info.map}]]></attribute>` +
+`</entity>`
+
+
 // Crea una sezione/paragrafo
 const encodeEntity = (id, entity) => `<entity group="${entity.group || ''}" name="${id}" type="${entity.type || 'chapter'}">` +
   `<attribute name="description" type="string"><![CDATA[${entity.data || '<p></p>'}]]></attribute>` +
@@ -123,11 +144,13 @@ const encodeEntity = (id, entity) => `<entity group="${entity.group || ''}" name
     `<attribute name="flag_fixed" type="boolean"><![CDATA[${(entity.flags && entity.flags.includes('fixed')) ? 'true' : 'false'}]]></attribute>` +
     `<attribute name="flag_death" type="boolean"><![CDATA[${(entity.flags && entity.flags.includes('death')) ? 'true' : 'false'}]]></attribute>`
   }` +
+  (!entity.map ? '' : `<attribute name="map_position" type="string"><![CDATA[${entity.map || ''}]]></attribute>`) +
 `</entity>`
 
 // Codifica il libro
 const encode = (jlgc) => `<?xml version="1.0" encoding="UTF-8"?><entities>${
   encodeInfo(jlgc.info) +
+  encodeMap (jlgc.info) +
   Object.entries(jlgc.entities).reduce((acc, curr) => acc + encodeEntity(...curr), '')
 }</entities>`
 
