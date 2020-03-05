@@ -1,18 +1,30 @@
 <script>
+  // Import components
   import { Dialogs, Navbar, Sidemenu, Editor, DevPanel } from './components/*.svelte';
-  import { addMessages, init } from 'svelte-i18n'
-  import { showCode } from './store/settings.js'
 
+  // Component state
+  import { bookName } from './store/book.js'
+  import { showCode } from './store/settings.js'
   let showSidemenu = false
 
-  import en from "./languages/en.toml"
-  addMessages('en', en)
-  init({
-    fallbackLocale: 'en',
-    initialLocale: 'en',
-  })
-
 </script>
+
+<svelte:head>
+  <title>{$bookName}</title>
+</svelte:head>
+
+<Dialogs/>
+<Navbar bind:showSidemenu={showSidemenu}/>
+<main class:resize={!$showCode}>
+  <Sidemenu bind:foreground={showSidemenu}/>
+  <Editor/>
+  {#if $showCode}
+    <DevPanel/>
+  {/if}
+</main>
+
+
+
 <style>
 :global(body, html) {
   display: flex;
@@ -44,7 +56,6 @@
 }
 
 
-
 @media only screen and (min-width: 1150px) {
   :global(main.resize){
     width: 100vw;
@@ -59,19 +70,6 @@
     grid-template-rows: 100%;
   }
 
-  :global(main > *){
-    grid-area: 1 / 1;
-  }
+  :global(main > *){ grid-area: 1 / 1; }
 }
 </style>
-
-<Dialogs/>
-<Navbar bind:showSidemenu={showSidemenu}/>
-
-<main class:resize={!$showCode}>
-  <Sidemenu bind:foreground={showSidemenu}/>
-  <Editor/>
-  {#if $showCode}
-    <DevPanel/>
-  {/if}
-</main>

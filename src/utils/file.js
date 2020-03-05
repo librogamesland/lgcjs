@@ -13,5 +13,19 @@ const download = (filename, text) => {
   document.body.removeChild(element);
 }
 
+// Read file from fileinput
+const read = (elem, callback) => {
+  // Crea una copia delle info del file
+  const file = elem.files[0]
+  const name = file.name
 
-export {download}
+  // Usa un fileReader per leggere il file come testo
+  const reader = new FileReader()
+  reader.onload = () => {
+    callback(name, reader.result)
+    elem.value = ''
+  }
+  reader.readAsText(file);
+}
+
+export {download, read}

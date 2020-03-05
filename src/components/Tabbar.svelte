@@ -1,13 +1,8 @@
 <script>
 
-export let tabs = {
-  'london' : 'London',
-  'to'     : 'To',
-  'paris'  : 'Paris'
-}
-
-export let active = Object.keys(tabs)[0]
-export let expandable = false
+  export let tabs = { }
+  export let active = Object.keys(tabs)[0]
+  export let expandable = false
 </script>
 
 <div class="tab">

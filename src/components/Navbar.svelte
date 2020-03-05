@@ -1,58 +1,9 @@
 <script>
-import { _ } from 'svelte-i18n'
-import { filename, currentEntity, loadEmptyXlgc, loadXlgc, saveXlgc } from '../store/book.js'
-import { confirm } from '../utils/dialogs.js'
-import { showCode } from '../store/settings.js'
+  import { _ } from 'svelte-i18n'
+  import { read } from '../utils/file.js'
+  import navbar from '../store/navbar.js'
 
-
-export let showSidemenu = false
-
-let navbar = {
-  'file' : {
-    'new'  : {type: 'button', handler: async() => {if(await confirm("Confirm?", `This will override "${filename}" if not saved`)) loadEmptyXlgc()} },
-    'open' : {type: 'fileinput', accept: ".xlgc", handler: (info, text) => loadXlgc(info.name, text)},
-    'save' : {type: 'button', handler: saveXlgc },
-  },
- 'edit' : {
-   /*
-    'link1' : {type: 'button', handler: null},
-    'link2' : {type: 'button', handler: null},
-    'link4' : {type: 'button', handler: null},
-    */
-  },
-  //'view' : { },
-  'code' : {
-    'togglecode' : {type: 'button', handler: () => showCode.update(n => !n)},
-    'jsexport'   : {type: 'button', handler: () => console.log("JSExport")}
-  },
-  'help' : {
-    'guide' : {type: 'link',   href: ""},
-    'forum' : {type: 'link',   href: "http://www.librogame.net/index.php/forum/forum?id=13"},
-    'about' : {type: 'button', handler: null},
-  }
-}
-
-const readFile = (elem, callback) => {
-  // Crea una copia delle info del file
-  const file = elem.files[0]
-  const info = {
-    lastModified: file.lastModified,
-    lastModifiedDate: file.lastModifiedDate,
-    name: file.name,
-    webkitRelativePath: file.webkitRelativePath,
-    size: file.size,
-    type: file.type
-  }
-
-  // Usa un fileReader per leggere il file come testo
-  const reader = new FileReader()
-  reader.onload = () => {
-    callback(info, reader.result)
-    elem.value = ''
-  }
-  reader.readAsText(file);
-}
-
+  export let showSidemenu = false
 </script>
 
 <ul>
@@ -71,44 +22,26 @@ const readFile = (elem, callback) => {
         <input
           type="file" name="file" id={`${tab}_${key}`}
           accept=".xlgc"
-          on:change={ (e) => readFile(e.srcElement, item.handler)}
+          on:change={ (e) => read(e.srcElement, item.handler)}
         />
         <label for={`${tab}_${key}`}>{$_(`navbar.${tab}.items.${key}`)}</label>
-
         {/if}
       {/each}
     </div>
   </li>
   {/each}
-  <li class="switchpar">
+  <li class="sidemenu-button">
     <a
-    href="javascript:void(0)" class={"dropbtn icon-" + (showSidemenu ? 'cancel' : 'menu')}
-    on:click={() => showSidemenu = !showSidemenu}>
-    </a>
+      href="javascript:void(0)" class={"dropbtn icon-" + (showSidemenu ? 'cancel' : 'menu')}
+      on:click={() => showSidemenu = !showSidemenu}
+    ></a>
   </li>
 </ul>
 
 
 <style>
-
-.switchpar {
-  float: right;
-}
-
-@media only screen and (min-width: 550px) {
-  .switchpar {  display: none; }
-}
-
-
-input[type=file] {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-}
-
+/** Navbar ul/li/dropdown styling
+Taken from https://www.w3schools.com/css/css_navbar.asp  **/
 ul {
   font-size: 0.9rem;
   list-style-type: none;
@@ -119,21 +52,12 @@ ul {
   padding-left: 2.3vw;
 }
 
-ul {  padding-left: 2.3vw; }
-
 @media only screen and (min-width: 1150px) {
   ul {  padding-left: 11.3vw; }
 }
 
 
-li {
-  float: left;
-}
-
-
-li a:hover {
-  background-color: #111;
-}
+li {  float: left; }
 
 li a, .dropbtn {
   display: inline-block;
@@ -172,7 +96,21 @@ li.dropdown {
   background-color: #f1f1f1;
 }
 
-.dropdown:hover .dropdown-content {
-  display: block;
+.dropdown:hover .dropdown-content { display: block; }
+
+/** Show/Hide sidemenu button **/
+.sidemenu-button { float: right; }
+@media only screen and (min-width: 550px) {
+  .sidemenu-button {  display: none; }
+}
+
+/** Hide browser default "choose file" component **/
+input[type=file] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
 }
 </style>

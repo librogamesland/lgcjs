@@ -7,16 +7,16 @@ Uso:
 import LinkHighlighter from './linkHighlighter.js'
 
 // Inizializza passando la referenza a Quill
-const linkHighlighter = new LinkHighlighter(Quill,  (number, value) => { handleClick()})
+const highlighter = new LinkHighlighter(Quill, editor, (number, value) => { handleClick()})
 
-linkHighlighter.highlight(editor, enable = true) // Mette/toglie tutti i link
-linkHighlighter.startHighlighting(editor)        // Inizia a controllare
-linkHighlighter.stopHighlighting(editor)         // Termina di controllare
+highlighter.highlight(enable = true) // Mette/toglie tutti i link
+highlighter.start()                  // Inizia a controllare
+highlighter.stop()                   // Termina di controllare
 
 */
 
 //
-export default function(Quill, clickHandler){
+export default function(Quill, editor, clickHandler){
   Quill.debug('error')
 
   // Ridefinisce l'oggetto link
@@ -32,7 +32,10 @@ export default function(Quill, clickHandler){
       return node;
     }
     static formats(domNode) { return '' }
-    formatAt(index, length, name, value) {} // Previene grassetto/corsivo
+    formatAt(index, length, name, value) {
+      if(name === 'link') return super.formatAt(index, length, name, value)
+
+    } // Previene grassetto/corsivo
   }
   // Registra l'oggetto Link in modo che sovrascriva quello usuale
   Link.blotName = 'link';
@@ -40,7 +43,7 @@ export default function(Quill, clickHandler){
   Quill.register('formats/link', Link);
 
   // Evidenzia/Toglie i link nel testo
-  const highlight = (editor, on = true) => {
+  const highlight = (on = true) => {
     if(on){
       const text  = editor.getText()
       let lastSearchedIndex = 0
@@ -65,9 +68,8 @@ export default function(Quill, clickHandler){
     }
   }
 
-
   this.highlight = highlight
-  this.startHighlighting = (editor) => editor.on('text-change', onTextUpdate)
-  this.stopHighlighting  = (editor) => editor.off('text-change', onTextUpdate)
+  this.start = () => editor.on('text-change', onTextUpdate)
+  this.stop  = () => editor.off('text-change', onTextUpdate)
 
 }

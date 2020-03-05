@@ -86,7 +86,6 @@ const decode = (xlgc) => {
     entities[id] = section
   })
 
-  console.log("entities", entities)
   return {info, entities}
 }
 

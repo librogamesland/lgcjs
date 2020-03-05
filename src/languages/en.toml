@@ -1,22 +1,17 @@
 
+[dialogs]
+confirm = "Confirm?"
 
 
-[navbar.file]
-title = "File"
-items = {new = "New", open = "Open...", save = "Save"}
+[navbar]
+"file.title" = "File"
+"file.items" = {new = "New", open = "Open...", save = "Save"}
 
-[navbar.edit]
-title = "Edit"
-items = { }
+"edit.title" = "Edit"
+"edit.items" = { }
 
-[navbar.view]
-title = "View"
-items = {}
+"code.title" = "Code"
+"code.items" = {togglecode = "Show/hide code tools", jsexport = "JSExport book"}
 
-[navbar.code]
-title = "Code"
-items = {togglecode = "Show/hide code tools", jsexport = "JSExport book"}
-
-[navbar.help]
-title = "Help"
-items = {guide = "Guide", forum = "Lgc3 forum", about = "About"}
+"help.title" = "Help"
+"help.items" = {guide = "Guide", forum = "Lgl forum", about = "About"}

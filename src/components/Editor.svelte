@@ -1,25 +1,23 @@
 <script>
 import Tabbar     from './Tabbar.svelte'
 import TextEditor from './TextEditor.svelte'
-import CodeEditor from './CodeEditor.svelte'
-import { currentEntity, bookRaw } from '../store/book.js'
+import { currentEntity, book } from '../store/book.js'
 import { showCode } from '../store/settings.js'
 
-
+// Editor tabs
+let active='text'
 $: tabs = {
   "text" : $currentEntity == '' ?
-    '' : `${$currentEntity} ${bookRaw.entities[$currentEntity].title ?
-    ' - ' + bookRaw.entities[$currentEntity].title   : ''}`,
+    '' : `${$currentEntity} ${ $book.entities[$currentEntity].title ?
+    ' - ' + $book.entities[$currentEntity].title   : ''}`,
   ...($showCode && {"code" : "CodeEditor"})
 }
 
-let active='text'
 </script>
 
 <section class="editor">
   <Tabbar {tabs} bind:active={active}/>
   <TextEditor foreground={active === 'text'}/>
-  <CodeEditor foreground={active === 'code'}/>
 </section>
 
 <style>

@@ -1,63 +1,64 @@
 <script>
-  import {openedDialog, openedCallback, title, text,
-            eName, eType, eGroup, eTitle} from '../utils/dialogs.js'
+  import { dialogStore } from '../utils/dialogs.js'
 
-  let entityName = ''
-  let entityType = ''
-  let entityGroup = ''
-  let entityTitle = ''
 
-  $: {
-    entityName  = $eName
-    entityType  = $eType
-    entityGroup = $eGroup
-    entityTitle = $eTitle
-  }
+  /* Dialog info,
+  */
+  let dialog, callback, params
 
-  const returnEntity = () => openedCallback({
-    name: entityName,
-    type: entityType,
-    group: entityGroup,
-    title: entityTitle,
+  // Entity input bindings
+  let key, type, group, title
+
+  dialogStore.subscribe( (value) => {
+    // Retrieve basic info
+    ;({dialog, callback, params} = value)
+    // Bind inputs if required
+    if(dialog == 'entity'){
+      key = params.key
+      ;({type, group, title} = params.props)
+    }
   })
+
+
 </script>
-{#if $openedDialog}
+
+{#if dialog}
   <div class="dialog-mask"/>
   <div class="dialog-container">
-    {#if $openedDialog === 'alert'}
+    {#if dialog === 'alert'}
     <div>
-      <h3>{$title} </h3>
-      <p>{$text}</p>
-      <button class="ok"     on:click={ () => openedCallback()}>Ok</button>
+      <h3>{params.title} </h3>
+      <p>{params.text}</p>
+      <button autofocus class="ok" on:click={ () => callback(true)}>Ok</button>
     </div>
-    {:else if $openedDialog === 'confirm'}
+    {:else if dialog === 'confirm'}
     <div>
-      <h3>{$title} </h3>
-      <p>{$text}</p>
-      <button class="ok"     on:click={ () => openedCallback(true)}>Ok</button>
-      <button class="cancel" on:click={ () => openedCallback(false)}>Cancel</button>
+      <h3>{params.title} </h3>
+      <p>{params.text}</p>
+      <button autofocus class="ok"     on:click={ () => callback(true)}>Ok</button>
+      <button class="cancel" on:click={ () => callback(false)}>Cancel</button>
     </div>
-    {:else if $openedDialog === 'entity'}
+    {:else if dialog === 'entity'}
     <div>
-      <h3>{$title} </h3>
+      <h3>{params.title} </h3>
       <p><span class="min">Name </span><input
-        bind:value={entityName}
+        bind:value={key}
         type='text'
       ></p>
       <p><span class="min">Type </span><input
-        bind:value={entityType}
+        bind:value={type}
         type='text'
       ></p>
       <p><span class="min">Group </span><input
-        bind:value={entityGroup}
+        bind:value={group}
         type='text'
       ></p>
       <p><span class="min">Title </span><input
-        bind:value={entityTitle}
+        bind:value={title}
         type='text'
       ></p>
-      <button class="ok"     on:click={returnEntity}>Ok</button>
-      <button class="cancel" on:click={ () => openedCallback(false)}>Cancel</button>
+      <button autofocus class="ok"     on:click={ () => callback({key, obj: {type, group, title}})}>Ok</button>
+      <button class="cancel" on:click={ () => callback({}) }>Cancel</button>
     </div>
     {/if}
   </div>
@@ -123,6 +124,5 @@
     background-color: #4670a6;
     color: white;
   }
-
 
 </style>
