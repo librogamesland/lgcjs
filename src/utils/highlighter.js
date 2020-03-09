@@ -15,47 +15,53 @@ highlighter.stop()                   // Termina di controllare
 
 */
 
-const addInlineFormat = (Quill, registerName, blotName, tagName,
-  onCreate = (node) => node ) => {
+const addInlineFormat = (
+  Quill,
+  registerName,
+  blotName,
+  tagName,
+  onCreate = node => node
+) => {
   const Format = class extends Quill.import('blots/inline') {
     static create() {
-      return onCreate(super.create());
+      return onCreate(super.create())
     }
-    static formats(domNode) { return '' }
+    static formats() {
+      return ''
+    }
     formatAt(index, length, name, value) {
-      if(name === blotName) return super.formatAt(index, length, name, value)
+      if (name === blotName) return super.formatAt(index, length, name, value)
       // Previene grassetto/corsivo
     }
   }
   // Registra l'oggetto Link in modo che sovrascriva quello usuale
-  Format.blotName = blotName;
-  Format.tagName = tagName;
-  Quill.register(registerName, Format);
+  Format.blotName = blotName
+  Format.tagName = tagName
+  Quill.register(registerName, Format)
 }
 
-
-const formatMatches = (editor, formatName, regex ) => {
-  const text  = editor.getText()
+const formatMatches = (editor, formatName, regex) => {
+  const text = editor.getText()
   let lastSearchedIndex = 0
   // Formatta tutte le stringhe che corrispondono a {link parola:parola}
-  ;(text.match(regex) || []).forEach( (match) => {
+  ;(text.match(regex) || []).forEach(match => {
     const index = text.indexOf(match, lastSearchedIndex)
     lastSearchedIndex = index + match.length - 1
     // Applica il link
-    editor.formatText(index, match.length,formatName, true);
+    editor.formatText(index, match.length, formatName, true)
   })
 }
 
 //
-export default function(Quill, editor, clickHandler){
+export default function(Quill, editor, clickHandler) {
   Quill.debug('error')
 
-  addInlineFormat(Quill, 'formats/link', 'link', 'A', (node) => {
-    node.addEventListener("click", function(){
+  addInlineFormat(Quill, 'formats/link', 'link', 'A', node => {
+    node.addEventListener('click', function() {
       const [number, title] = this.childNodes[0].nodeValue.split(':')
       clickHandler(number.substring(6), title.substring(0, title.length - 1))
     })
-    node.setAttribute('href', '#');
+    node.setAttribute('href', '#')
     return node
   })
 
@@ -63,28 +69,28 @@ export default function(Quill, editor, clickHandler){
   addInlineFormat(Quill, 'formats/lgcode', 'lgcode', 'lgcode')
 
   const formats = {
-    'link'  : /\{link \w+:(\w|@)+\}/g,
-    'todo'  : /\{todo [^\}\{]+\}/g,
-    'lgcode': /\{\{(?:(?!\}\})[^])*(\}\})/g,
+    link: /{link \w+:(\w|@)+}/g,
+    todo: /{todo [^\}\{]+}/g,
+    lgcode: /{{(?:(?!\}\})[^])*(}})/g,
   }
 
   // Evidenzia/Toglie i link nel testo
   const highlight = (on = true) => {
-    if(on){
-      Object.keys(formats).forEach((format) => {
+    if (on) {
+      Object.keys(formats).forEach(format => {
         formatMatches(editor, format, formats[format])
       })
-    }else{
+    } else {
       // Rimuove tutti i link dall'inizio alla fine
-      Object.keys(formats).forEach((format) => {
-        editor.formatText(0, editor.getText().length, format, false);
+      Object.keys(formats).forEach(format => {
+        editor.formatText(0, editor.getText().length, format, false)
       })
     }
   }
 
   // Azioni da eseguire a ogni update del testo
   const onTextUpdate = function(delta, oldDelta, source) {
-    if (source == 'user'){
+    if (source == 'user') {
       highlight(false)
       highlight(true)
     }
@@ -92,6 +98,5 @@ export default function(Quill, editor, clickHandler){
 
   this.highlight = highlight
   this.start = () => editor.on('text-change', onTextUpdate)
-  this.stop  = () => editor.off('text-change', onTextUpdate)
-
+  this.stop = () => editor.off('text-change', onTextUpdate)
 }

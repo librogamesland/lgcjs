@@ -1,88 +1,33 @@
 <script>
   import { dialogStore } from '../utils/dialogs.js'
 
-
   /* Dialog info,
-  */
+   */
   let dialog, callback, params
 
   // Entity input bindings
   let key, type, group, title, flags
   const filterFlags = () => Object.keys(flags).filter(key => flags[key])
 
-  dialogStore.subscribe( (value) => {
+  dialogStore.subscribe(value => {
     // Retrieve basic info
-    ;({dialog, callback, params} = value)
+    ;({ dialog, callback, params } = value)
     // Bind inputs if required
-    if(dialog == 'entity'){
+    if (dialog == 'entity') {
       key = params.key
-      ;({type, group, title} = params.props)
-      const flagProps = (params.props.flags || [])
+      ;({ type, group, title } = params.props)
+      const flagProps = params.props.flags || []
       flags = {
-        "final": flagProps.includes("final"),
-        "fixed": flagProps.includes("fixed"),
-        "death": flagProps.includes("death")
+        final: flagProps.includes('final'),
+        fixed: flagProps.includes('fixed'),
+        death: flagProps.includes('death'),
       }
     }
   })
-
-
 </script>
 
-{#if dialog}
-  <div class="dialog-mask"/>
-  <div class="dialog-container">
-    {#if dialog === 'alert'}
-    <div>
-      <h3>{params.title} </h3>
-      <p>{params.text}</p>
-      <button autofocus class="ok" on:click={ () => callback(true)}>Ok</button>
-    </div>
-    {:else if dialog === 'confirm'}
-    <div>
-      <h3>{params.title} </h3>
-      <p>{params.text}</p>
-      <button autofocus class="ok"     on:click={ () => callback(true)}>Ok</button>
-      <button class="cancel" on:click={ () => callback(false)}>Cancel</button>
-    </div>
-    {:else if dialog === 'entity'}
-    <div>
-      <h3>{params.title} </h3>
-      <p><span class="min">Name </span><input
-        bind:value={key}
-        type='text'
-      ></p>
-      <p><span class="min">Type </span><input
-        bind:value={type}
-        type='text'
-      ></p>
-      <p><span class="min">Group </span><input
-        bind:value={group}
-        type='text'
-      ></p>
-      <p><span class="min">Title </span><input
-        bind:value={title}
-        type='text'
-      ></p>
-      {#if (!type || type==='chapter')}
-      <div class="flags">
-      {#each ["final", "fixed", "death"] as flag}
-        <div class:selected={flags[flag]}
-        on:click={ () => flags[flag] = !flags[flag]}>
-          <img src={`./static/flags/${flag}.png`}>
-        </div>
-      {/each}
-      </div>
-      {/if}
-      <button autofocus class="ok"
-      on:click={ () => callback({key, obj: {type, group, title, flags: filterFlags()}})}>Ok</button>
-      <button class="cancel" on:click={ () => callback({}) }>Cancel</button>
-    </div>
-    {/if}
-  </div>
-{/if}
 <style>
-  .flags{
+  .flags {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -111,7 +56,7 @@
 
   img {
     box-sizing: border-box;
-    margin-top: calc( (2.5rem - 20px) / 2);
+    margin-top: calc((2.5rem - 20px) / 2);
   }
 
   h3 {
@@ -121,13 +66,13 @@
     min-width: 100px;
     display: inline-block;
   }
-  :global(.dialog-mask){
+  :global(.dialog-mask) {
     display: block;
     z-index: 100000;
     position: fixed;
     top: 0;
     left: 0;
-    width:  100vw;
+    width: 100vw;
     height: 100vh;
     background-color: #000;
     opacity: 0.5;
@@ -141,7 +86,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width:  100vw;
+    width: 100vw;
     height: 70vh;
     background-color: transparent;
   }
@@ -157,7 +102,7 @@
 
   button {
     border: 0;
-    box-sizing:border-box;
+    box-sizing: border-box;
     height: 2.5rem;
     font-size: 1rem;
     padding: 0 1.5rem;
@@ -174,5 +119,65 @@
     background-color: #4670a6;
     color: white;
   }
-
 </style>
+
+{#if dialog}
+  <div class="dialog-mask" />
+  <div class="dialog-container">
+    {#if dialog === 'alert'}
+      <div>
+        <h3>{params.title}</h3>
+        <p>{params.text}</p>
+        <button autofocus class="ok" on:click={() => callback(true)}>Ok</button>
+      </div>
+    {:else if dialog === 'confirm'}
+      <div>
+        <h3>{params.title}</h3>
+        <p>{params.text}</p>
+        <button autofocus class="ok" on:click={() => callback(true)}>Ok</button>
+        <button class="cancel" on:click={() => callback(false)}>Cancel</button>
+      </div>
+    {:else if dialog === 'entity'}
+      <div>
+        <h3>{params.title}</h3>
+        <p>
+          <span class="min">Name</span>
+          <input bind:value={key} type="text" />
+        </p>
+        <p>
+          <span class="min">Type</span>
+          <input bind:value={type} type="text" />
+        </p>
+        <p>
+          <span class="min">Group</span>
+          <input bind:value={group} type="text" />
+        </p>
+        <p>
+          <span class="min">Title</span>
+          <input bind:value={title} type="text" />
+        </p>
+        {#if !type || type === 'chapter'}
+          <div class="flags">
+            {#each ['final', 'fixed', 'death'] as flag}
+              <div
+                class:selected={flags[flag]}
+                on:click={() => (flags[flag] = !flags[flag])}>
+                <img src={`./static/flags/${flag}.png`} />
+              </div>
+            {/each}
+          </div>
+        {/if}
+        <button
+          autofocus
+          class="ok"
+          on:click={() => callback({
+              key,
+              obj: { type, group, title, flags: filterFlags() },
+            })}>
+          Ok
+        </button>
+        <button class="cancel" on:click={() => callback({})}>Cancel</button>
+      </div>
+    {/if}
+  </div>
+{/if}

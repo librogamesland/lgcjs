@@ -7,21 +7,25 @@
 
   onMount(async () => {
     await tick()
-    editor = ace.edit("code-editor");
+    editor = ace.edit('code-editor')
     editor.setOptions({
       fontSize,
-      tabSize: 2, useSoftTabs: true,
-    });
-    editor.setTheme("ace/theme/xcode");
-    editor.session.setMode("ace/mode/javascript");
+      tabSize: 2,
+      useSoftTabs: true,
+    })
+    editor.setTheme('ace/theme/xcode')
+    editor.session.setMode('ace/mode/javascript')
   })
 
-
-  $: if(foreground && editor){ editor.focus() }
+  $: if (foreground && editor) {
+    editor.focus()
+  }
 </script>
 
-<div id="code-editor" style={`font-size:${fontSize}; ${(foreground ? 'z-index: 2000;' : '')}`}>
-{`
+<div
+  id="code-editor"
+  style={`font-size:${fontSize}; ${foreground ? 'z-index: 2000;' : ''}`}>
+  {`
 if(highlight){
   console.log("highlight is working!")
 }`}

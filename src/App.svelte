@@ -1,75 +1,79 @@
 <script>
   // Import components
-  import { Dialogs, Navbar, Sidemenu, Editor, DevPanel } from './components/*.svelte';
+  import {
+    Dialogs,
+    Navbar,
+    Sidemenu,
+    Editor,
+    DevPanel,
+  } from './components/*.svelte'
 
   // Component state
   import { bookName } from './store/book.js'
   import { showCode } from './store/settings.js'
   let showSidemenu = false
-
 </script>
+
+<style>
+  :global(body, html) {
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  :global(main) {
+    height: 0;
+    flex-grow: 1;
+    padding: 2.5px;
+    padding-bottom: 1.3rem;
+    display: flex;
+    background-color: var(--color-background, #bbcee8);
+    box-sizing: border-box;
+  }
+
+  :global(main > *) {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 3px;
+    border-radius: 2px;
+    border: 1px solid grey;
+    background-color: var(--color-section, #fff);
+  }
+
+  @media only screen and (min-width: 1150px) {
+    :global(main.resize) {
+      width: 100vw;
+      padding-left: 7vw;
+      padding-right: 9vw;
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
+    :global(main) {
+      display: grid;
+      grid-template-rows: 100%;
+    }
+
+    :global(main > *) {
+      grid-area: 1 / 1;
+    }
+  }
+</style>
 
 <svelte:head>
   <title>{$bookName}</title>
 </svelte:head>
 
-<Dialogs/>
-<Navbar bind:showSidemenu={showSidemenu}/>
+<Dialogs />
+<Navbar bind:showSidemenu />
 <main class:resize={!$showCode}>
-  <Sidemenu bind:foreground={showSidemenu}/>
-  <Editor/>
+  <Sidemenu bind:foreground={showSidemenu} />
+  <Editor />
   {#if $showCode}
-    <DevPanel/>
+    <DevPanel />
   {/if}
 </main>
-
-
-
-<style>
-:global(body, html) {
-  display: flex;
-  flex-direction: column;
-  overflow-y: hidden;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-:global(main){
-  height: 0;
-  flex-grow: 1;
-  padding: 2.5px;
-  padding-bottom: 1.3rem;
-  display: flex;
-  background-color: var(--color-background, #bbcee8);
-  box-sizing: border-box;
-}
-
-:global(main > *){
-  display: flex;
-  flex-direction:column;
-  box-sizing: border-box;
-  margin:3px;
-  border-radius: 2px;
-  border: 1px solid grey;
-  background-color: var(--color-section, #fff);
-}
-
-
-@media only screen and (min-width: 1150px) {
-  :global(main.resize){
-    width: 100vw;
-    padding-left: 7vw;
-    padding-right: 9vw;
-  }
-}
-
-@media only screen and (max-width: 550px) {
-  :global(main){
-    display: grid;
-    grid-template-rows: 100%;
-  }
-
-  :global(main > *){ grid-area: 1 / 1; }
-}
-</style>

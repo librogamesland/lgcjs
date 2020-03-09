@@ -9,11 +9,9 @@
     editor.mount('#text-editor')
   })
 
-  $: if(foreground) editor.focus()
-
+  $: if (foreground) editor.focus()
 </script>
 
 <div class="editor-container" style={foreground ? 'z-index: 2000;' : ''}>
-  <div id="text-editor" style="border: none; font-size: 115%;">
-  </div>
+  <div id="text-editor" style="border: none; font-size: 115%;" />
 </div>
