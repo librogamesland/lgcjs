@@ -7,7 +7,6 @@ import * as languages from './languages/*.toml'
 addMessages('en', languages.en)
 addMessages('it-IT', languages.it)
 
-console.log('lingua', getLocaleFromNavigator())
 init({
   fallbackLocale: 'en',
   initialLocale: getLocaleFromNavigator(),
