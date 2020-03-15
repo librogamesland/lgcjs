@@ -115,7 +115,6 @@ window.addEventListener('unload', () => {
 
 const entities = {
   empty: () => ({
-    type: '',
     group: '',
     title: '',
     flags: [],

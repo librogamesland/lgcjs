@@ -1,4 +1,6 @@
 <script>
+  import { _ } from 'svelte-i18n'
+
   import Tabbar from './Tabbar.svelte'
   import ActionButtons from './ActionButtons.svelte'
 
@@ -24,10 +26,46 @@
   }
 </script>
 
+<section class:foreground>
+  <ActionButtons bind:foreground />
+  <div>
+    <h1>{$_('sidemenu.chapters')}</h1>
+    {#each chapterList as entity}
+      <p
+        class:selected={entity == $currentEntity}
+        on:click={() => open(entity)}>
+        {entity}
+        <b>{$book.entities[entity].title || ''}</b>
+        {#each $book.entities[entity].flags || [] as flag}
+          <img src={`./static/flags/${flag}.png`} />
+        {/each}
+      </p>
+    {/each}
+    <h1>{$_('sidemenu.sections')}</h1>
+    {#each sectionList as entity}
+      <p
+        class:selected={entity == $currentEntity}
+        on:click={() => open(entity)}>
+        {entity}
+        <b>{$book.entities[entity].title || ''}</b>
+      </p>
+    {/each}
+  </div>
+</section>
+
 <style>
   b {
     margin-left: 10px;
     color: #555;
+  }
+
+  input {
+    flex: 0 0 auto;
+    height: 41px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    border: 0;
+    border-bottom: 1px solid #cccccc;
   }
 
   section {
@@ -81,30 +119,3 @@
     margin: 0;
   }
 </style>
-
-<section class:foreground>
-  <ActionButtons bind:foreground />
-  <div>
-    <h1>Chapters</h1>
-    {#each chapterList as entity}
-      <p
-        class:selected={entity == $currentEntity}
-        on:click={() => open(entity)}>
-        {entity}
-        <b>{$book.entities[entity].title || ''}</b>
-        {#each $book.entities[entity].flags || [] as flag}
-          <img src={`./static/flags/${flag}.png`} />
-        {/each}
-      </p>
-    {/each}
-    <h1>Sections</h1>
-    {#each sectionList as entity}
-      <p
-        class:selected={entity == $currentEntity}
-        on:click={() => open(entity)}>
-        {entity}
-        <b>{$book.entities[entity].title || ''}</b>
-      </p>
-    {/each}
-  </div>
-</section>

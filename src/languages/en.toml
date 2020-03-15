@@ -1,19 +1,48 @@
 
 [dialogs]
 confirm = "Confirm?"
+error   = "Error"
+ok      = "Ok"
+cancel  = "Cancel"
 
+[dialogs.entity]
+add    = "Add entity"
+edit   = "Edit entity"
+delete = "Entity will be deleted"
+exist  = "Entity already exists"
+
+name   = "Name"
+type   = "Type"
+group  = "Group"
+title  = "Title"
+
+[dialogs.text]
+new    = "Book will be overwritten if not saved"
 
 [navbar]
 "file.title" = "File"
-"file.items" = {new = "New", open = "Open...", save = "Save"}
+"file.items" = {new = "New", open = "Open...", save = "Download"}
 
 "edit.title" = "Edit"
-"edit.items" = { }
+"edit.items.todo" = "View to-do list"
+
+"export.title" = "Export"
+"export.items.json"  = "Json"
+"export.items.appjs" = "App.js"
 
 "code.title" = "Code"
 "code.items.togglecode" = "Show/hide code tools"
-"code.items.json"       = "Export json"
-"code.items.appjs"      = "Export app.js"
 
 "help.title" = "Help"
 "help.items" = {guide = "Guide", forum = "Lgl forum", about = "About"}
+
+[sidemenu]
+find     = "Find..."
+chapters = "Chapters"
+sections = "Sections"
+
+[sidemenu.actions]
+quickadd = "Quick add"
+add      = "Add entity"
+edit     = "Edit entity"
+delete   = "Delete entity"

@@ -12,8 +12,8 @@ import { bookName, book } from '../store/book.js'
 const newFile = async () => {
   if (
     await confirm(
-      'Confirm?',
-      `This will override "${bookName.get()}" if not saved`
+      'dialogs.confirm',
+      `dialogs.text.new`
     )
   )
     book.empty()
@@ -35,11 +35,12 @@ export default {
     open: { type: 'fileinput', accept: '.xlgc', handler: book.load },
     save: { type: 'button', handler: () => book.save(download) },
   },
-  edit: {},
-  code: {
-    togglecode: { type: 'button', handler: () => showCode.update(n => !n) },
+  export: {
     json: { type: 'button', handler: json },
     appjs: { type: 'button', handler: appjs },
+  },
+  code: {
+    togglecode: { type: 'button', handler: () => showCode.update(n => !n) },
   },
   help: {
     guide: { type: 'link', href: '' },

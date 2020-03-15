@@ -1,5 +1,7 @@
 <script>
   import { tick } from 'svelte'
+  import { _ } from 'svelte-i18n'
+
   import * as dialog from '../utils/dialogs.js'
   import { currentEntity, book, entities } from '../store/book.js'
 
@@ -21,14 +23,14 @@
   const add = async () => {
     const entity = entities.empty()
     const { key, obj } = await dialog.entity(
-      'Add entity',
+      'dialogs.entity.add',
       book.availableKey(),
       entity
     )
 
     if (!key) return
     if (key in $book.entities) {
-      await alert('Error', 'Entity already exists')
+      await alert('dialogs.error', 'dialogs.entity.exists')
       return
     }
     book.update(bookData => {
@@ -41,7 +43,7 @@
     const entity = currentEntity.unload()
     const entityObj = $book.entities[entity]
     const { key, obj } = await dialog.entity(
-      `Edit entity "${entity}"`,
+      'dialogs.entity.edit',
       entity,
       entityObj
     )
@@ -51,7 +53,7 @@
     }
     if (entity !== key && key in $book.entities) {
       currentEntity.set(entity)
-      await dialog.alert('Error', 'New entity already exists')
+      await dialog.alert('dialog.error', 'dialogs.entity.exists')
       return
     }
     await tick()
@@ -65,7 +67,7 @@
 
   const del = async () => {
     const entity = currentEntity.unload()
-    if (await dialog.confirm('Confirm?', `Entity ${entity} will be deleted`)) {
+    if (await dialog.confirm('dialogs.confirm', `dialogs.entity.delete`)) {
       // Set new entity as the previous
       await tick()
       const entityIndex = Object.keys($book.entities).indexOf(entity) - 1
@@ -108,8 +110,8 @@
 </style>
 
 <div class="buttons">
-  <div class="icon-flash" on:click={addQ} title="Quick add" />
-  <div class="icon-plus" on:click={add} title="Add entity" />
-  <div class="icon-pencil" on:click={edit} title="Edit entity" />
-  <div class="icon-cancel" on:click={del} title="Delete entity" />
+  <div class="icon-flash" on:click={addQ} title={$_('sidemenu.actions.quickadd')} />
+  <div class="icon-plus" on:click={add} title={$_('sidemenu.actions.add')} />
+  <div class="icon-pencil" on:click={edit} title={$_('sidemenu.actions.edit')} />
+  <div class="icon-cancel" on:click={del} title={$_('sidemenu.actions.delete')} />
 </div>

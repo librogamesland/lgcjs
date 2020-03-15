@@ -1,0 +1,49 @@
+
+[dialogs]
+confirm = "Confermi?"
+error   = "Errore"
+ok      = "Ok"
+cancel  = "Annulla"
+
+[dialogs.entity]
+add    = "Aggiungi entità"
+edit   = "Modifica entità"
+delete = "L'entità verrà eliminata"
+exist  = "Questa entità esiste già"
+
+name   = "Nome"
+type   = "Tipo"
+group  = "Gruppo"
+title  = "Titolo"
+
+[dialogs.text]
+new    = "Il libro verrà sovrascritto se non salvato"
+
+
+[navbar]
+"file.title" = "File"
+"file.items" = {new = "Nuovo", open = "Apri...", save = "Salva"}
+
+"edit.title" = "Modifica"
+"edit.items.todo" = "Mostra lista to-do"
+
+"export.title" = "Esporta"
+"export.items.json"  = "Json"
+"export.items.appjs" = "App.js"
+
+"code.title" = "Codice"
+"code.items.togglecode" = "Apri strumenti sviluppatore"
+
+"help.title" = "Aiuto"
+"help.items" = {guide = "Guida", forum = "Forum Lgl", about = "Info"}
+
+[sidemenu]
+find     = "Cerca..."
+chapters = "Paragrafi"
+sections = "Sezioni"
+
+[sidemenu.actions]
+quickadd = "Aggiungi rapido"
+add      = "Aggiungi entità"
+edit     = "Modifica entità"
+delete   = "Elimina entità"

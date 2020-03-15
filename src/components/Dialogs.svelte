@@ -1,17 +1,24 @@
 <script>
+  import { _ } from 'svelte-i18n'
   import { dialogStore } from '../utils/dialogs.js'
+
+
+  $: ok     = $_('dialogs.ok')
+  $: cancel = $_('dialogs.cancel')
 
   /* Dialog info,
    */
   let dialog, callback, params
 
   // Entity input bindings
+  let dialogTitle
   let key, type, group, title, flags
   const filterFlags = () => Object.keys(flags).filter(key => flags[key])
 
   dialogStore.subscribe(value => {
     // Retrieve basic info
     ;({ dialog, callback, params } = value)
+
     // Bind inputs if required
     if (dialog == 'entity') {
       key = params.key
@@ -25,6 +32,68 @@
     }
   })
 </script>
+
+{#if dialog}
+  <div class="dialog-mask" />
+  <div class="dialog-container">
+    {#if dialog === 'alert'}
+      <div>
+        <h3>{$_(params.title)}</h3>
+        <p>{$_(params.text)}</p>
+        <button autofocus class="ok" on:click={() => callback(true)}>{ok}</button>
+      </div>
+    {:else if dialog === 'confirm'}
+      <div>
+        <h3>{$_(params.title)}</h3>
+        <p>{$_(params.text)}</p>
+        <button autofocus class="ok" on:click={() => callback(true)}>{ok}</button>
+        <button class="cancel" on:click={() => callback(false)}>{cancel}</button>
+      </div>
+    {:else if dialog === 'entity'}
+      <div>
+        <h3>{$_(params.title)}</h3>
+        <p>
+          <span class="min">{$_('dialogs.entity.name')}</span>
+          <input bind:value={key} type="text" />
+        </p>
+        <p>
+          <span class="min">{$_('dialogs.entity.type')}</span>
+          <input bind:value={type} type="text" />
+        </p>
+        <p>
+          <span class="min">{$_('dialogs.entity.group')}</span>
+          <input bind:value={group} type="text" />
+        </p>
+        <p>
+          <span class="min">{$_('dialogs.entity.title')}</span>
+          <input bind:value={title} type="text" />
+        </p>
+        {#if !type || type === 'chapter'}
+          <div class="flags">
+            {#each ['final', 'fixed', 'death'] as flag}
+              <div
+                class:selected={flags[flag]}
+                on:click={() => (flags[flag] = !flags[flag])}>
+                <img src={`./static/flags/${flag}.png`} />
+              </div>
+            {/each}
+          </div>
+        {/if}
+        <button
+          autofocus
+          class="ok"
+          on:click={() => callback({
+              key,
+              obj: { type, group, title, flags: filterFlags() },
+            })}>
+          {ok}
+        </button>
+        <button class="cancel" on:click={() => callback({})}>{cancel}</button>
+      </div>
+    {/if}
+  </div>
+{/if}
+
 
 <style>
   .flags {
@@ -120,64 +189,3 @@
     color: white;
   }
 </style>
-
-{#if dialog}
-  <div class="dialog-mask" />
-  <div class="dialog-container">
-    {#if dialog === 'alert'}
-      <div>
-        <h3>{params.title}</h3>
-        <p>{params.text}</p>
-        <button autofocus class="ok" on:click={() => callback(true)}>Ok</button>
-      </div>
-    {:else if dialog === 'confirm'}
-      <div>
-        <h3>{params.title}</h3>
-        <p>{params.text}</p>
-        <button autofocus class="ok" on:click={() => callback(true)}>Ok</button>
-        <button class="cancel" on:click={() => callback(false)}>Cancel</button>
-      </div>
-    {:else if dialog === 'entity'}
-      <div>
-        <h3>{params.title}</h3>
-        <p>
-          <span class="min">Name</span>
-          <input bind:value={key} type="text" />
-        </p>
-        <p>
-          <span class="min">Type</span>
-          <input bind:value={type} type="text" />
-        </p>
-        <p>
-          <span class="min">Group</span>
-          <input bind:value={group} type="text" />
-        </p>
-        <p>
-          <span class="min">Title</span>
-          <input bind:value={title} type="text" />
-        </p>
-        {#if !type || type === 'chapter'}
-          <div class="flags">
-            {#each ['final', 'fixed', 'death'] as flag}
-              <div
-                class:selected={flags[flag]}
-                on:click={() => (flags[flag] = !flags[flag])}>
-                <img src={`./static/flags/${flag}.png`} />
-              </div>
-            {/each}
-          </div>
-        {/if}
-        <button
-          autofocus
-          class="ok"
-          on:click={() => callback({
-              key,
-              obj: { type, group, title, flags: filterFlags() },
-            })}>
-          Ok
-        </button>
-        <button class="cancel" on:click={() => callback({})}>Cancel</button>
-      </div>
-    {/if}
-  </div>
-{/if}

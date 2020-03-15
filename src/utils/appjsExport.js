@@ -16,7 +16,7 @@ export default book =>
     info: { ...book.info },
     entities: objectMap(book.entities, (rawEntity) => {
       let data = rawEntity.data
-        .replace(/<p>/g, '')
+        .replace(/<p[^>]*>/g, '')
         .replace(/<\/p>/g, '<br>')
         .replace(/{todo [^\}\{]+}/g, '')
         .replace(/{{( )*\/if( )*}}/g, '</lgc-if>')
