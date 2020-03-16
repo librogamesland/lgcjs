@@ -28,6 +28,7 @@ new    = "Il libro verrà sovrascritto se non salvato"
 "edit.items.todo" = "Mostra lista to-do"
 
 "export.title" = "Esporta"
+"export.items.docx"  = "Word (.docx)"
 "export.items.json"  = "Json"
 "export.items.appjs" = "App.js"
 

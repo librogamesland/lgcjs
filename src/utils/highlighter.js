@@ -15,6 +15,12 @@ highlighter.stop()                   // Termina di controllare
 
 */
 
+const setTag = (Quill, formatName, tagName) => {
+  const Format = Quill.import(formatName)
+  Format.tagName = tagName
+  Quill.register(formatName, Format)
+}
+
 const addInlineFormat = (
   Quill,
   registerName,
@@ -22,6 +28,7 @@ const addInlineFormat = (
   tagName,
   onCreate = node => node
 ) => {
+
   const Format = class extends Quill.import('blots/inline') {
     static create() {
       return onCreate(super.create())
@@ -55,6 +62,10 @@ const formatMatches = (editor, formatName, regex) => {
 //
 export default function(Quill, editor, clickHandler) {
   Quill.debug('error')
+
+  setTag(Quill, 'formats/bold', ['B', 'STRONG'])
+  setTag(Quill, 'formats/italic', ['I', 'EM'])
+
 
   addInlineFormat(Quill, 'formats/link', 'link', 'A', node => {
     node.addEventListener('click', function() {

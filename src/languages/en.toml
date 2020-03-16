@@ -27,6 +27,7 @@ new    = "Book will be overwritten if not saved"
 "edit.items.todo" = "View to-do list"
 
 "export.title" = "Export"
+"export.items.docx"  = "Word (.docx)"
 "export.items.json"  = "Json"
 "export.items.appjs" = "App.js"
 

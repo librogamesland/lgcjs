@@ -22,5 +22,9 @@
     "rollup-plugin-toml": "^1.0.0",
     "svelte": "^3.0.0",
     "svelte-i18n": "^3.0.1"
+  },
+  "dependencies": {
+    "docx": "^5.0.2",
+    "file-saver": "^2.0.2"
   }
 }

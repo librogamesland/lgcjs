@@ -1,18 +1,26 @@
 <script>
   // Import components
-  import {
-    Dialogs,
-    Navbar,
-    Sidemenu,
-    Editor,
-    DevPanel,
-  } from './components/*.svelte'
+  import { Dialogs, Navbar, Sidemenu, Editor,  DevPanel, } from './components/*.svelte'
 
   // Component state
   import { bookName } from './store/book.js'
   import { showCode } from './store/settings.js'
   let showSidemenu = false
 </script>
+
+<svelte:head>
+  <title>{$bookName}</title>
+</svelte:head>
+
+<Dialogs />
+<Navbar bind:showSidemenu />
+<main class:resize={!$showCode}>
+  <Sidemenu bind:foreground={showSidemenu} />
+  <Editor />
+  {#if $showCode}
+    <DevPanel />
+  {/if}
+</main>
 
 <style>
   :global(body, html) {
@@ -63,17 +71,3 @@
     }
   }
 </style>
-
-<svelte:head>
-  <title>{$bookName}</title>
-</svelte:head>
-
-<Dialogs />
-<Navbar bind:showSidemenu />
-<main class:resize={!$showCode}>
-  <Sidemenu bind:foreground={showSidemenu} />
-  <Editor />
-  {#if $showCode}
-    <DevPanel />
-  {/if}
-</main>

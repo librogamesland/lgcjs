@@ -4,29 +4,14 @@
 */
 // Import languages, settings, dialogs and book
 import { showCode } from '../store/settings.js'
-import { download } from '../utils/file.js'
 import { confirm } from '../utils/dialogs.js'
-import appjsExport from '../utils/appjsExport.js'
+import { download } from '../utils/file.js'
 import { bookName, book } from '../store/book.js'
+import exports from '../export/index.js'
+
 
 const newFile = async () => {
-  if (
-    await confirm(
-      'dialogs.confirm',
-      `dialogs.text.new`
-    )
-  )
-    book.empty()
-}
-
-const json = () => {
-  book.exportBook((name, data) =>
-    download(name + '.json', JSON.stringify(data, null, 2))
-  )
-}
-
-const appjs = () => {
-  book.exportBook((name, data) => download(name + '.js', appjsExport(data)))
+  if (await confirm('dialogs.confirm',`dialogs.text.new`)) book.empty()
 }
 
 export default {
@@ -36,8 +21,9 @@ export default {
     save: { type: 'button', handler: () => book.save(download) },
   },
   export: {
-    json: { type: 'button', handler: json },
-    appjs: { type: 'button', handler: appjs },
+  //  docx: { type: 'button',  handler: () => book.exportBook(exports.docx) },
+    json: { type: 'button',  handler: () => book.exportBook(exports.json) },
+    appjs: { type: 'button', handler: () => book.exportBook(exports.appjs) },
   },
   code: {
     togglecode: { type: 'button', handler: () => showCode.update(n => !n) },
