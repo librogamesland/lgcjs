@@ -46,6 +46,6 @@
   ],
   "start_url": "/lgcjs/release/",
   "background_color": "#ffffff",
-  "display": "standalone",
+  "display": "browser",
   "theme_color": "#3978cd"
 }

@@ -21,19 +21,36 @@ export default (name, data) => {
   }
 
   console.log(textNodesUnder(l))
-  return
-
   doc.addSection({
       properties: {},
-      children: [
-        ...[... l.childNodes].map( node =>{
+      children: [... l.childNodes].map( p =>{
+        const children = []
+        textNodesUnder(p).forEach( (node) => {
+          let bold      = false
+          let italics   = false
+          let underline = false
+
+          let domElement = node.parentNode
+          while(domElement.tagName !== 'P'){
+            const tag = domElement.tagName
+            if(tag === 'B') bold      = true
+            if(tag === 'I') italics   = true
+            if(tag === 'U') underline = true
+            domElement = domElement.parentNode
+          }
+
+          console.log(p.innerText, node)
+          children.push(new docx.TextRun({
+            bold, italics, underline,
+            text: node.nodeValue
+          }))
+        })
+
         return new docx.Paragraph({
-            children: [
-                new docx.TextRun(node.innerText),
-            ],
+            children,
         })
       }),
-
+/*
       new docx.Paragraph({
           children: [
               new docx.TextRun({
@@ -45,7 +62,7 @@ export default (name, data) => {
           ],
       }),
 
-    ]
+    ]*/
       /*[
           new docx.Paragraph({
               heading: docx.HeadingLevel.HEADING_1,
@@ -70,7 +87,6 @@ export default (name, data) => {
           }),
       ],*/
   });
-
   docx.Packer.toBlob(doc).then(blob => {
       saveAs(blob, "example.docx");
   });
