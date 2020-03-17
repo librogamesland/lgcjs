@@ -21,6 +21,12 @@ const setTag = (Quill, formatName, tagName) => {
   Quill.register(formatName, Format)
 }
 
+const setKey = (Quill, formatName, keyName) => {
+  const Format = Quill.import(formatName)
+  Format.keyName = keyName
+  Quill.register(formatName, Format)
+}
+
 const addInlineFormat = (
   Quill,
   registerName,
@@ -66,6 +72,14 @@ export default function(Quill, editor, clickHandler) {
   setTag(Quill, 'formats/bold', ['B', 'STRONG'])
   setTag(Quill, 'formats/italic', ['I', 'EM'])
 
+  const Parchment = Quill.import('parchment')
+
+  let Align = new Parchment.Attributor.Attribute('align', 'align');
+  Quill.register('formats/align', Align)
+
+  //setKey(Quill, 'formats/align', 'align')
+
+  console.log(Quill.import('formats/align'))
 
   addInlineFormat(Quill, 'formats/link', 'link', 'A', node => {
     node.addEventListener('click', function() {

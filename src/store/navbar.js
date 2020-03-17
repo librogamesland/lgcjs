@@ -21,7 +21,7 @@ export default {
     save: { type: 'button', handler: () => book.save(download) },
   },
   export: {
-  //  docx: { type: 'button',  handler: () => book.exportBook(exports.docx) },
+    // docx: { type: 'button',  handler: () => book.exportBook(exports.docx) },
     json: { type: 'button',  handler: () => book.exportBook(exports.json) },
     appjs: { type: 'button', handler: () => book.exportBook(exports.appjs) },
   },

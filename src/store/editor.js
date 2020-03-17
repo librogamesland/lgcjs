@@ -36,12 +36,12 @@ const mount = querySelector => {
       syntax: window.hljs ? true : false, // Include syntax module
       toolbar: [
         ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
-        [{ color: [] }, { background: [] }],
+      //  [{ list: 'ordered' }, { list: 'bullet' }],
+      //  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      //  [{ color: [] }, { background: [] }],
         [{ font: [] }],
-        [{ align: [] }],
-        ['clean', 'code-block'],
+        [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+        ['clean'], //, 'code-block'],
       ],
     },
     theme: 'snow',
