@@ -3,7 +3,7 @@ body, html{
 
   --color-primary: #001b31;
   --color-secondary: #fff;
-  --color-background: #bbcee8;
+  --color-background: #265b89;
   --navbar-color: var(--color-primary, #001b31);
   --navbar-color-text: #fff;
 }
