@@ -136,6 +136,19 @@ Taken from https://www.w3schools.com/css/css_navbar.asp  **/
     display: block;
   }
 
+  @media only screen and (max-width: 550px) {
+    li a,
+    .dropbtn {
+      padding: 0.8rem 1rem;
+    }
+
+    .dropdown-content a,
+    .dropdown-content label {
+      padding: 0.9rem 16px;
+    }
+  }
+
+
   /** Show/Hide sidemenu button **/
   .sidemenu-button {
     float: right;
