@@ -72,6 +72,7 @@
   /** Navbar ul/li/dropdown styling
 Taken from https://www.w3schools.com/css/css_navbar.asp  **/
   ul {
+    user-select: none;
     font-size: 0.9rem;
     list-style-type: none;
     margin: 0;
@@ -98,6 +99,7 @@ Taken from https://www.w3schools.com/css/css_navbar.asp  **/
     text-align: center;
     padding: 0.5rem 1rem;
     text-decoration: none;
+    transition: background-color 0.17s;
   }
 
   li a:hover,

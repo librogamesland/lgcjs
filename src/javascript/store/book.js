@@ -19,6 +19,11 @@ const bookName = new (function() {
 let bookData = storage.getObj(storage.keys.BOOK_DATA, decode(emptyBook))
 window.book = () => bookData
 
+let flushHandler = () => {}
+const setFlushHandler = handler => flushHandler = handler
+
+export {setFlushHandler}
+
 /* CurrentEntity store, hold reference to loaded entity */
 const currentEntity = new (function() {
   let key = ''
@@ -39,6 +44,7 @@ const currentEntity = new (function() {
   Object.assign(this, {
     subscribe,
     set: safeSet,
+    flush: () => flushHandler(key),
     update: handler => safeSet(handler(key)),
     unload: () => safeSet(''),
     getObj: () => deepCopy(book.entities[key]),
@@ -64,17 +70,13 @@ const book = new (function() {
   }
 
   const save = async handler => {
-    const oldKey = currentEntity.unload()
-    await tick()
+    currentEntity.flush()
     await handler(bookName.get(), encode(bookData))
-    currentEntity.set(oldKey)
   }
 
   const exportBook = async handler => {
-    const oldKey = currentEntity.unload()
-    await tick()
+    currentEntity.flush()
     await handler(bookName.get(), getData())
-    currentEntity.set(oldKey)
   }
 
   const availableKey = () => {
@@ -90,6 +92,7 @@ const book = new (function() {
     getData,
     subscribe,
     set: safeSet,
+    flush: () => flushHandler(),
     update: handler => safeSet(handler(bookData) || bookData),
     load,
     save,

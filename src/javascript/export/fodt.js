@@ -29,7 +29,7 @@ const addEntity = (book, entity, inlineStyle = false, breakAfter = false ) => {
   }
 
   const childNodes = l.childNodes
-  childNodes.forEach( (p, i) =>{
+  childNodes.forEach( (p) =>{
     const alignment = p.getAttribute('align') || 'Standard'
     let text = p.innerHTML
       .replace(/<b>/g, `<text:span text:style-name="bold">`)

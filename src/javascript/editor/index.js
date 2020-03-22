@@ -3,7 +3,7 @@
 
 */
 
-import { currentEntity, book } from '../store/book.js'
+import { currentEntity, book, setFlushHandler } from '../store/book.js'
 import { Quill } from './quill.js'
 import { setLinkHandler, Highlighter} from './formats.js'
 
@@ -28,6 +28,24 @@ const unloadEntity = entity => {
     bookData.entities[entity].data = quillEditor.root.innerHTML
   })
 }
+
+const tempCont = document.createElement('div');
+const tempEditor = new Quill(tempCont);
+tempEditor.disable()
+const tempHighlighter = new Highlighter(tempEditor)
+
+const getQuillHtml = (editor) => {
+	tempEditor.setContents(editor.getContents());
+  tempHighlighter.off()
+	return '' + tempEditor.root.innerHTML;
+}
+
+setFlushHandler( entity => {
+  book.update(bookData => {
+    bookData.entities[entity].data = getQuillHtml(quillEditor)
+  })
+})
+
 
 /** Monta l'instanza  */
 if (window.hljs) window.hljs.configure({ languages: ['xml'] })

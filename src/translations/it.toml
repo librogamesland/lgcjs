@@ -27,14 +27,14 @@ new    = "Il libro verrà sovrascritto se non salvato"
 "edit.title" = "Modifica"
 "edit.items.todo" = "Mostra lista to-do"
 
+"view.title" = "Visualizza"
+"view.items.togglecode" = "Apri strumenti sviluppatore"
+
 "export.title" = "Esporta"
 "export.items.docx"  = "Word (.docx)"
 "export.items.fodt"  = "Libreoffice (.fodt)"
 "export.items.json"  = "Json"
 "export.items.appjs" = "App.js"
-
-"code.title" = "Codice"
-"code.items.togglecode" = "Apri strumenti sviluppatore"
 
 "help.title" = "Aiuto"
 "help.items" = {guide = "Guida", forum = "Forum Lgl", about = "Info"}

@@ -20,14 +20,14 @@ const navbar = {
     open: { type: 'fileinput', accept: '.xlgc', handler: book.load },
     save: { type: 'button', handler: () => book.save(download) },
   },
+  view: {
+    togglecode: { type: 'button', handler: () => showCode.update(n => !n) },
+  },
   export: {
     docx: { type: 'button',  handler: () => book.exportBook(exports.docx) },
     fodt: { type: 'button',  handler: () => book.exportBook(exports.fodt) },
     json: { type: 'button',  handler: () => book.exportBook(exports.json) },
     appjs: { type: 'button', handler: () => book.exportBook(exports.appjs) },
-  },
-  code: {
-    togglecode: { type: 'button', handler: () => showCode.update(n => !n) },
   },
   help: {
     guide: { type: 'link', href: '' },

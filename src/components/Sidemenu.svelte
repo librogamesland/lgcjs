@@ -33,6 +33,10 @@
   }
 </script>
 
+<div
+  class={`mask ${foreground ? 'foreground' : ''}`}
+  on:click={() => foreground = false}
+/>
 <section class:foreground>
   <ActionButtons bind:foreground />
   <div>
@@ -61,6 +65,10 @@
 </section>
 
 <style>
+  section {
+    user-select: none;
+  }
+
   b {
     margin-left: 10px;
     color: #555;
@@ -88,15 +96,47 @@
     box-sizing: border-box;
   }
 
-  @media only screen and (max-width: 550px) {
-    section.foreground {
-      z-index: 10000;
-    }
+  div.mask {
+    display: none;
+  }
 
+  @media only screen and (max-width: 550px) {
+    div.mask.foreground {
+      display: block;
+      position: fixed;
+      z-index: 9900;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      left: 0;
+      background-color: black;
+      opacity: 0.3;
+      padding: 0;
+      margin: 0;
+      border: 0;
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
     section {
-      flex-grow: 1;
-      flex-basis: auto;
-      width: auto;
+      opacity: 0;
+      transition: opacity 0.2s,  transform 0.2s;
+      position: fixed;
+      z-index: 10000;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      padding: 7px;
+      box-sizing: border-box;
+      height: 100vh;
+      width: calc(100vw - 50px);
+      max-width: 250px;
+      transform: translateX(-250px);
+    }
+    section.foreground {
+      opacity: 1;
+      display: flex;
+      transform: translateX(0);
     }
   }
 

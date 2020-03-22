@@ -26,14 +26,14 @@ new    = "Book will be overwritten if not saved"
 "edit.title" = "Edit"
 "edit.items.todo" = "View to-do list"
 
+"view.title" = "View"
+"view.items.togglecode" = "Show/hide code tools"
+
 "export.title" = "Export"
 "export.items.docx"  = "Word (.docx)"
 "export.items.fodt"  = "Libreoffice (.fodt)"
 "export.items.json"  = "Json"
 "export.items.appjs" = "App.js"
-
-"code.title" = "Code"
-"code.items.togglecode" = "Show/hide code tools"
 
 "help.title" = "Help"
 "help.items" = {guide = "Guide", forum = "Lgl forum", about = "About"}
