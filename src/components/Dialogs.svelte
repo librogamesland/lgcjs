@@ -1,6 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n'
-  import { dialogStore } from '../utils/dialogs.js'
+  import { dialogStore } from '../javascript/utils/dialogs.js'
 
 
   $: ok     = $_('dialogs.ok')
@@ -55,10 +55,6 @@
         <p>
           <span class="min">{$_('dialogs.entity.name')}</span>
           <input bind:value={key} type="text" />
-        </p>
-        <p>
-          <span class="min">{$_('dialogs.entity.type')}</span>
-          <input bind:value={type} type="text" />
         </p>
         <p>
           <span class="min">{$_('dialogs.entity.group')}</span>

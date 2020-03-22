@@ -4,14 +4,21 @@
   import Tabbar from './Tabbar.svelte'
   import ActionButtons from './ActionButtons.svelte'
 
-  import { currentEntity, book } from '../store/book.js'
-  import { showCode } from '../store/settings.js'
+  import { currentEntity, book } from '../javascript/store/book.js'
+  import { showCode } from '../javascript/store/settings.js'
+
+
+  function isNaturalNumber(n) {
+      n = n.toString(); // force the value incase it is not
+      var n1 = Math.abs(n), n2 = parseInt(n, 10);
+      return !isNaN(n1) && n2 === n1 && n1.toString() === n;
+  }
 
   $: chapterList = Object.keys($book.entities).filter(
-    k => !$book.entities[k].type || $book.entities[k].type === 'chapter'
+    k => !$book.entities[k].type && isNaturalNumber(k)
   )
   $: sectionList = Object.keys($book.entities).filter(
-    k => $book.entities[k].type === 'section'
+    k => !$book.entities[k].type && !isNaturalNumber(k)
   )
 
   const open = entity => {

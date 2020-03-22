@@ -1,12 +1,11 @@
 import App from './App.svelte'
 
-// Set language support
 import { addMessages, init, getLocaleFromNavigator } from 'svelte-i18n'
-import * as languages from './languages/*.toml'
+import * as languages from './translations/*.toml'
 
+// Set language support
 addMessages('en', languages.en)
 addMessages('it-IT', languages.it)
-
 init({
   fallbackLocale: 'en',
   initialLocale: getLocaleFromNavigator(),

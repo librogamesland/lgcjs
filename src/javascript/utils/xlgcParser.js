@@ -89,7 +89,7 @@ const decode = xlgc => {
 
     let section = {}
     if (group) section.group = group
-    if (type && type != 'chapter')
+    if (type && (type != 'chapter' && type != 'section'))
       section.type = type
       // Itera i nodi figli dell'entity alla ricerca di flag, titolo e contenuto
     ;[...entity.children].forEach(node => {
@@ -116,6 +116,13 @@ una conversione completa delle funzionalità principali.
 
 Strategia: si parte da una stringa che rappresenta lo scheletro di un file .xlgc
 e la si riempie usando i dati dell'oggetto jlgc */
+
+function isNaturalNumber(n) {
+    n = n.toString(); // force the value incase it is not
+    var n1 = Math.abs(n),
+        n2 = parseInt(n, 10);
+    return !isNaN(n1) && n2 === n1 && n1.toString() === n;
+}
 
 // Crea la sezione "game" con i metadati in info
 const encodeInfo = info =>
@@ -152,7 +159,7 @@ const encodeMap = info =>
 // Crea una sezione/paragrafo
 const encodeEntity = (id, entity) =>
   `<entity group="${entity.group || ''}" name="${id}" type="${entity.type ||
-    'chapter'}">` +
+    isNaturalNumber(id) ? 'chapter' : 'section'}">` +
   `<attribute name="description" type="string"><![CDATA[${entity.data ||
     '<p></p>'}]]></attribute>` +
   `<attribute name="chapter_title" type="string"><![CDATA[${entity.title ||

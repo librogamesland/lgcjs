@@ -1,9 +1,9 @@
 // Download file
-const download = (filename, text) => {
+const download = (filename, text, mimetype = 'text/xml') => {
   var element = document.createElement('a')
   element.setAttribute(
     'href',
-    'data:text/xml;charset=utf-8,' + encodeURIComponent(text)
+    `data:${mimetype};charset=utf-8,${encodeURIComponent(text)}`
   )
   element.setAttribute('download', filename)
 

@@ -2,8 +2,8 @@
   import { tick } from 'svelte'
   import { _ } from 'svelte-i18n'
 
-  import * as dialog from '../utils/dialogs.js'
-  import { currentEntity, book, entities } from '../store/book.js'
+  import * as dialog from '../javascript/utils/dialogs.js'
+  import { currentEntity, book, entities } from '../javascript/store/book.js'
 
   export let foreground = false
   const open = entity => {

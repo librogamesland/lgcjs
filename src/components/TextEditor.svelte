@@ -1,6 +1,6 @@
 <script>
   import { onMount, tick } from 'svelte'
-  import * as editor from '../store/editor.js'
+  import * as editor from '../javascript/editor/index.js'
 
   export let foreground = false
 

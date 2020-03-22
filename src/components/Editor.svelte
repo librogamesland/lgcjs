@@ -1,8 +1,8 @@
 <script>
   import Tabbar from './Tabbar.svelte'
   import TextEditor from './TextEditor.svelte'
-  import { currentEntity, book } from '../store/book.js'
-  import { showCode } from '../store/settings.js'
+  import { currentEntity, book } from '../javascript/store/book.js'
+  import { showCode } from '../javascript/store/settings.js'
 
   // Editor tabs
   let active = 'text'

@@ -4,11 +4,12 @@
 */
 
 import { currentEntity, book } from '../store/book.js'
-import LinkHighlighter from '../utils/highlighter.js'
+import { Quill } from './quill.js'
+import { setLinkHandler, Highlighter} from './formats.js'
 
 // Istanza di quill
 let quillEditor = null
-let linkHighlighter = null
+let highlighter = null
 let displayedEntity = ''
 
 const loadEntity = entity => {
@@ -16,13 +17,13 @@ const loadEntity = entity => {
   const bookData = book.getData()
   quillEditor.clipboard.dangerouslyPasteHTML(0, bookData.entities[entity].data)
 
-  linkHighlighter.highlight(true)
-  linkHighlighter.start()
+  highlighter.on()
+  highlighter.start()
 }
 
 const unloadEntity = entity => {
-  linkHighlighter.stop()
-  linkHighlighter.highlight(false)
+  highlighter.stop()
+  highlighter.off()
   book.update(bookData => {
     bookData.entities[entity].data = quillEditor.root.innerHTML
   })
@@ -35,19 +36,16 @@ const mount = querySelector => {
     modules: {
       syntax: window.hljs ? true : false, // Include syntax module
       toolbar: [
-        ['bold', 'italic', 'underline'], // 'strike'], // toggled buttons
-      //  [{ list: 'ordered' }, { list: 'bullet' }],
-      //  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      //  [{ color: [] }, { background: [] }],
-        [{ font: [] }],
+        ['bold', 'italic', 'underline'],
+        //[{ font: [] }],
         [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
-        ['clean'], //, 'code-block'],
+        ['clean'],
       ],
     },
     theme: 'snow',
   })
 
-  linkHighlighter = new LinkHighlighter(window.Quill, quillEditor, (number) => {
+  setLinkHandler((number) => {
     const bookData = book.getData()
     if (!(number in bookData.entities))
       book.update(bookData => {
@@ -56,6 +54,7 @@ const mount = querySelector => {
     currentEntity.set(number)
   })
 
+  highlighter = new Highlighter(quillEditor)
   if (displayedEntity != '') loadEntity(displayedEntity)
 }
 
@@ -64,6 +63,8 @@ const focus = () => {
   if (quillEditor) quillEditor.focus()
 }
 
+
+// Subscribe
 currentEntity.subscribe(entity => {
   if (!quillEditor) {
     displayedEntity = entity

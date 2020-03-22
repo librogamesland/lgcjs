@@ -28,6 +28,7 @@ new    = "Book will be overwritten if not saved"
 
 "export.title" = "Export"
 "export.items.docx"  = "Word (.docx)"
+"export.items.fodt"  = "Libreoffice (.fodt)"
 "export.items.json"  = "Json"
 "export.items.appjs" = "App.js"
 

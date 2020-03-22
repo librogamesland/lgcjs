@@ -14,7 +14,7 @@ const newFile = async () => {
   if (await confirm('dialogs.confirm',`dialogs.text.new`)) book.empty()
 }
 
-export default {
+const navbar = {
   file: {
     new: { type: 'button', handler: newFile },
     open: { type: 'fileinput', accept: '.xlgc', handler: book.load },
@@ -22,6 +22,7 @@ export default {
   },
   export: {
     docx: { type: 'button',  handler: () => book.exportBook(exports.docx) },
+    fodt: { type: 'button',  handler: () => book.exportBook(exports.fodt) },
     json: { type: 'button',  handler: () => book.exportBook(exports.json) },
     appjs: { type: 'button', handler: () => book.exportBook(exports.appjs) },
   },
@@ -38,3 +39,10 @@ export default {
     about: { type: 'button', handler: null },
   },
 }
+
+const handlers = {
+  N: () => navbar.file.new.handler(),
+  S: () => navbar.file.save.handler(),
+}
+
+export {navbar, handlers}

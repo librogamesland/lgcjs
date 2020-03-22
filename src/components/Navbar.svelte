@@ -1,10 +1,72 @@
 <script>
   import { _ } from 'svelte-i18n'
-  import { read } from '../utils/file.js'
-  import navbar from '../store/navbar.js'
+  import { read } from '../javascript/utils/file.js'
+  import {navbar, handlers} from '../javascript/navbar'
 
   export let showSidemenu = false
+
+  const handleKeydown = function(e) {
+      if (e.ctrlKey) {
+        const key = String.fromCharCode(e.keyCode).toUpperCase()
+        if(key === 'O'){
+          document.getElementById(`file_open`).click()
+          e.preventDefault()
+          return
+        }
+        if(key in handlers){
+          handlers[key]()
+          e.preventDefault()
+        }
+      }
+  }
 </script>
+
+
+<svelte:window on:keydown={handleKeydown}/>
+
+<ul>
+  {#each Object.entries(navbar) as [tab, items]}
+    <li class="dropdown">
+      <a href="javascript:void(0)" class="dropbtn">
+        {$_(`navbar.${tab}.title`)}
+      </a>
+      <div class="dropdown-content">
+        {#each Object.entries(items) as [key, item]}
+          {#if item.type === 'button'}
+            <a
+              href="javascript:void(0)"
+              on:click={() => {
+                item.handler()
+              }}>
+              {$_(`navbar.${tab}.items.${key}`)}
+            </a>
+          {:else if item.type === 'link'}
+            <a href={item.href} target="_blank">
+              {$_(`navbar.${tab}.items.${key}`)}
+            </a>
+          {:else if item.type === 'fileinput'}
+            <input
+              type="file"
+              name="file"
+              id={`${tab}_${key}`}
+              accept=".xlgc"
+              on:change={e => read(e.srcElement, item.handler)} />
+            <label for={`${tab}_${key}`}>
+              {$_(`navbar.${tab}.items.${key}`)}
+            </label>
+          {/if}
+        {/each}
+      </div>
+    </li>
+  {/each}
+  <li class="sidemenu-button">
+    <a
+      href="javascript:void(0)"
+      class={'dropbtn icon-' + (showSidemenu ? 'cancel' : 'menu')}
+      on:click={() => (showSidemenu = !showSidemenu)} />
+  </li>
+</ul>
+
 
 <style>
   /** Navbar ul/li/dropdown styling
@@ -94,46 +156,3 @@ Taken from https://www.w3schools.com/css/css_navbar.asp  **/
     z-index: -1;
   }
 </style>
-
-<ul>
-  {#each Object.entries(navbar) as [tab, items]}
-    <li class="dropdown">
-      <a href="javascript:void(0)" class="dropbtn">
-        {$_(`navbar.${tab}.title`)}
-      </a>
-      <div class="dropdown-content">
-        {#each Object.entries(items) as [key, item]}
-          {#if item.type === 'button'}
-            <a
-              href="javascript:void(0)"
-              on:click={() => {
-                item.handler()
-              }}>
-              {$_(`navbar.${tab}.items.${key}`)}
-            </a>
-          {:else if item.type === 'link'}
-            <a href={item.href} target="_blank">
-              {$_(`navbar.${tab}.items.${key}`)}
-            </a>
-          {:else if item.type === 'fileinput'}
-            <input
-              type="file"
-              name="file"
-              id={`${tab}_${key}`}
-              accept=".xlgc"
-              on:change={e => read(e.srcElement, item.handler)} />
-            <label for={`${tab}_${key}`}>
-              {$_(`navbar.${tab}.items.${key}`)}
-            </label>
-          {/if}
-        {/each}
-      </div>
-    </li>
-  {/each}
-  <li class="sidemenu-button">
-    <a
-      href="javascript:void(0)"
-      class={'dropbtn icon-' + (showSidemenu ? 'cancel' : 'menu')}
-      on:click={() => (showSidemenu = !showSidemenu)} />
-  </li>
-</ul>

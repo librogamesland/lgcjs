@@ -3,14 +3,15 @@
   import { Dialogs, Navbar, Sidemenu, Editor,  DevPanel, } from './components/*.svelte'
 
   // Component state
-  import { bookName } from './store/book.js'
-  import { showCode } from './store/settings.js'
+  import { bookName } from './javascript/store/book.js'
+  import { showCode } from './javascript/store/settings.js'
   let showSidemenu = false
 </script>
 
 <svelte:head>
   <title>{$bookName}</title>
 </svelte:head>
+
 
 <Dialogs />
 <Navbar bind:showSidemenu />
