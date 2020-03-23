@@ -30,8 +30,9 @@ const addEntity = (book, entity, inlineStyle = false, breakAfter = false ) => {
 
   const childNodes = l.childNodes
   childNodes.forEach( (p) =>{
-    const alignment = p.getAttribute('align') || 'Standard'
-    let text = p.innerHTML
+    if(!p) return
+    const alignment = ('getAttribute' in p && p.getAttribute('align')) || 'Standard'
+    let text = ((p.nodeType === Node.TEXT_NODE ? p.textContent : p.innerHTML) || '')
       .replace(/<b>/g, `<text:span text:style-name="bold">`)
       .replace(/<\/b>/g, `</text:span>`)
       .replace(/<i>/g, `<text:span text:style-name="italic">`)

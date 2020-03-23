@@ -95,7 +95,10 @@ const addEntity = (book, entity, inlineStyle = false, breakAfter = false ) => {
     })
 
     // Get alignment
-    let alignment =  p.getAttribute('align') || 'left'
+    let alignment
+    try { alignment =  p.getAttribute('align')
+    }catch(e){}
+    alignment =  alignment || 'left'
     if(alignment === 'justify') alignment = 'both'
 
     // Create paragraph
