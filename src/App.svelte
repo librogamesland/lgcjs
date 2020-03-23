@@ -9,7 +9,10 @@
 </script>
 
 <svelte:head>
+  {#if !(/bot|google|baidu|bing|msn|duckduckbot|teoma|slurp|yandex/i
+    .test(navigator.userAgent))}
   <title>{$bookName}</title>
+  {/if}
 </svelte:head>
 
 
