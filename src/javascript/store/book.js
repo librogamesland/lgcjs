@@ -1,8 +1,22 @@
 import { tick } from 'svelte'
 import { writable } from 'svelte/store'
 import { encode, decode } from '../utils/xlgcParser.js'
-import emptyBook from './empty.xlgc'
+import { getLocaleFromNavigator } from 'svelte-i18n'
+
+import emptyBook from '../books/empty.xlgc'
+import welcomeBookEn from '../books/welcome-en.xlgc'
+import welcomeBookIt from '../books/welcome-it.xlgc'
 import * as storage from './storage.js'
+
+
+const welcomeBooks = {
+  'en': welcomeBookEn,
+  'it': welcomeBookIt
+}
+
+const language = getLocaleFromNavigator().split('-')[0]
+const welcomeBook = welcomeBooks[(language in welcomeBooks) ? language : 'en']
+
 
 const deepCopy = obj => JSON.parse(JSON.stringify(obj))
 
@@ -16,7 +30,7 @@ const bookName = new (function() {
   })
 })()
 
-let bookData = storage.getObj(storage.keys.BOOK_DATA, decode(emptyBook))
+let bookData = storage.getObj(storage.keys.BOOK_DATA, decode(welcomeBook))
 window.book = () => bookData
 
 let flushHandler = () => {}

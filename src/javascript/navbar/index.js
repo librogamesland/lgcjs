@@ -10,6 +10,14 @@ import { bookName, book } from '../store/book.js'
 import exports from '../export/index.js'
 
 
+import { getLocaleFromNavigator } from 'svelte-i18n'
+
+// Trova la guida da mostrare
+const avaiableGuides = ['en', 'it']
+const language = getLocaleFromNavigator().split('-')[0]
+const guide = `../guide/pdf/guide-${avaiableGuides.includes(language) ? language : 'en'}.pdf`
+
+
 const newFile = async () => {
   if (await confirm('dialogs.confirm',`dialogs.text.new`)) book.empty()
 }
@@ -30,7 +38,7 @@ const navbar = {
     appjs: { type: 'button', handler: () => book.exportBook(exports.appjs) },
   },
   help: {
-    guide: { type: 'link', href: '' },
+    guide: { type: 'link', href: guide },
     forum: {
       type: 'link',
       href:

@@ -12,6 +12,9 @@ let quillEditor = null
 let highlighter = null
 let displayedEntity = ''
 
+
+const fixEntity = e => e.replace(/<br>/g, '')
+
 const loadEntity = entity => {
   quillEditor.setContents([])
   const bookData = book.getData()
@@ -25,7 +28,7 @@ const unloadEntity = entity => {
   highlighter.stop()
   highlighter.off()
   book.update(bookData => {
-    bookData.entities[entity].data = quillEditor.root.innerHTML
+    bookData.entities[entity].data = fixEntity(quillEditor.root.innerHTML)
   })
 }
 
@@ -37,7 +40,7 @@ const tempHighlighter = new Highlighter(tempEditor)
 const getQuillHtml = (editor) => {
 	tempEditor.setContents(editor.getContents());
   tempHighlighter.off()
-	return '' + tempEditor.root.innerHTML;
+	return fixEntity('' + tempEditor.root.innerHTML);
 }
 
 setFlushHandler( entity => {

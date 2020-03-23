@@ -54,6 +54,11 @@
         <h3>Lgcjs - v. 0.1.4</h3>
         <img src="./static/logo/logo.png" alt="Lgcjs logo">
         <br>
+        <p>{@html $_('about.text')}</p>
+        <a href="http://librogame.net" target="_blank" rel="noopener">
+          www.librogame.net
+        </a>
+        <br>
         <button autofocus class="ok" on:click={() => callback(true)}>{ok}</button>
       </div>
     {:else if dialog === 'entity'}
@@ -173,10 +178,15 @@
   }
 
   .dialog-container > div.about {
-    width: 400px;
+    width: 440px;
     max-width: calc(100vw - 30px);
     text-align: center;
   }
+
+  .dialog-container > div.about p {
+    line-height: 1.2rem;
+  }
+
 
   .dialog-container > div.about img {
     width: 200px;
