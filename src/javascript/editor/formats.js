@@ -69,6 +69,7 @@ export {specialTags}
 
 
 
+const inlineFormats = ['bold', 'italic', 'underline']
 
 /* Definisce una classe, Highlighter, che permette
 di evideniare automaticamente gli special tags */
@@ -80,6 +81,7 @@ const formatMatches = (editor, formatName, regex) => {
     const index = text.indexOf(match, lastSearchedIndex)
     lastSearchedIndex = index + match.length - 1
     // Applica il link
+    inlineFormats.forEach( f => editor.formatText(index, match.length, f, false))
     editor.formatText(index, match.length, formatName, true)
   })
 }
