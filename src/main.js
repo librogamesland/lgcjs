@@ -4,11 +4,10 @@ import { addMessages, init, getLocaleFromNavigator } from 'svelte-i18n'
 import * as languages from './translations/*.toml'
 
 // Set language support
-addMessages('en', languages.en)
-addMessages('it-IT', languages.it)
+Object.entries(languages).forEach( ([k, l]) => addMessages(k, l))
 init({
   fallbackLocale: 'en',
-  initialLocale: getLocaleFromNavigator(),
+  initialLocale: getLocaleFromNavigator().split('-')[0],
 })
 
 // Register service worker for offline support

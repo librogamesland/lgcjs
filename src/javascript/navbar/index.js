@@ -4,7 +4,7 @@
 */
 // Import languages, settings, dialogs and book
 import { showCode } from '../store/settings.js'
-import { confirm } from '../utils/dialogs.js'
+import { confirm, about } from '../utils/dialogs.js'
 import { download } from '../utils/file.js'
 import { bookName, book } from '../store/book.js'
 import exports from '../export/index.js'
@@ -36,7 +36,7 @@ const navbar = {
       href:
         'http://www.librogame.net/index.php/forum/topic?id=5182&p=1#p148583',
     },
-    about: { type: 'button', handler: null },
+    about: { type: 'button', handler: about },
   },
 }
 

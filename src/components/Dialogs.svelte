@@ -49,6 +49,13 @@
         <button autofocus class="ok" on:click={() => callback(true)}>{ok}</button>
         <button class="cancel" on:click={() => callback(false)}>{cancel}</button>
       </div>
+    {:else if dialog === 'about'}
+      <div class="about">
+        <h3>Lgcjs - v. 0.1.4</h3>
+        <img src="./static/logo/logo.png" alt="Lgcjs logo">
+        <br>
+        <button autofocus class="ok" on:click={() => callback(true)}>{ok}</button>
+      </div>
     {:else if dialog === 'entity'}
       <div>
         <h3>{$_(params.title)}</h3>
@@ -163,6 +170,21 @@
     min-height: 200px;
     background-color: #fff;
     opacity: 1;
+  }
+
+  .dialog-container > div.about {
+    width: 400px;
+    max-width: calc(100vw - 30px);
+    text-align: center;
+  }
+
+  .dialog-container > div.about img {
+    width: 200px;
+    max-width: calc(100vw - 90px);
+  }
+
+  .dialog-container > div.about button {
+    margin-right: 0;
   }
 
   button {

@@ -20,7 +20,7 @@
   @media only screen and (max-width: 550px) {
     :global(.editor-container button){
       padding: 0px !important;
-      margin: 7px !important;
+      margin: 6px !important;
     }
   }
 

@@ -29,10 +29,17 @@ const confirm = (title, text) =>
     params: { title, text },
   })
 
+  const about = () =>
+    openDialog({
+      dialog: 'about',
+      params: { title: '', text: '' },
+    })
+
+
 const entity = (title, key, props) =>
   openDialog({
     dialog: 'entity',
     params: { title, key, props },
   })
 
-export { alert, confirm, entity }
+export { alert, confirm, about, entity }
