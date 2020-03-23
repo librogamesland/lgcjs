@@ -41,7 +41,7 @@
               {$_(`navbar.${tab}.items.${key}`)}
             </a>
           {:else if item.type === 'link'}
-            <a href={item.href} target="_blank">
+            <a href={item.href} target="_blank" rel="noopener">
               {$_(`navbar.${tab}.items.${key}`)}
             </a>
           {:else if item.type === 'fileinput'}

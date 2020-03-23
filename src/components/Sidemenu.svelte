@@ -115,9 +115,7 @@
       margin: 0;
       border: 0;
     }
-  }
 
-  @media only screen and (max-width: 550px) {
     section {
       opacity: 0;
       transition: opacity 0.2s,  transform 0.2s;
@@ -137,6 +135,11 @@
       opacity: 1;
       display: flex;
       transform: translateX(0);
+    }
+
+    p {
+      padding: 0.8rem 0.6rem !important;
+      border-radius: 4px;
     }
   }
 

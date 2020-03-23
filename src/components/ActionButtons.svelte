@@ -107,6 +107,13 @@
   .buttons > div:hover {
     background-color: #ddd;
   }
+
+  @media only screen and (max-width: 550px) {
+    .buttons > div {
+      padding: 15px 11px;
+      padding-bottom: 30px;
+    }
+  }
 </style>
 
 <div class="buttons">

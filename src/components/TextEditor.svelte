@@ -15,3 +15,13 @@
 <div class="editor-container" style={foreground ? 'z-index: 2000;' : ''}>
   <div id="text-editor" style="border: none; font-size: 115%;" />
 </div>
+
+<style>
+  @media only screen and (max-width: 550px) {
+    :global(.editor-container button){
+      padding: 0px !important;
+      margin: 7px !important;
+    }
+  }
+
+</style>
