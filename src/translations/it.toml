@@ -51,6 +51,7 @@ edit     = "Modifica entità"
 delete   = "Elimina entità"
 
 [about]
+contact = "Contattami"
 text = """
 Lgcjs è un editor di librogame sviluppato da <b>Luca Fabbian</b> con il supporto della community di Lgl,
 basato su LibroGameCreator3 di <b>Matteo Poropat</b>."""

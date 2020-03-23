@@ -55,10 +55,7 @@
         <img src="./static/logo/logo.png" alt="Lgcjs logo">
         <br>
         <p>{@html $_('about.text')}</p>
-        <a href="http://librogame.net" target="_blank" rel="noopener">
-          www.librogame.net
-        </a>
-        <br>
+        <p>{$_('about.contact')}: <a target="_blank" rel="noopener" href="mailto:luc.fabbian@gmail.com?subject=Lgcjs%20-%20Segnalazione">luc.fabbian@gmail.com</a></p>
         <button autofocus class="ok" on:click={() => callback(true)}>{ok}</button>
       </div>
     {:else if dialog === 'entity'}

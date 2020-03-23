@@ -50,6 +50,7 @@ edit     = "Edit entity"
 delete   = "Delete entity"
 
 [about]
+contact = "Contact me"
 text = """
 Lgcjs is a gamebook web editor developed by <b>Luca Fabbian</b> with support of Lgl community,
 based on LibroGameCreator3 by <b>Matteo Poropat</b>."""
