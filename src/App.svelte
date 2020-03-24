@@ -64,7 +64,7 @@
     }
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: 680px) {
     :global(main) {
       display: grid;
       grid-template-rows: 100%;

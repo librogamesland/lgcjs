@@ -108,7 +108,7 @@
     background-color: #ddd;
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: 680px) {
     .buttons > div {
       padding: 15px 11px;
       padding-bottom: 30px;

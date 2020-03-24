@@ -40,6 +40,7 @@ new    = "Il libro verrà sovrascritto se non salvato"
 "help.items" = {guide = "Guida", forum = "Forum Lgl", about = "Info"}
 
 [sidemenu]
+toggle   = "Apri menu laterale"
 find     = "Cerca..."
 chapters = "Paragrafi"
 sections = "Sezioni"
@@ -49,6 +50,16 @@ quickadd = "Aggiungi rapido"
 add      = "Aggiungi entità"
 edit     = "Modifica entità"
 delete   = "Elimina entità"
+
+[editor.buttons]
+bold       = "Grassetto"
+italic     = "Corsivo"
+underline  = "Sottolineato"
+left       = "Allinea a sinistra"
+right      = "Allinea a destra"
+center     = "Allinea al centro"
+justify    = "Giustificato"
+clean      = "Rimuovi formattazioni"
 
 [about]
 contact = "Contattami"

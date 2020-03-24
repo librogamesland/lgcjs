@@ -62,6 +62,7 @@
   <li class="sidemenu-button">
     <a
       href="javascript:void(0)"
+      aria-label={$_('sidemenu.toggle')}
       class={'dropbtn icon-' + (showSidemenu ? 'cancel' : 'menu')}
       on:click={() => (showSidemenu = !showSidemenu)} />
   </li>
@@ -97,7 +98,7 @@ Taken from https://www.w3schools.com/css/css_navbar.asp  **/
     display: inline-block;
     color: white;
     text-align: center;
-    padding: 0.5rem 1rem;
+    padding: 0.7rem 1rem;
     text-decoration: none;
     transition: background-color 0.17s;
   }
@@ -138,15 +139,30 @@ Taken from https://www.w3schools.com/css/css_navbar.asp  **/
     display: block;
   }
 
-  @media only screen and (max-width: 550px) {
+
+  @media only screen and (max-width: 680px) {
     li a,
     .dropbtn {
-      padding: 0.8rem 1rem;
+      padding: 0.95rem 1rem;
     }
 
     .dropdown-content a,
     .dropdown-content label {
-      padding: 0.9rem 16px;
+      padding: 1rem 16px;
+    }
+  }
+
+  @media only screen and (max-width: 365px) {
+    li a,
+    .dropbtn {
+      padding: 0.95rem 0.85rem;
+    }
+  }
+
+  @media only screen and (max-width: 328px) {
+    li a,
+    .dropbtn {
+      padding: 0.95rem 0.6rem;
     }
   }
 
@@ -155,7 +171,7 @@ Taken from https://www.w3schools.com/css/css_navbar.asp  **/
   .sidemenu-button {
     float: right;
   }
-  @media only screen and (min-width: 550px) {
+  @media only screen and (min-width: 681px) {
     .sidemenu-button {
       display: none;
     }

@@ -100,7 +100,7 @@
     display: none;
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: 680px) {
     div.mask.foreground {
       display: block;
       position: fixed;

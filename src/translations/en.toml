@@ -39,6 +39,7 @@ new    = "Book will be overwritten if not saved"
 "help.items" = {guide = "Guide", forum = "Lgl forum", about = "About"}
 
 [sidemenu]
+toggle   = "Toggle sidemenu"
 find     = "Find..."
 chapters = "Chapters"
 sections = "Sections"
@@ -48,6 +49,17 @@ quickadd = "Quick add"
 add      = "Add entity"
 edit     = "Edit entity"
 delete   = "Delete entity"
+
+[editor.buttons]
+bold       = "Bold"
+italic     = "Italic"
+underline  = "Underline"
+left       = "Left align"
+right      = "Right align"
+center     = "Center align"
+justify    = "Justify"
+clean      = "Clean formatting"
+
 
 [about]
 contact = "Contact me"
