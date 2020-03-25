@@ -50,9 +50,22 @@
   }
 
   :global(#text-editor) {
-    overflow-y: hidden;
+    overflow-y: auto;
     flex-grow: 1;
     flex-basis: 0;
+    min-height: 70vh;
+  }
+
+  @media only screen and (max-height: 650px) {
+    :global(#text-editor) {
+      min-height: 60vh;
+    }
+  }
+
+  @media only screen and (max-height: 400px) {
+    :global(#text-editor) {
+      min-height: 45vh;
+    }
   }
 
   :global(#code-editor, .editor-container) {
