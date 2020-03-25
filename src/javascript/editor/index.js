@@ -54,6 +54,9 @@ setFlushHandler( entity => {
 if (window.hljs) window.hljs.configure({ languages: ['xml'] })
 const mount = querySelector => {
   quillEditor = new window.Quill(querySelector, {
+    formats: [
+      'bold', 'italic', 'underline', 'align', 'link', 'todo', 'lgcode'
+    ],
     modules: {
       syntax: window.hljs ? true : false, // Include syntax module
       toolbar: [
