@@ -5,6 +5,7 @@ import toml from 'rollup-plugin-toml';
 import livereload from 'rollup-plugin-livereload';
 import globImport from 'rollup-plugin-glob-import'// Resolve glob inside imports
 import serve from 'rollup-plugin-serve'
+import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import { string } from "rollup-plugin-string";
 
@@ -36,6 +37,23 @@ export default {
 		}),
 		commonjs(),
     // Minifica i js
+    production && babel({
+      runtimeHelpers: true,
+      extensions: ['.js', '.mjs', '.html', '.svelte'],
+      "presets": [
+        ["@babel/preset-env",
+          {"targets": {
+            "chrome": "55",
+            "ie": "10",
+            "firefox": "30",
+          }},
+        ]
+      ],
+      "plugins": [
+          ["@babel/transform-runtime"]
+      ],
+
+    }),
     production && terser(),       // Minify only on production
     // Apre un server alla porta :10015 + livereload
     !production && serve({         // Open browser on watch

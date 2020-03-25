@@ -1,6 +1,6 @@
 {
-  "name": "svelte-app",
-  "version": "1.0.0",
+  "name": "Lgcjs",
+  "version": "0.1.5",
   "scripts": {
     "build": "rollup -c",
     "clean": "rm -fr ./release; rm -fr ./dist/build",
@@ -8,10 +8,14 @@
     "dev": "rollup -c -w"
   },
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
     "pkg": "^4.4.3",
     "rollup": "^1.20.0",
+    "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-glob-import": "^0.4.5",
     "rollup-plugin-livereload": "^1.0.4",
@@ -24,6 +28,8 @@
     "svelte-i18n": "^3.0.1"
   },
   "dependencies": {
+    "@babel/runtime": "^7.9.2",
+    "babel-preset-env": "^1.7.0",
     "docx": "^5.0.2",
     "file-saver": "^2.0.2"
   }
