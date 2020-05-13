@@ -60,6 +60,7 @@ right      = "Allinea a destra"
 center     = "Allinea al centro"
 justify    = "Giustificato"
 clean      = "Rimuovi formattazioni"
+quicklink  = "Aggiungi link (ctrl+L)"
 
 [about]
 contact = "Contattami"

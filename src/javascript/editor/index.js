@@ -50,24 +50,32 @@ setFlushHandler( entity => {
 })
 
 
+
 /** Monta l'instanza  */
 if (window.hljs) window.hljs.configure({ languages: ['xml'] })
-const mount = querySelector => {
+const mount = (toolbarSelector, querySelector) => {
   quillEditor = new window.Quill(querySelector, {
     formats: [
       'bold', 'italic', 'underline', 'align', 'link', 'todo', 'lgcode'
     ],
     modules: {
       syntax: window.hljs ? true : false, // Include syntax module
-      toolbar: [
+      toolbar: toolbarSelector,
+      /*[
         ['bold', 'italic', 'underline'],
         //[{ font: [] }],
         [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
         ['clean'],
-      ],
+      ],*/
     },
     theme: 'snow',
   })
+
+  document.querySelector('.ql-quicklink').addEventListener('click', function() {
+    const sel = (quillEditor.getSelection() || {index: quillEditor.getLength()}).index 
+    quillEditor.insertText(sel, "{link :@T}", "user")
+    quillEditor.setSelection(sel +6)
+  });
 
   setLinkHandler((number) => {
     const bookData = book.getData()

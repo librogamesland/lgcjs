@@ -30,7 +30,9 @@
     border: 1px #ddd solid;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
-    margin-left: calc((100% - 225px) / 2);
+    margin-left: auto;
+    margin-right: auto;
+    resize: both;
   }
 
   section {

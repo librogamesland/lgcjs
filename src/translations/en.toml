@@ -59,6 +59,7 @@ right      = "Right align"
 center     = "Center align"
 justify    = "Justify"
 clean      = "Clean formatting"
+quicklink  = "Add link (ctrl+L)"
 
 
 [about]

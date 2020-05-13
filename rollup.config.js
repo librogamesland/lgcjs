@@ -5,7 +5,7 @@ import toml from 'rollup-plugin-toml';
 import livereload from 'rollup-plugin-livereload';
 import globImport from 'rollup-plugin-glob-import'// Resolve glob inside imports
 import serve from 'rollup-plugin-serve'
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import { string } from "rollup-plugin-string";
 
@@ -38,7 +38,7 @@ export default {
 		commonjs(),
     // Minifica i js
     production && babel({
-      runtimeHelpers: true,
+      babelHelpers: 'runtime',
       extensions: ['.js', '.mjs', '.html', '.svelte'],
       "presets": [
         ["@babel/preset-env",

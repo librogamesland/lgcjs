@@ -15,6 +15,8 @@
         }
         if(key in handlers){
           handlers[key]()
+          e.stopPropagation()
+          e.stopImmediatePropagation()
           e.preventDefault()
         }
       }
