@@ -97,17 +97,38 @@ const Highlighter = function(editor) {
     editor.formatText(0, editor.getText().length, format, false)
   })
 
-  // Azioni da eseguire a ogni update del testo
-  const onTextUpdate = function(delta, oldDelta, source) {
-    if (source == 'user') { off(); on(); }
+
+  let enabled = false
+  function debounced(delay, fn) {
+    let timerId;
+    return function (...args) {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+      timerId = setTimeout(() => {
+        if(enabled) fn(...args);
+        timerId = null;
+      }, delay);
+    }
   }
+
+  // Azioni da eseguire a ogni update del testo
+  const onTextUpdate = debounced(300, function(delta, oldDelta, source) {
+    if (source == 'user') { off(); on(); }
+  })
 
   // Metodi pubblici
   Object.assign(this, {
     on,
     off,
-    start: () => editor.on('text-change', onTextUpdate),
-    stop : () => editor.off('text-change', onTextUpdate),
+    start: () => {
+      enabled = true
+      editor.on('text-change', onTextUpdate)
+    },
+    stop : () => {
+      enabled = false
+      editor.off('text-change', onTextUpdate)
+    },
   })
 }
 
