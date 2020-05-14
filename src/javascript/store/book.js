@@ -31,6 +31,9 @@ const bookName = new (function() {
 })()
 
 let bookData = storage.getObj(storage.keys.BOOK_DATA, decode(welcomeBook))
+if(Object.keys(bookData.entities || {}).length == 0){
+  bookData = decode(welcomeBook)
+}
 window.book = () => bookData
 
 let flushHandler = () => {}

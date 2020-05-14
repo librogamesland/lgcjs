@@ -61,20 +61,26 @@ const mount = (toolbarSelector, querySelector) => {
     modules: {
       syntax: window.hljs ? true : false, // Include syntax module
       toolbar: toolbarSelector,
-      /*[
-        ['bold', 'italic', 'underline'],
-        //[{ font: [] }],
-        [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
-        ['clean'],
-      ],*/
     },
     theme: 'snow',
   })
 
   document.querySelector('.ql-quicklink').addEventListener('click', function() {
-    const sel = (quillEditor.getSelection() || {index: quillEditor.getLength()}).index 
+    const sel = (quillEditor.getSelection() || {index: quillEditor.getLength()}).index
     quillEditor.insertText(sel, "{link :@T}", "user")
     quillEditor.setSelection(sel +6)
+  });
+
+  document.querySelector('.ql-firstlink').addEventListener('click', function() {
+    const entity = book.availableKey()
+    const entityStr = String(entity)
+    book.update(bookData => {
+      bookData.entities[entity] = { data: '<p></p>' }
+    })
+
+    const sel = (quillEditor.getSelection() || {index: quillEditor.getLength()}).index
+    quillEditor.insertText(sel, `{link ${entityStr}:@T}`, "user")
+    quillEditor.setSelection(sel + 10 + entityStr.length)
   });
 
   setLinkHandler((number) => {

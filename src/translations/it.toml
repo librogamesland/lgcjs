@@ -46,10 +46,10 @@ chapters = "Paragrafi"
 sections = "Sezioni"
 
 [sidemenu.actions]
-quickadd = "Aggiungi rapido"
-add      = "Aggiungi entità"
-edit     = "Modifica entità"
-delete   = "Elimina entità"
+quickadd = "Aggiungi rapido (ctrl+Q)"
+add      = "Aggiungi entità (ctrl+R)"
+edit     = "Modifica entità (ctrl+E)"
+delete   = "Elimina entità (ctrl+D)"
 
 [editor.buttons]
 bold       = "Grassetto"
@@ -60,6 +60,7 @@ right      = "Allinea a destra"
 center     = "Allinea al centro"
 justify    = "Giustificato"
 clean      = "Rimuovi formattazioni"
+firstlink  = "Link al primo paragrafo disponibile (ctrl+K)"
 quicklink  = "Aggiungi link (ctrl+L)"
 
 [about]

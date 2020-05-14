@@ -80,6 +80,26 @@
       currentEntity.set(entity)
     }
   }
+
+  const handleKeydown = function(e) {
+      if (e.ctrlKey) {
+        const key = String.fromCharCode(e.keyCode).toUpperCase()
+        if(key === 'Q'){
+          addQ()
+        }else if(key === 'R'){
+          add()
+        }else if(key === 'E'){
+          edit()
+        }else if(key === 'D'){
+          del()
+        }else{ return }
+        e.stopPropagation()
+        e.stopImmediatePropagation()
+        e.preventDefault()
+      }
+      return false
+  }
+
 </script>
 
 <style>
@@ -115,6 +135,9 @@
     }
   }
 </style>
+
+<svelte:window on:keydown={handleKeydown}/>
+
 
 <div class="buttons">
   <div class="icon-flash" on:click={addQ} title={$_('sidemenu.actions.quickadd')} />

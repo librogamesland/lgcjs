@@ -60,7 +60,7 @@ export default {
       open: true,
       contentBase: '../',
       openPage: '/lgcjs/dist/index.html',
-      host: 'localhost',
+      host: '0.0.0.0',
       port: 10015,
     }),
     !production && livereload(),  // Livereload on watch
