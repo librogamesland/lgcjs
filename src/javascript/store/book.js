@@ -1,6 +1,6 @@
 import { tick } from 'svelte'
 import { writable } from 'svelte/store'
-import { encode, decode } from '../utils/xlgcParser.js'
+import { encode, decode } from 'rollup-plugin-lgcjs/js/xlgcParser.js'
 import { getLocaleFromNavigator } from 'svelte-i18n'
 
 import emptyBook from '../books/empty.xlgc'

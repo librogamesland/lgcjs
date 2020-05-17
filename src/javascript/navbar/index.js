@@ -35,7 +35,7 @@ const navbar = {
     docx: { type: 'button',  handler: () => book.exportBook(exports.docx) },
     fodt: { type: 'button',  handler: () => book.exportBook(exports.fodt) },
     json: { type: 'button',  handler: () => book.exportBook(exports.json) },
-    appjs: { type: 'button', handler: () => book.exportBook(exports.appjs) },
+    vuejs: { type: 'button', handler: () => book.exportBook(exports.vuejs) },
   },
   help: {
     guide: { type: 'link', href: guide },

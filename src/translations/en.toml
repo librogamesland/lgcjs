@@ -33,7 +33,7 @@ new    = "Book will be overwritten if not saved"
 "export.items.docx"  = "Word (.docx)"
 "export.items.fodt"  = "Libreoffice (.fodt)"
 "export.items.json"  = "Json"
-"export.items.appjs" = "App.js"
+"export.items.vuejs" = "Vue.js"
 
 "help.title" = "Help"
 "help.items" = {guide = "Guide", forum = "Lgl forum", about = "About"}
