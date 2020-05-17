@@ -15,7 +15,7 @@
               ? ' - ' + $book.entities[$currentEntity].title
               : ''
           }`,
-    ...($showCode && { code: 'CodeEditor' }),
+    //...($showCode && { code: 'CodeEditor' }),
   }
 </script>
 

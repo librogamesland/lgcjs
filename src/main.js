@@ -1,4 +1,6 @@
 import App from './App.svelte'
+import lgcdev from './javascript/lgcdev'
+
 
 import { addMessages, init, getLocaleFromNavigator } from 'svelte-i18n'
 import * as languages from './translations/*.toml'

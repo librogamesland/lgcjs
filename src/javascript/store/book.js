@@ -3,6 +3,7 @@ import { writable } from 'svelte/store'
 import { encode, decode } from 'rollup-plugin-lgcjs/js/xlgcParser.js'
 import { getLocaleFromNavigator } from 'svelte-i18n'
 
+import lgcdev from '../lgcdev'
 import emptyBook from '../books/empty.xlgc'
 import welcomeBookEn from '../books/welcome-en.xlgc'
 import welcomeBookIt from '../books/welcome-it.xlgc'
@@ -102,6 +103,10 @@ const book = new (function() {
       if (entity in bookData.entities) continue
       return entity
     }
+  }
+
+  if(lgcdev){
+    lgcdev.read().then( text => load("devmode", text))
   }
 
   // Public api

@@ -1,11 +1,16 @@
 <script>
+  import lgcdev from '../javascript/lgcdev'
   import Tabbar from './Tabbar.svelte'
   import { onMount, tick } from 'svelte'
   import { _ } from 'svelte-i18n'
   import itemplate from '../emulator/template.htm'
 
   let iframe = null
-  const refreshIFrame = () => {
+  const refreshIFrame = async () => {
+    if(lgcdev){
+      iframe.src = await lgcdev.appURL
+      return
+    }
     iframe.contentDocument.open()
     iframe.contentDocument.write(itemplate)
     iframe.contentDocument.close()

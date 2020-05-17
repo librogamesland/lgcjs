@@ -3,6 +3,8 @@
 
 */
 // Import languages, settings, dialogs and book
+import lgcdev from '../lgcdev'
+
 import { showCode } from '../store/settings.js'
 import { confirm, about } from '../utils/dialogs.js'
 import { download } from '../utils/file.js'
@@ -48,9 +50,24 @@ const navbar = {
   },
 }
 
+// Add sync to devmode
+if(lgcdev){
+  navbar.file["sync"] = {
+    type: 'button',
+    handler: () => book.save((filename, text) => lgcdev.write(text))
+  }
+}
+
 const handlers = {
   N: () => navbar.file.new.handler(),
-  S: () => navbar.file.save.handler(),
+  S: () => {
+    // If devmode sync instead of saving
+    if(lgcdev){
+      navbar.file.sync.handler()
+      return
+    }
+    navbar.file.save.handler()
+  },
 }
 
 export {navbar, handlers}
