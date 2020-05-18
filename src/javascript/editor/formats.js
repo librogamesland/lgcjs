@@ -124,7 +124,7 @@ const Highlighter = function(editor) {
     if (source == 'user') { off(); on(); }
   })
 
-  console.log(mobileAndTabletCheck() ? "mobile": "desktop")
+  // console.log(mobileAndTabletCheck() ? "mobile": "desktop")
 
   // Metodi pubblici
   Object.assign(this, {

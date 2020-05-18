@@ -31,6 +31,12 @@
     book: 'Libro',
     ...($showCode && { code: 'Code' }),
   }
+
+  $: showgoto = $showCode
+  const gotoEntity = (entity) => {
+    document.querySelector('.devpanel iframe')
+      .contentWindow.postMessage("goto-" + entity, "*")
+  }
 </script>
 
 <div
@@ -45,6 +51,9 @@
       <p
         class:selected={entity == $currentEntity}
         on:click={() => open(entity)}>
+        {#if showgoto}
+        <i class="icon-download" on:click|stopPropagation={() => gotoEntity(entity)}/>
+        {/if}
         {entity}
         <b>{$book.entities[entity].title || ''}</b>
         {#each $book.entities[entity].flags || [] as flag}
@@ -57,6 +66,9 @@
       <p
         class:selected={entity == $currentEntity}
         on:click={() => open(entity)}>
+        {#if showgoto}
+        <i class="icon-download" on:click|stopPropagation={() => gotoEntity(entity)}/>
+        {/if}
         {entity}
         <b>{$book.entities[entity].title || ''}</b>
       </p>

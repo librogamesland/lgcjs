@@ -63,6 +63,6 @@ export default {
       host: '0.0.0.0',
       port: 10015,
     }),
-    !production && livereload(),  // Livereload on watch
+    //!production && livereload(),  // Livereload on watch
 	],
 };

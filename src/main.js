@@ -5,6 +5,16 @@ import lgcdev from './javascript/lgcdev'
 import { addMessages, init, getLocaleFromNavigator } from 'svelte-i18n'
 import * as languages from './translations/*.toml'
 
+
+window.addEventListener("message", receiveMessage, false);
+
+function receiveMessage(event) {
+  if(event.data.type === 'console'){
+    console[event.data.call](...event.data.args)
+  }
+}
+
+
 // Set language support
 Object.entries(languages).forEach( ([k, l]) => addMessages(k, l))
 init({
