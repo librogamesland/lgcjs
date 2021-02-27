@@ -40,13 +40,13 @@
       <div>
         <h3>{$_(params.title)}</h3>
         <p>{$_(params.text)}</p>
-        <button autofocus class="ok" on:click={() => callback(true)}>{ok}</button>
+        <button class="ok" on:click={() => callback(true)}>{ok}</button>
       </div>
     {:else if dialog === 'confirm'}
       <div>
         <h3>{$_(params.title)}</h3>
         <p>{$_(params.text)}</p>
-        <button autofocus class="ok" on:click={() => callback(true)}>{ok}</button>
+        <button class="ok" on:click={() => callback(true)}>{ok}</button>
         <button class="cancel" on:click={() => callback(false)}>{cancel}</button>
       </div>
     {:else if dialog === 'about'}
@@ -56,7 +56,7 @@
         <br>
         <p>{@html $_('about.text')}</p>
         <p>{$_('about.contact')}: <a target="_blank" rel="noopener" href="mailto:luc.fabbian@gmail.com?subject=Lgcjs%20-%20Segnalazione">luc.fabbian@gmail.com</a></p>
-        <button autofocus class="ok" on:click={() => callback(true)}>{ok}</button>
+        <button class="ok" on:click={() => callback(true)}>{ok}</button>
       </div>
     {:else if dialog === 'entity'}
       <div>
@@ -79,13 +79,12 @@
               <div
                 class:selected={flags[flag]}
                 on:click={() => (flags[flag] = !flags[flag])}>
-                <img src={`./static/flags/${flag}.png`} />
+                <img alt={flag} src={`./static/flags/${flag}.png`} />
               </div>
             {/each}
           </div>
         {/if}
         <button
-          autofocus
           class="ok"
           on:click={() => callback({
               key,
@@ -181,7 +180,7 @@
   }
 
   .dialog-container > div.about p {
-    line-height: 1.2rem;
+    line-height: 1.4rem;
   }
 
 
@@ -213,4 +212,6 @@
     background-color: #4670a6;
     color: white;
   }
+
+
 </style>

@@ -32,6 +32,7 @@ new    = "Book will be overwritten if not saved"
 "export.title" = "Export"
 "export.items.docx"  = "Word (.docx)"
 "export.items.fodt"  = "Libreoffice (.fodt)"
+"export.items.md"    = "Markdown (.md)"
 "export.items.json"  = "Json"
 "export.items.vuejs" = "Vue.js"
 
