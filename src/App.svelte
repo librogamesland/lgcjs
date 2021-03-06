@@ -1,78 +1,68 @@
 <script>
-  // Import components
-  import { Dialogs, Navbar, Sidemenu, Editor,  DevPanel, } from './components/*.svelte'
+  /* Componente base dell'applicazione
+  Importa gli altri componenti e li dispone a schermo
+  @Luca Fabbian - v1.0 */
 
-  // Component state
-  import { bookName } from './javascript/store/book.js'
-  import { showCode } from './javascript/store/settings.js'
+  import Dialogs from './components/Dialogs.svelte'
+  import Navbar  from './components/Navbar.svelte'
+  import Editor  from './components/Editor.svelte'
+  import Sidebar from './components/Sidebar.svelte'
+
+  import { book } from './javascript/book.js'
+  import { handleShortcuts } from './javascript/shortcuts.js'
+
   let showSidemenu = false
 </script>
 
+
 <svelte:head>
-  {#if !(/bot|google|baidu|bing|msn|duckduckbot|teoma|slurp|yandex/i
-    .test(navigator.userAgent))}
-  <title>{$bookName}</title>
+  {#if !(/bot|google|baidu|bing|msn|duckduckbot|teoma|slurp|yandex/i  
+    .test(navigator.userAgent)) }
+  <title>{$book.properties.title}</title>
   {/if}
 </svelte:head>
 
+<svelte:window on:keydown={handleShortcuts}/>
 
 <Dialogs />
 <Navbar bind:showSidemenu />
-<main class:resize={!$showCode}>
-  <Sidemenu bind:foreground={showSidemenu} />
-  <Editor />
-  {#if $showCode}
-    <DevPanel />
-  {/if}
-</main>
+<Sidebar bind:foreground={showSidemenu} />
+<Editor bind:showSidemenu />
+
 
 <style>
   :global(body, html) {
-    display: flex;
-    flex-direction: column;
-    overflow-y: hidden;
     margin: 0;
     padding: 0;
-    height: 100%;
     color: black;
-  }
-
-  :global(main) {
-    height: 0;
-    flex-grow: 1;
-    padding: 2.5px;
-    padding-bottom: 1.3rem;
-    display: flex;
-    background-color: var(--color-background, #bbcee8);
     box-sizing: border-box;
+    font-family: arial,sans-serif;
+    height: 100%;
+    overscroll-behavior-y: contain;
   }
 
-  :global(main > *) {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    margin: 3px;
-    border-radius: 2px;
-    border: 1px solid grey;
-    background-color: var(--color-section, #fff);
+  :global(body){
+    display: grid;
+    width: 100vw;
+    
+    grid-template-rows: minmax(min-content, max-content) 1fr;
+    grid-template-columns: 1fr calc(20vw + 140px);
+    grid-template-areas: 
+      "navbar navbar"
+      "editor sidebar"
   }
-
-  @media only screen and (min-width: 1150px) {
-    :global(main.resize) {
-      width: 100vw;
-      padding-left: 7vw;
-      padding-right: 9vw;
-    }
-  }
-
   @media only screen and (max-width: 680px) {
-    :global(main) {
-      display: grid;
-      grid-template-rows: 100%;
+    :global(body){
+      grid-template-columns: 1fr;
+      grid-template-areas: 
+      "navbar"
+      "editor"
     }
+  }
 
-    :global(main > *) {
-      grid-area: 1 / 1;
-    }
+  :global(main, aside, nav){
+    min-width: 0; 
+    min-height: 0; 
+    overflow: auto;
   }
 </style>

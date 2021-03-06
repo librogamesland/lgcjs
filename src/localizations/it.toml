@@ -1,0 +1,82 @@
+
+
+[dialogs]
+confirm = "Confermi?"
+error   = "Errore"
+ok      = "Ok"
+cancel  = "Annulla"
+
+[dialogs.entity]
+add    = "Aggiungi entità"
+edit   = "Modifica entità"
+delete = "L'entità verrà eliminata"
+exist  = "Questa entità esiste già"
+
+name   = "Nome"
+type   = "Tipo"
+group  = "Gruppo"
+title  = "Titolo"
+
+[dialogs.text]
+new    = "Il libro verrà sovrascritto se non salvato"
+
+
+[navbar]
+"file.title" = "File"
+"file.items" = {new = "Nuovo", open = "Apri...", save = "Salva"}
+
+"edit.title" = "Modifica"
+"edit.items.todo" = "Mostra lista to-do"
+
+"view.title" = "Visualizza"
+"view.items.togglecode" = "Apri strumenti sviluppatore"
+
+"export.title" = "Esporta"
+"export.items.docx"  = "Word (.docx)"
+"export.items.fodt"  = "Libreoffice (.fodt)"
+"export.items.md"    = "Markdown (.md)"
+"export.items.json"  = "Json"
+"export.items.vuejs" = "Vue.js"
+
+"help.title" = "Aiuto"
+"help.items" = {guide = "Guida", forum = "Forum Lgl", about = "Info"}
+
+[sidemenu]
+toggle   = "Apri menu laterale"
+find     = "Cerca..."
+chapters = "Paragrafi"
+sections = "Sezioni"
+linkshere = "Link al par."
+
+[sidemenu.actions]
+quickadd = "Aggiungi rapido (ctrl+Q)"
+add      = "Aggiungi entità (ctrl+R)"
+edit     = "Modifica entità (ctrl+E)"
+delete   = "Elimina entità (ctrl+D)"
+
+[editor.buttons]
+bold       = "Grassetto"
+italic     = "Corsivo"
+underline  = "Sottolineato"
+left       = "Allinea a sinistra"
+right      = "Allinea a destra"
+center     = "Allinea al centro"
+justify    = "Giustificato"
+clean      = "Rimuovi formattazioni"
+firstlink  = "Link al primo paragrafo disponibile (ctrl+K)"
+quicklink  = "Aggiungi link (ctrl+L)"
+
+[about]
+contact = "Contattami"
+text = """
+Lgcjs è un editor di librogame sviluppato da <b>Luca Fabbian</b> con il supporto della community di Lgl,
+basato su LibroGameCreator3 di <b>Matteo Poropat</b>."""
+
+[book]
+guide = ""
+welcome = """
+# Welcome
+author: 
+
+
+"""

@@ -1,185 +1,136 @@
 <script>
   import { _ } from 'svelte-i18n'
-  import { read } from '../javascript/utils/file.js'
-  import {navbar, handlers} from '../javascript/navbar'
+  import { about } from './Dialogs.svelte'
+  import { read } from '../javascript/file.js'
+  import { ctrlShortcuts } from '../javascript/shortcuts.js'
 
   export let showSidemenu = false
 
-  const handleKeydown = function(e) {
-      if (e.ctrlKey) {
-        const key = String.fromCharCode(e.keyCode).toUpperCase()
-        if(key === 'O'){
-          document.getElementById(`file_open`).click()
-          e.preventDefault()
-          return
-        }
-        if(key in handlers){
-          handlers[key]()
-          e.stopPropagation()
-          e.stopImmediatePropagation()
-          e.preventDefault()
-        }
-      }
+
+  const open = (...args) => {
+    console.log(args)
   }
+
+
+  ctrlShortcuts({
+    'O': () => document.getElementById('open').click()
+  })
+
+ 
 </script>
 
 
-<svelte:window on:keydown={handleKeydown}/>
+<nav>
+  <div>
+    <h1>{$_('navbar.file.title')}</h1>
+    <div class="content">
+      <p>{$_('navbar.file.new')}</p>
+      <input type="file" name="open" id="open"
+        accept=".xlgc,.json,.md"
+        on:change={e => read(e.target, open )} />
+      <label for="open">{$_("navbar.file.open")} </label>
+      <p>{$_('navbar.file.save')}</p>
+    </div>
+  </div>
 
-<ul>
-  {#each Object.entries(navbar) as [tab, items]}
-    <li class="dropdown">
-      <a href="javascript:void(0)" class="dropbtn">
-        {$_(`navbar.${tab}.title`)}
+  <div>
+    <h1>{$_('navbar.export.title')}</h1>
+    <div class="content">
+      <p>{$_('navbar.export.docx')}</p>
+      <p>{$_('navbar.export.fodt')}</p>
+      <p>{$_('navbar.export.json')}</p>
+      <p>{$_('navbar.export.vuejs')}</p>
+    </div>
+  </div>
+
+  <!-- Help -->
+  <div>
+    <h1>{$_('navbar.help.title')}</h1>
+    <div class="content">
+      <a href={'../guide/pdf/' + $_('navbar.help.guidefile')} target="_blank" rel="noopener">
+        {$_('navbar.help.guide')}
       </a>
-      <div class="dropdown-content">
-        {#each Object.entries(items) as [key, item]}
-          {#if item.type === 'button'}
-            <a
-              href="javascript:void(0)"
-              on:click={() => {
-                item.handler()
-              }}>
-              {$_(`navbar.${tab}.items.${key}`)}
-            </a>
-          {:else if item.type === 'link'}
-            <a href={item.href} target="_blank" rel="noopener">
-              {$_(`navbar.${tab}.items.${key}`)}
-            </a>
-          {:else if item.type === 'fileinput'}
-            <input
-              type="file"
-              name="file"
-              id={`${tab}_${key}`}
-              accept=".xlgc"
-              on:change={e => read(e.srcElement, item.handler)} />
-            <label for={`${tab}_${key}`}>
-              {$_(`navbar.${tab}.items.${key}`)}
-            </label>
-          {/if}
-        {/each}
-      </div>
-    </li>
-  {/each}
-  <li class="sidemenu-button">
-    <a
-      href="javascript:void(0)"
-      aria-label={$_('sidemenu.toggle')}
-      class={'dropbtn icon-' + (showSidemenu ? 'cancel' : 'menu')}
+      <a href="http://www.librogame.net/index.php/forum/topic?id=5182&p=1#p148583" target="_blank" rel="noopener">
+        {$_('navbar.help.forum')}
+      </a>
+      <p on:click={about}>{$_('navbar.help.about')}</p>
+    </div>
+  </div>
+
+  <div class="sidemenu-button">
+    <span aria-label={$_('sidemenu.toggle')} class="dropbtn icon-menu"
       on:click={() => (showSidemenu = !showSidemenu)} />
-  </li>
-</ul>
+  </div>
+</nav>
 
 
 <style>
-  /** Navbar ul/li/dropdown styling
-Taken from https://www.w3schools.com/css/css_navbar.asp  **/
-  ul {
-    user-select: none;
-    font-size: 0.9rem;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+  nav {
+    grid-area: navbar;
+    display: flex;
+    flex-direction: row;
     background-color: #333;
-    padding-left: 2.3vw;
+    color: #fff;
+    user-select: none;
+    padding-left: calc(5.5vw - 12px);
+    box-sizing: border-box;
   }
 
-  @media only screen and (min-width: 1150px) {
-    ul {
-      padding-left: 11.3vw;
-    }
-  }
-
-  li {
-    float: left;
-  }
-
-  li a,
-  .dropbtn {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 0.7rem 1rem;
-    text-decoration: none;
-    transition: background-color 0.17s;
-  }
-
-  li a:hover,
-  .dropdown:hover .dropbtn {
-    background-color: #3978cd;
-  }
-
-  li.dropdown {
-    display: inline-block;
-  }
-
-  .dropdown-content {
+  .content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
+    color: black;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 20000;
   }
 
-  .dropdown-content a,
-  .dropdown-content label {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
+  h1, .dropbtn, .content > * {
     display: block;
-    text-align: left;
+    padding: 0.9rem calc(0.8rem + 1.5vw);
+    font-size: 1.1rem !important;
+    margin: 0;
+    font-weight: normal;
+    cursor: pointer;
   }
 
-  .dropdown-content a:hover,
-  .dropdown-content label:hover {
-    background-color: #f1f1f1;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+  /*@media (any-pointer: coarse) {
+    h1, .dropbtn, .content > * {
+      padding-top: 0.9rem;
+      padding-bottom: 0.9rem;
+    }
+  }*/
 
 
+  .dropbtn { display: none;}
   @media only screen and (max-width: 680px) {
-    li a,
-    .dropbtn {
-      padding: 0.95rem 1rem;
-    }
-
-    .dropdown-content a,
-    .dropdown-content label {
-      padding: 1rem 16px;
-    }
+    .dropbtn { display: block;}
   }
 
-  @media only screen and (max-width: 365px) {
-    li a,
-    .dropbtn {
-      padding: 0.95rem 0.85rem;
-    }
+  .content > * {
+    background-color: #f9f9f9;
+    color: black;
+    text-decoration: none;
   }
 
-  @media only screen and (max-width: 328px) {
-    li a,
-    .dropbtn {
-      padding: 0.95rem 0.6rem;
-    }
+  div:hover h1, div:hover .dropbtn{
+    background-color: #345b73;
+  }
+
+  .content > *:hover {
+    background-color: #ddd;
+  }
+
+  div:hover .content{
+    display: block;
   }
 
 
-  /** Show/Hide sidemenu button **/
   .sidemenu-button {
-    float: right;
-  }
-  @media only screen and (min-width: 681px) {
-    .sidemenu-button {
-      display: none;
-    }
+    margin-left: auto;
   }
 
-  /** Hide browser default "choose file" component **/
   input[type='file'] {
     width: 0.1px;
     height: 0.1px;
@@ -188,4 +139,7 @@ Taken from https://www.w3schools.com/css/css_navbar.asp  **/
     position: absolute;
     z-index: -1;
   }
+
 </style>
+
+

@@ -1,113 +1,88 @@
 <script>
-  import { tick } from 'svelte'
   import { _ } from 'svelte-i18n'
+  import {book, chapter} from '../javascript/book.js'
+  import * as dialog from './Dialogs.svelte'
+  import { ctrlShortcuts } from '../javascript/shortcuts.js'
 
-  import * as dialog from '../javascript/utils/dialogs.js'
-  import { currentEntity, book, entities } from '../javascript/store/book.js'
 
-  export let foreground = false
-  const open = entity => {
-    foreground = false
-    currentEntity.set(entity)
-  }
-
-  const addQ = () => {
-    const entity = book.availableKey()
-    book.update(bookData => {
-      bookData.entities[entity] = { data: '<p></p>' }
-    })
-    currentEntity.set(entity)
-    foreground = false
-  }
 
   const add = async () => {
-    const entity = entities.empty()
-    const { key, obj } = await dialog.entity(
+    const newChapter = book.newChapter()
+    const { key, value } = await dialog.chapter(
       'dialogs.entity.add',
       book.availableKey(),
-      entity
+      newChapter
     )
 
     if (!key) return
-    if (key in $book.entities) {
-      await alert('dialogs.error', 'dialogs.entity.exists')
-      return
-    }
-    book.update(bookData => {
-      bookData.entities[key] = entities.format({ ...entity, ...obj })
+    book.update( ({chapters }) => {
+      if (key in chapters) {
+        alert('dialogs.error', 'dialogs.entity.exists')
+        return {}
+      }
+
+      chapters[key] = value
+      return {key, chapters}
     })
-    open(key)
   }
+
 
   const edit = async () => {
-    const entity = currentEntity.unload()
-    const entityObj = $book.entities[entity]
-    const { key, obj } = await dialog.entity(
+    console.log($chapter.value)
+    const { key, value } = await dialog.chapter(
       'dialogs.entity.edit',
-      entity,
-      entityObj
+      $chapter.key,
+      $chapter.value
     )
-    if (!key) {
-      currentEntity.set(entity)
-      return
-    }
-    if (entity !== key && key in $book.entities) {
-      currentEntity.set(entity)
-      await dialog.alert('dialog.error', 'dialogs.entity.exists')
-      return
-    }
-    await tick()
-    book.update(bookData => {
-      delete bookData.entities[entity]
-      bookData.entities[key] = { ...entityObj, ...obj }
+
+    if (!key) return
+    book.update( ({chapters }) => {
+      // Non permette la sovrascrittura di altri
+      // paragrafi oltre a quello attuale
+      if (key !== $chapter.key && key in chapters) {
+        alert('dialogs.error', 'dialogs.entity.exists')
+        return {}
+      }
+
+      delete chapters[$chapter.key]
+      chapters[key] = value
+      return {key, chapters}
     })
-    currentEntity.set(key)
-    foreground = false
   }
+
 
   const del = async () => {
-    const entity = currentEntity.unload()
     if (await dialog.confirm('dialogs.confirm', `dialogs.entity.delete`)) {
-      // Set new entity as the previous
-      await tick()
-      const entityIndex = Object.keys($book.entities).indexOf(entity) - 1
-      book.update(bookData => {
-        delete bookData.entities[entity]
+      book.update( ({chapters }) => {
+        const index = Object.keys(chapters).indexOf($chapter.key) - 1
+        delete chapters[$chapter.key]
+        return { key: Object.keys(chapters)[index], chapters}
       })
-      currentEntity.set(Object.keys($book.entities)[Math.max(entityIndex, 0)])
-      foreground = false
-    } else {
-      currentEntity.set(entity)
     }
   }
 
-  const handleKeydown = function(e) {
-      if (e.ctrlKey) {
-        const key = String.fromCharCode(e.keyCode).toUpperCase()
-        if(key === 'Q'){
-          addQ()
-        }else if(key === 'R'){
-          add()
-        }else if(key === 'E'){
-          edit()
-        }else if(key === 'D'){
-          del()
-        }else{ return }
-        e.stopPropagation()
-        e.stopImmediatePropagation()
-        e.preventDefault()
-      }
-      return false
-  }
+  ctrlShortcuts({
+    'R': () => add(),
+    'E': () => edit(),
+    'D': () => del(),
+  })
 
 </script>
+
+<div class="buttons">
+  <div class="icon-plus" on:click={add} title={$_('sidemenu.actions.add')} />
+  <div class="icon-pencil" on:click={edit} title={$_('sidemenu.actions.edit')} />
+  <div class="icon-trash" on:click={del} title={$_('sidemenu.actions.delete')} />
+</div>
 
 <style>
   .buttons {
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+    border: 1px solid #666;
+    border-bottom: none;
+
     background-color: #f1f1f1;
   }
 
@@ -117,31 +92,13 @@
     flex-grow: 1;
     text-align: center;
     box-sizing: border-box;
-    padding: 11px;
+    padding: 0.7rem 11px;
     content: ' ';
-    line-height: 0.9rem;
-    height: calc(22px + 0.9rem);
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
 
   .buttons > div:hover {
     background-color: #ddd;
   }
 
-  @media only screen and (max-width: 680px) {
-    .buttons > div {
-      padding: 15px 11px;
-      padding-bottom: 30px;
-    }
-  }
 </style>
-
-<svelte:window on:keydown={handleKeydown}/>
-
-
-<div class="buttons">
-  <div class="icon-flash" on:click={addQ} title={$_('sidemenu.actions.quickadd')} />
-  <div class="icon-plus" on:click={add} title={$_('sidemenu.actions.add')} />
-  <div class="icon-pencil" on:click={edit} title={$_('sidemenu.actions.edit')} />
-  <div class="icon-cancel" on:click={del} title={$_('sidemenu.actions.delete')} />
-</div>

@@ -1,17 +1,36 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import toml from 'rollup-plugin-toml';
-import livereload from 'rollup-plugin-livereload';
-import globImport from 'rollup-plugin-glob-import'// Resolve glob inside imports
+import commonjs from '@rollup/plugin-commonjs';
+import toml from '@fbraem/rollup-plugin-toml';
 import serve from 'rollup-plugin-serve'
 import babel from '@rollup/plugin-babel';
+import css from 'rollup-plugin-css-only';
+import json from '@rollup/plugin-json';
 import { terser } from 'rollup-plugin-terser';
 import { string } from "rollup-plugin-string";
 
 
 
 const production = !process.env.ROLLUP_WATCH;
+
+
+const babelPreset = {
+  babelHelpers: 'runtime',
+  extensions: ['.js', '.mjs', '.html', '.svelte'],
+  "presets": [
+    ["@babel/preset-env",
+      {"targets": {
+        "chrome": "55",
+        "ie": "10",
+        "firefox": "30",
+      }},
+    ]
+  ],
+  "plugins": [
+      ["@babel/transform-runtime"]
+  ],
+}
+
 
 export default {
 	input: 'src/main.js',
@@ -23,39 +42,18 @@ export default {
 	},
   watch: { clearScreen: true },
 	plugins: [
-    toml,
-    // Risolve gli import da cartella
-    globImport({format: 'default'}),
-    // Importa i file html come stringhe
-    string({ include: ["**/*.htm", "**/*.xlgc"]}),
-    // Compila i file svelte
-		svelte({	dev: !production,		css: css => {	css.write('dist/build/bundle.css') }}),
-    // Risolve gli import globali
+    toml(),
+    string({ include: ["**/*.xlgc"]}),
+		svelte({ compilerOptions: {	dev: !production	}}),
+		css({ output: 'bundle.css' }),
+    json(),
 		resolve({
 			browser: true,
-			dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/')
+			dedupe: ['svelte']
 		}),
 		commonjs(),
-    // Minifica i js
-    production && babel({
-      babelHelpers: 'runtime',
-      extensions: ['.js', '.mjs', '.html', '.svelte'],
-      "presets": [
-        ["@babel/preset-env",
-          {"targets": {
-            "chrome": "55",
-            "ie": "10",
-            "firefox": "30",
-          }},
-        ]
-      ],
-      "plugins": [
-          ["@babel/transform-runtime"]
-      ],
-
-    }),
+    production && babel(babelPreset),
     production && terser(),       // Minify only on production
-    // Apre un server alla porta :10015 + livereload
     !production && serve({         // Open browser on watch
       open: true,
       contentBase: '../',
@@ -63,6 +61,5 @@ export default {
       host: '0.0.0.0',
       port: 10015,
     }),
-    //!production && livereload(),  // Livereload on watch
 	],
 };

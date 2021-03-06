@@ -1,34 +1,27 @@
+/* Punto d'ingresso dell'applicazione
+ Importa App.svelte, aggiunge supporto multilingua e offline
+ @Luca Fabbian - v1.0 */
 import App from './App.svelte'
-import lgcdev from './javascript/lgcdev'
 
-
+// Multi language support
 import { addMessages, init, getLocaleFromNavigator } from 'svelte-i18n'
-import * as languages from './translations/*.toml'
+import en from './localizations/en.toml'
+import it from './localizations/it.toml'
+
+const locale = getLocaleFromNavigator().split('-')[0];
+addMessages('en', en)
+addMessages('it', it)
+init({ fallbackLocale: 'en', initialLocale: locale })  
 
 
-window.addEventListener("message", receiveMessage, false);
-
-function receiveMessage(event) {
-  if(event.data.type === 'console'){
-    console[event.data.call](...event.data.args)
-  }
-}
-
-
-// Set language support
-Object.entries(languages).forEach( ([k, l]) => addMessages(k, l))
-init({
-  fallbackLocale: 'en',
-  initialLocale: getLocaleFromNavigator().split('-')[0],
-})
-
-// Register service worker for offline support
+// Offline support
 if ('serviceWorker' in navigator) {
   // Use the window load event to keep the page load performant
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
   })
 }
+
 
 // Export app
 export default new App({

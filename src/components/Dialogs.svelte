@@ -1,6 +1,54 @@
+<script context="module">
+  import { writable } from 'svelte/store'
+  import manifest from '../../package.json'
+
+  /* Dialogs params & state
+  
+  
+  */
+  const dialogStore = writable({})
+  const openDialog = store =>
+    new Promise((resolve) =>
+      dialogStore.set({
+        callback(...args) {
+          dialogStore.set({})
+          resolve(...args)
+        },
+        ...store,
+      })
+    )
+  export { dialogStore }
+  
+  const alert = (title, text) =>
+    openDialog({
+      dialog: 'alert',
+      params: { title, text },
+    })
+  
+  const confirm = (title, text) =>
+    openDialog({
+      dialog: 'confirm',
+      params: { title, text },
+    })
+  
+    const about = () =>
+      openDialog({
+        dialog: 'about',
+        params: { title: '', text: '' },
+      })
+  
+  const chapter = (title, key, value) =>
+    openDialog({
+      dialog: 'chapter',
+      params: { title, key, value },
+    })
+  
+  export { alert, confirm, about, chapter }
+  </script>
+
 <script>
   import { _ } from 'svelte-i18n'
-  import { dialogStore } from '../javascript/utils/dialogs.js'
+  import { tick } from 'svelte'
 
 
   $: ok     = $_('dialogs.ok')
@@ -11,25 +59,29 @@
   let dialog, callback, params
 
   // Entity input bindings
-  let dialogTitle
-  let key, type, group, title, flags
+  let key, title, flags
   const filterFlags = () => Object.keys(flags).filter(key => flags[key])
 
-  dialogStore.subscribe(value => {
+  dialogStore.subscribe( async(data) => {
     // Retrieve basic info
-    ;({ dialog, callback, params } = value)
+    ;({ dialog, callback, params } = data)
 
     // Bind inputs if required
-    if (dialog == 'entity') {
+    if (dialog == 'chapter') {
       key = params.key
-      ;({ type, group, title } = params.props)
-      const flagProps = params.props.flags || []
+      ;({ title } = params.value)
+      const flagProps = params.value.flags || []
       flags = {
         final: flagProps.includes('final'),
         fixed: flagProps.includes('fixed'),
         death: flagProps.includes('death'),
       }
     }
+
+    await tick();
+    
+    const button = document.querySelector('button.ok')
+    if(button) button.focus()
   })
 </script>
 
@@ -51,44 +103,38 @@
       </div>
     {:else if dialog === 'about'}
       <div class="about">
-        <h3>Lgcjs - v. 0.1.4</h3>
-        <img src="./static/logo/logo.png" alt="Lgcjs logo">
+        <h3>Lgcjs - v. {manifest.version}</h3>
+        <img src="./static/img/logo.png" alt="Lgcjs logo">
         <br>
         <p>{@html $_('about.text')}</p>
         <p>{$_('about.contact')}: <a target="_blank" rel="noopener" href="mailto:luc.fabbian@gmail.com?subject=Lgcjs%20-%20Segnalazione">luc.fabbian@gmail.com</a></p>
         <button class="ok" on:click={() => callback(true)}>{ok}</button>
       </div>
-    {:else if dialog === 'entity'}
+    {:else if dialog === 'chapter'}
       <div>
         <h3>{$_(params.title)}</h3>
-        <p>
-          <span class="min">{$_('dialogs.entity.name')}</span>
+        <div class="input">
+          <p>{$_('dialogs.entity.name')}</p>
           <input bind:value={key} type="text" />
-        </p>
-        <p>
-          <span class="min">{$_('dialogs.entity.group')}</span>
-          <input bind:value={group} type="text" />
-        </p>
-        <p>
-          <span class="min">{$_('dialogs.entity.title')}</span>
+        </div>
+        <div class="input">
+          <p>{$_('dialogs.entity.title')}</p>
           <input bind:value={title} type="text" />
-        </p>
-        {#if !type || type === 'chapter'}
-          <div class="flags">
-            {#each ['final', 'fixed', 'death'] as flag}
-              <div
-                class:selected={flags[flag]}
-                on:click={() => (flags[flag] = !flags[flag])}>
-                <img alt={flag} src={`./static/flags/${flag}.png`} />
-              </div>
-            {/each}
-          </div>
-        {/if}
+        </div>
+        <div class="flags">
+          {#each ['final', 'fixed', 'death'] as flag}
+            <div
+              class:selected={flags[flag]}
+              on:click={() => (flags[flag] = !flags[flag])}>
+              <img alt={flag} src={`./static/img/flags/${flag}.png`} />
+            </div>
+          {/each}
+        </div>
         <button
           class="ok"
           on:click={() => callback({
               key,
-              obj: { type, group, title, flags: filterFlags() },
+              value: { ...params.value, title, flags: filterFlags() },
             })}>
           {ok}
         </button>
@@ -118,13 +164,15 @@
     height: 100%;
     justify-content: center;
   }
-
-  .flags > div:hover {
-    background-color: #ddd;
+  @media (hover: hover) {
+    .flags > div:hover {
+      background-color: #ddd;
+    }
   }
 
+
   .flags > div.selected {
-    background-color: #cbcbcb;
+    background-color: #8a8a8a;
   }
 
   img {
@@ -135,10 +183,26 @@
   h3 {
     margin-left: 10px;
   }
-  span.min {
-    min-width: 100px;
-    display: inline-block;
+  
+  .input {
+    width: 100%;
+    display: flex;
+    align-items: center;
   }
+  
+  .input > input {
+    height: 1rem;
+    margin: 1rem 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+  } 
+
+  .input > p {
+    min-width: calc(40px + 4vw);
+  } 
+
+
   :global(.dialog-mask) {
     display: block;
     z-index: 100000;
@@ -169,6 +233,7 @@
     border-radius: 6px;
     box-sizing: border-box;
     min-height: 200px;
+    max-width: calc(100vw - 30px);
     background-color: #fff;
     opacity: 1;
   }
@@ -202,6 +267,7 @@
     margin: 0.5rem 0.6rem;
     margin-left: 0;
     border-radius: 4px;
+    cursor: pointer
   }
 
   button:hover {

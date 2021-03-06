@@ -1,4 +1,4 @@
-import { download } from '../utils/file.js'
+import { download } from '../file.js'
 import docx   from './docx.js'
 import fodt   from './fodt.js'
 import json   from './json.js'
