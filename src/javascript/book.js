@@ -76,10 +76,15 @@ const book = (() => {
     return Object.keys(data.chapters).filter( key => keyRegex.test(data.chapters[key].text) )
   }
 
+  const get = () => {
+    update(()=> {})
+    return JSON.parse(JSON.stringify(data))
+  }
+
   return {
     update, 
     subscribe,
-    get: () => JSON.parse(JSON.stringify(data)),
+    get,
     newChapter,
     availableKey,
     sanitizeKey,
