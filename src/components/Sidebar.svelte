@@ -21,7 +21,7 @@
   <h1>{$_('sidemenu.chapters') + ':'}</h1>
   <ActionButtons/>
   <ul class="chapters">
-    {#each Object.keys($book.chapters) as chapterKey}
+    {#each book.sortedKeys($book.chapters) as chapterKey}
     <li
       class:selected={chapterKey == $chapter.key}
       on:click={() => book.update(() => ({key: chapterKey}))}>

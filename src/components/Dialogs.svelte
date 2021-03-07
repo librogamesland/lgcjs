@@ -147,7 +147,7 @@
         <button class="cancel" on:click={() => callback(false)}>{cancel}</button>
       </div>
     {:else if dialog === 'img'}
-    <span class="imgbox">
+    <span class="imgbox" on:click={() => callback(false)}>
       <img class="center-fit" src={params.src} alt="book graph"/>
     </span>
     {/if}

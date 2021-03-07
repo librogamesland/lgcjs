@@ -13,6 +13,8 @@ const test = {
     revision: "1",
   },
   chapters: {
+    "intro": { title: "Introduzione", text: "", flags: [] },
+    "rules": { title: "Regolamento", text: "", flags: [] },    
     "1": {
       title: "Titolo",
       text: "Nel nuovo formato, si usa il doppio asterisco **per fare il grassetto**, mentre `così si fa il codice`." +
@@ -28,8 +30,7 @@ const test = {
 }
 
 
-//let data = JSON.parse(localStorage.getItem(storageKey) || JSON.stringify(test))
-let data = test
+let data = JSON.parse(localStorage.getItem(storageKey) || JSON.stringify(test))
 
 const beforeCallbacks = []
 const beforeUpdate    = (callback) => beforeCallbacks.push(callback)
@@ -55,6 +56,8 @@ const book = (() => {
     if(!(data.chapters[data.key])){
       data.key = Object.keys(data.chapters)[0]
     }
+
+
     localStorage.setItem(storageKey, JSON.stringify(data))
     set(data) 
   }
@@ -81,6 +84,16 @@ const book = (() => {
     return JSON.parse(JSON.stringify(data))
   }
 
+  const sortedKeys = (chapters) => Object.keys(chapters).sort( (a, b) => {
+    const aIsNumber = /^-?\d+$/.test(a)
+    const bIsNumber = /^-?\d+$/.test(b)
+
+    if(!aIsNumber && bIsNumber) return -1
+    if(aIsNumber && !bIsNumber) return +1
+    if(!aIsNumber && !bIsNumber) return a.localeCompare(b)
+    if(aIsNumber && bIsNumber) return  parseInt(a, 10) - parseInt(b, 10)
+  })
+
   return {
     update, 
     subscribe,
@@ -88,6 +101,7 @@ const book = (() => {
     newChapter,
     availableKey,
     sanitizeKey,
+    sortedKeys,
     linksTo,
     fullTitle,
   }

@@ -8,7 +8,7 @@ const sanitizeLabel = (text) => text.replace(/\//g, "\\").replace(/\"/g, '\"')
 const generateGraph = (book) => {
   const data = book.get()
   let s = 'digraph{\n'
-  Object.keys(data.chapters).forEach(key => {
+  book.sortedKeys(data.chapters).forEach(key => {
     s += `${key} [label="${sanitizeLabel(book.fullTitle(key))}"]\n`
     book.linksTo(key).forEach(otherKey => {
       s += `${otherKey} -> ${key}\n`

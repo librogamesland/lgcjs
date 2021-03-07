@@ -1,20 +1,22 @@
 <script>
   import { _ } from 'svelte-i18n'
-  import { about } from './Dialogs.svelte'
-  import { read } from '../javascript/file.js'
+  import { about, confirm } from './Dialogs.svelte'
   import { ctrlShortcuts } from '../javascript/shortcuts.js'
   import { book } from '../javascript/book';
   import { openGraph} from '../javascript/graph.js'
+  import { newBook, open, download } from '../javascript/file.js'
+
 
   export let showSidemenu = false
 
-
-  const open = (...args) => {
-    console.log(args)
+  const newClick = async() => {
+    if (await confirm('dialogs.confirm',`dialogs.text.new`)) newBook()
   }
 
 
   ctrlShortcuts({
+    'N': () => newClick(),
+    'S': () => download('md', book),
     'O': () => document.getElementById('open').click()
   })
 
@@ -26,12 +28,12 @@
   <div>
     <h1>{$_('navbar.file.title')}</h1>
     <div class="content">
-      <p>{$_('navbar.file.new')}</p>
+      <p on:click={newClick}>{$_('navbar.file.new')}</p>
       <input type="file" name="open" id="open"
         accept=".xlgc,.json,.md"
-        on:change={e => read(e.target, open )} />
+        on:change={e => open(e.target )} />
       <label for="open">{$_("navbar.file.open")} </label>
-      <p>{$_('navbar.file.save')}</p>
+      <p on:click={() => download('md', book)}>{$_('navbar.file.save')}</p>
     </div>
   </div>
 
