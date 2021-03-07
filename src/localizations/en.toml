@@ -17,11 +17,16 @@ title  = "Title"
 [dialogs.text]
 new    = "Book will be overwritten if not saved"
 
+
 [navbar.file]
 title = "File"
 new   = "New"
 open  = "Open..."
 save  = "Download"
+
+[navbar.view]
+title = "View"
+graph = "Book graph"
 
 [navbar.export]
 title = "Export"
@@ -47,6 +52,7 @@ linkshere = "Links to"
 add      = "Add entity (ctrl+R)"
 edit     = "Edit entity (ctrl+E)"
 delete   = "Delete entity (ctrl+D)"
+
 
 [editor.buttons]
 quicklink = "Link to the first avaiable chapter (ctrl+K)"

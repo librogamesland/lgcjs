@@ -7,13 +7,15 @@
   
   export let showSidemenu
 
-  $: title = $chapter.key + ($chapter.value.title ? ' - ' + $chapter.value.title : '')
+  $: title = book.fullTitle($chapter.key)
 
 
   let textarea, editor
   const extensions = defaultExtensions( (link) => {
     if(link.startsWith('#')){
       const key = link.substr(1) 
+      // TODO: AGGIUNGERE MESSAGGIO DI ERRORE
+      if(key != book.sanitizeKey(key)) return
       book.update(({chapters}) => {
         if(!chapters[key]) chapters[key] = book.newChapter()
         return {chapters, key}

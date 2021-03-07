@@ -6,10 +6,7 @@
 
   
   // Regex per matchare i link in markdown
-  const escapeRegex = (string) => string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-  $: keyRegex =     new RegExp(String.raw`\[([^\[]*)\](\(\s*\#${escapeRegex($chapter.key)}\s*\))`, 'g')
-  $: linksHere = Object.keys($book.chapters).filter( key => keyRegex.test($book.chapters[key].text) )
-
+  $: linksHere = book.linksTo($chapter.key)
   export let foreground = false
 
 </script>

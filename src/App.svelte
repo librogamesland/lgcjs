@@ -39,6 +39,7 @@
     font-family: arial,sans-serif;
     height: 100%;
     overscroll-behavior-y: contain;
+    overflow-x: hidden !important;
   }
 
   :global(body){
@@ -64,5 +65,6 @@
     min-width: 0; 
     min-height: 0; 
     overflow: auto;
+    overscroll-behavior: contain;
   }
 </style>

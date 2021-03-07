@@ -39,6 +39,8 @@ const book = (() => {
   const {set, subscribe} = new writable(data)
 
   const newChapter = () => ({title: "", flags:[], text: ""})
+  const sanitizeKey = key => key.replace(/[^a-z0-9]/gi,'')
+
 
   const update = (callback) => {
     const callbacks = [...beforeCallbacks, callback]
@@ -65,12 +67,24 @@ const book = (() => {
     }
   }
 
+  // Something like "01 - Title"
+  const fullTitle = (chapterKey) => chapterKey + (data.chapters[chapterKey].title ? ' - ' + data.chapters[chapterKey].title : '')
+
+  const linksTo = (chapterKey) => {
+    const escapeRegex = (string) => string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    const keyRegex =     new RegExp(String.raw`\[([^\[]*)\](\(\s*\#${escapeRegex(chapterKey)}\s*\))`, 'g')
+    return Object.keys(data.chapters).filter( key => keyRegex.test(data.chapters[key].text) )
+  }
+
   return {
     update, 
     subscribe,
     get: () => JSON.parse(JSON.stringify(data)),
     newChapter,
     availableKey,
+    sanitizeKey,
+    linksTo,
+    fullTitle,
   }
 })()
 

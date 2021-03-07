@@ -8,11 +8,16 @@
 
   const add = async () => {
     const newChapter = book.newChapter()
-    const { key, value } = await dialog.chapter(
+    const result = await dialog.chapter(
       'dialogs.entity.add',
       book.availableKey(),
       newChapter
+      
     )
+    if(!result) return
+    let { key, value } = result
+    key = book.sanitizeKey(key)
+
 
     if (!key) return
     book.update( ({chapters }) => {
@@ -28,12 +33,14 @@
 
 
   const edit = async () => {
-    console.log($chapter.value)
-    const { key, value } = await dialog.chapter(
+    const result = await dialog.chapter(
       'dialogs.entity.edit',
       $chapter.key,
       $chapter.value
     )
+    if(!result) return
+    let { key, value } = result
+    key = book.sanitizeKey(key)
 
     if (!key) return
     book.update( ({chapters }) => {

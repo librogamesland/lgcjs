@@ -3,6 +3,8 @@
   import { about } from './Dialogs.svelte'
   import { read } from '../javascript/file.js'
   import { ctrlShortcuts } from '../javascript/shortcuts.js'
+  import { book } from '../javascript/book';
+  import { openGraph} from '../javascript/graph.js'
 
   export let showSidemenu = false
 
@@ -30,6 +32,13 @@
         on:change={e => read(e.target, open )} />
       <label for="open">{$_("navbar.file.open")} </label>
       <p>{$_('navbar.file.save')}</p>
+    </div>
+  </div>
+
+  <div>
+    <h1>{$_('navbar.view.title')}</h1>
+    <div class="content">
+      <p on:click={() => openGraph(book)}>{$_('navbar.view.graph')}</p>
     </div>
   </div>
 
@@ -93,6 +102,17 @@
     margin: 0;
     font-weight: normal;
     cursor: pointer;
+  }
+
+  @media (max-width: 450px){
+    h1, .dropbtn, .content > * {
+      padding: 1rem 3.2vw;
+      font-size: 10px;
+    }
+
+    .content { min-width: calc(40px + 24vw);}
+
+    nav {padding-left: 0;}
   }
 
   /*@media (any-pointer: coarse) {

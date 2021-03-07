@@ -42,8 +42,14 @@
       dialog: 'chapter',
       params: { title, key, value },
     })
+
+  const img = (src) =>
+    openDialog({
+      dialog: 'img',
+      params: { src },
+    })
   
-  export { alert, confirm, about, chapter }
+  export { alert, confirm, about, chapter, img }
   </script>
 
 <script>
@@ -86,8 +92,8 @@
 </script>
 
 {#if dialog}
-  <div class="dialog-mask" />
-  <div class="dialog-container">
+  <div class="dialog-mask" on:click={() => callback(false)}/>
+  <div class="dialog-container" on:click|self={() => callback(false)}>
     {#if dialog === 'alert'}
       <div>
         <h3>{$_(params.title)}</h3>
@@ -138,8 +144,12 @@
             })}>
           {ok}
         </button>
-        <button class="cancel" on:click={() => callback({})}>{cancel}</button>
+        <button class="cancel" on:click={() => callback(false)}>{cancel}</button>
       </div>
+    {:else if dialog === 'img'}
+    <span class="imgbox">
+      <img class="center-fit" src={params.src} alt="book graph"/>
+    </span>
     {/if}
   </div>
 {/if}
@@ -277,6 +287,18 @@
   button.ok {
     background-color: #4670a6;
     color: white;
+  }
+
+  /* https://stackoverflow.com/questions/6169666/how-to-resize-an-image-to-fit-in-the-browser-window */
+  .imgbox {
+    display: grid;
+    height: 100%;
+    align-items: center;
+  }
+  .center-fit {
+    max-width: 95%;
+    max-height: 100vh;
+    margin: auto;
   }
 
 
