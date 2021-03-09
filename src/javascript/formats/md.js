@@ -43,6 +43,7 @@ const decode = (file) => {
       result.chapters[key] = {
         title,
         text: '',
+        group: '',
         flags: []
       }
       return
@@ -53,6 +54,10 @@ const decode = (file) => {
         if(line.includes(`![flag-${flag}]`)) result.chapters[key].flags.push(flag)
       })
       return
+    }
+    const groupIndex = line.indexOf('[group]:<> ("')
+    if(groupIndex != -1){
+      result.chapters[key].group = line.substr(groupIndex + 13, line.lastIndexOf('")') - groupIndex - 13)
     }
     result.chapters[key].text += oLine + '\n'
   })
@@ -84,6 +89,9 @@ const encode = (book) => {
         'fixed': '![flag-fixed](https://librogamesland.github.io/lgcjs/release/static/flags/fixed.png)',
       }
       s+= chapter.flags.map( key => flags[key]).join(' ') + '\n'
+    }
+    if(chapter.group){
+      s+=`[group]:<> ("${chapter.group}")\n`
     }
     s+= chapter.text.replace(/\n+$/, "") + '\n\n\n'
   })

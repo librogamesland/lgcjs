@@ -1,15 +1,17 @@
 <script>
   import { _ } from 'svelte-i18n'
-  import {book, chapter} from '../javascript/book.js'
-  import * as dialog from './Dialogs.svelte'
+  import {book, chapter} from '../javascript/book/data.js'
   import { ctrlShortcuts } from '../javascript/shortcuts.js'
-
+  // Dialogs
+  import { dialog } from './Dialogs.svelte'
+  import Chapter    from './dialogs/Chapter.svelte'
 
 
   const add = async () => {
     const newChapter = book.newChapter()
-    const result = await dialog.chapter(
-      'dialogs.entity.add',
+    const result = await dialog(
+      Chapter,
+      $_('dialogs.entity.add'),
       book.availableKey(),
       newChapter
       
@@ -17,12 +19,13 @@
     if(!result) return
     let { key, value } = result
     key = book.sanitizeKey(key)
+    value.group = book.sanitizeKey(value.group || '')
 
 
     if (!key) return
     book.update( ({chapters }) => {
       if (key in chapters) {
-        alert('dialogs.error', 'dialogs.entity.exists')
+        dialog(Alert, $_('dialogs.error'), $_('dialogs.entity.exists'))
         return {}
       }
 
@@ -33,21 +36,24 @@
 
 
   const edit = async () => {
-    const result = await dialog.chapter(
-      'dialogs.entity.edit',
+    const result = await dialog(
+      Chapter,
+      $_('dialogs.entity.edit'),
       $chapter.key,
       $chapter.value
     )
     if(!result) return
     let { key, value } = result
     key = book.sanitizeKey(key)
+    value.group = book.sanitizeKey(value.group || '')
+
 
     if (!key) return
     book.update( ({chapters }) => {
       // Non permette la sovrascrittura di altri
       // paragrafi oltre a quello attuale
       if (key !== $chapter.key && key in chapters) {
-        alert('dialogs.error', 'dialogs.entity.exists')
+        dialog(Alert, $_('dialogs.error'), $_('dialogs.entity.exists'))
         return {}
       }
 
@@ -59,7 +65,7 @@
 
 
   const del = async () => {
-    if (await dialog.confirm('dialogs.confirm', `dialogs.entity.delete`)) {
+    if (await dialog(Confirm, $_('dialogs.confirm'), $_(`dialogs.entity.delete`))) {
       book.update( ({chapters }) => {
         const index = Object.keys(chapters).indexOf($chapter.key) - 1
         delete chapters[$chapter.key]

@@ -1,13 +1,11 @@
 <script>
   import { _ } from 'svelte-i18n'
 	import { onMount } from 'svelte'
-  import { book, chapter, beforeUpdate } from '../javascript/book.js'
+  import { book, chapter } from '../javascript/book/data.js'
   import {EditorState, EditorView, EditorSelection, defaultExtensions} from '../javascript/codemirror.js'
   import { ctrlShortcuts } from '../javascript/shortcuts.js'
   
   export let showSidemenu
-
-  $: title = book.fullTitle($chapter.key)
 
 
   let textarea, editor
@@ -30,7 +28,7 @@
     })
   })
 
-  beforeUpdate( ({chapters, key}) => {
+  book.beforeUpdate( ({chapters, key}) => {
     if(editor){
       showSidemenu = false
       chapters[key].text = editor.state.doc.toString()
@@ -92,7 +90,10 @@
 
 <main class="editor">
   <div class="toolbar">
-    <h1 on:click={ () => showSidemenu = !showSidemenu}>{title}</h1>
+    <h1 on:click={ () => showSidemenu = !showSidemenu}>
+      {book.fullTitle($chapter.key)}
+      <span class="group">{$chapter.value.group ? ` (${$chapter.value.group})` : ''}</span>
+    </h1>
     <div on:click={addQuickLink} title={$_('editor.buttons.quicklink')}>
       <span class="link">#<span class="icon-flash"/></span>
     </div>
@@ -100,9 +101,6 @@
   </div>  
   <div class="textarea" bind:this={textarea}>
     
-  </div>
-  <div class="footer">
-
   </div>
 </main>
 
@@ -114,7 +112,7 @@
 
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: auto 1fr 20px;
+    grid-template-rows: auto 1fr;
     grid-gap: 1px;
     grid-template-areas: 
       "toolbar"
@@ -122,10 +120,8 @@
     background-color: rgb(192, 192, 192);
   }
 
-  .toolbar, .footer {
+  .toolbar {
     background-color: #fff;
-    padding-left: 6.5vw;
-    padding-right: 6.5vw;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -156,8 +152,7 @@
     padding: 7px 22px 6px;
     cursor: pointer;
     user-select: none;
-  }
-  
+  }  
 
   .textarea {
     grid-area: textarea;
@@ -166,24 +161,13 @@
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 100%;
+    padding-bottom: 22px;
   }
 
   @media only screen and (max-width: 680px) {
-    
-    .footer{
+    span.group {
       display: none;
     }
-    main {
-      grid-template-rows: 1fr auto;
-      grid-template-areas: 
-      "textarea"
-      "toolbar";
-    }
-
-    .toolbar{
-      padding-bottom: 7px;
-    }
-
   }
   
   @media (any-pointer: coarse) {
@@ -203,8 +187,11 @@
     padding-bottom: 25px;
   }
 
+  .toolbar{
+    padding-left: calc(6.5vw - 8px);
+  }
   :global(.cm-line){
-    padding: 7px 6.5vw !important;
+    padding: 7px calc(6.5vw - 10px) !important;
   }
 </style>
 

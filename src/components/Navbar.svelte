@@ -1,16 +1,24 @@
 <script>
   import { _ } from 'svelte-i18n'
-  import { about, confirm } from './Dialogs.svelte'
   import { ctrlShortcuts } from '../javascript/shortcuts.js'
-  import { book } from '../javascript/book';
-  import { openGraph} from '../javascript/graph.js'
+  import { book } from '../javascript/book/data.js';
+  import { graphToImg } from '../javascript/graph.js'
   import { newBook, open, download } from '../javascript/file.js'
+  import { encode } from '../javascript/formats/vuejs.js'
+  // Dialogs
+  import { dialog } from './Dialogs.svelte'
+  import About      from './dialogs/About.svelte'
+  import Confirm    from './dialogs/Confirm.svelte'
+  import Img        from './dialogs/Img.svelte'
 
+
+
+  encode(book)
 
   export let showSidemenu = false
 
   const newClick = async() => {
-    if (await confirm('dialogs.confirm',`dialogs.text.new`)) newBook()
+    if (await dialog(Confirm, $_('dialogs.confirm'),$_(`dialogs.text.new`))) newBook()
   }
 
 
@@ -38,9 +46,9 @@
   </div>
 
   <div>
-    <h1>{$_('navbar.view.title')}</h1>
+    <h1>{$_('navbar.book.title')}</h1>
     <div class="content">
-      <p on:click={() => openGraph(book)}>{$_('navbar.view.graph')}</p>
+      <p on:click={async() => dialog(Img, await graphToImg(book))}>{$_('navbar.book.graph')}</p>
     </div>
   </div>
 
@@ -64,7 +72,7 @@
       <a href="http://www.librogame.net/index.php/forum/topic?id=5182&p=1#p148583" target="_blank" rel="noopener">
         {$_('navbar.help.forum')}
       </a>
-      <p on:click={about}>{$_('navbar.help.about')}</p>
+      <p on:click={() => dialog(About)}>{$_('navbar.help.about')}</p>
     </div>
   </div>
 
@@ -83,7 +91,7 @@
     background-color: #333;
     color: #fff;
     user-select: none;
-    padding-left: calc(5.5vw - 12px);
+    padding-left: calc(5.5vw - 24px);
     box-sizing: border-box;
   }
 
@@ -108,13 +116,12 @@
 
   @media (max-width: 450px){
     h1, .dropbtn, .content > * {
-      padding: 1rem 3.2vw;
+      padding: 1rem 3.6vw;
       font-size: 10px;
     }
 
     .content { min-width: calc(40px + 24vw);}
 
-    nav {padding-left: 0;}
   }
 
   /*@media (any-pointer: coarse) {

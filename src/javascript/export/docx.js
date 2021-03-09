@@ -5,7 +5,7 @@ import {specialTags} from '../editor/formats.js'
 
 
 const textNodesUnder = (el) => {
-  var n, a=[], walk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false);
+  var n, a=[], walk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
   while(n=walk.nextNode()) a.push(n);
   return a;
 }
@@ -122,7 +122,6 @@ const addEntity = (book, entity, inlineStyle = false, breakAfter = false ) => {
 }
 
 export default (name, book) => {
-  const link = new docx.Hyperlink("Hello World");
   const doc = new docx.Document({
     styles: {
     paragraphStyles: [

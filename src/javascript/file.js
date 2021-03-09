@@ -1,5 +1,5 @@
 import { writable} from 'svelte/store'
-import { book } from './book.js'
+import { book } from './book/data.js'
 import * as md from './formats/md.js'
 
 const filename = (() => {

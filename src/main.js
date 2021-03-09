@@ -2,7 +2,7 @@
  Importa App.svelte, aggiunge supporto multilingua e offline
  @Luca Fabbian - v1.0 */
 import App from './App.svelte'
-import {book} from './javascript/book.js'
+import {book} from './javascript/book/data.js'
 
 // Multi language support
 import { addMessages, init, getLocaleFromNavigator } from 'svelte-i18n'

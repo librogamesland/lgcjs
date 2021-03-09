@@ -1,10 +1,26 @@
 <script>
   import { _ } from 'svelte-i18n'
-  import {book, chapter} from '../javascript/book.js'
+  import {book, chapter} from '../javascript/book/data.js'
 
   import ActionButtons from './ActionButtons.svelte'
 
-  
+  let selectedGroup = 'allgroupidtag'
+  $: groups = [...new Set(Object.values($book.chapters).map(value => value.group || ''))].filter(key => (key && key != ''))
+
+  $: filterChapters = book.sortedKeys($book.chapters).filter( key => {
+    if(!selectedGroup || selectedGroup == 'allgroupidtag') return true
+    const group = $book.chapters[key].group
+    return group && group == selectedGroup
+  })
+
+  $: {
+    if(![...groups, 'allgroupidtag'].includes(selectedGroup)){
+      selectedGroup = 'allgroupidtag'
+    }
+  }
+
+
+
   // Regex per matchare i link in markdown
   $: linksHere = book.linksTo($chapter.key)
   export let foreground = false
@@ -18,10 +34,19 @@
 
 
 <aside class:foreground>
-  <h1>{$_('sidemenu.chapters') + ':'}</h1>
+  <h1>{$_('sidemenu.chapters') + ':'}
+    <span class="select-dropdown">
+      <select bind:value={selectedGroup}>
+        <option value="allgroupidtag">All</option>
+        {#each groups as group}
+          <option value={group}>{group}</option>
+        {/each}
+      </select>
+    </span>
+  </h1>
   <ActionButtons/>
   <ul class="chapters">
-    {#each book.sortedKeys($book.chapters) as chapterKey}
+    {#each filterChapters as chapterKey}
     <li
       class:selected={chapterKey == $chapter.key}
       on:click={() => book.update(() => ({key: chapterKey}))}>
@@ -61,14 +86,23 @@
     max-height: 100%;
   }
 
+
+
   h1 {
     font-weight: 700;
     font-size: 1.3rem;
     box-sizing: border-box;
     padding: 0.6rem;
     padding-top: 1.8rem;
-    padding-left: 1rem;
+    padding-left: 0.6rem;
     margin: 0;
+  }
+
+  select {
+    display: inline-block;
+    font-size: 1rem;
+    min-height: 1.3rem;
+    line-height: 1.3rem;
   }
 
   b {

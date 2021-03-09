@@ -13,6 +13,7 @@ exist  = "Questa entità esiste già"
 
 name   = "Nome"
 title  = "Titolo"
+group  = "Gruppo"
 
 [dialogs.text]
 new    = "Il libro verrà sovrascritto se non salvato"
@@ -24,9 +25,9 @@ new   = "Nuovo"
 open  = "Apri..."
 save  = "Download"
 
-[navbar.view]
-title = "Visualizza"
-graph = "Grafico libro"
+[navbar.book]
+title = "Libro"
+graph = "Visualizza grafico"
 
 [navbar.export]
 title = "Esporta"

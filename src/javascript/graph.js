@@ -1,5 +1,3 @@
-import {img} from '../components/Dialogs.svelte'
-
 const workerURL = 'static/graphviz/lite.render.js';
 let viz = new Viz({ workerURL });
 
@@ -18,16 +16,10 @@ const generateGraph = (book) => {
 }
 
 
-
-const openGraph = (book) => {
-
-  viz.renderImageElement(generateGraph(book))
-    .then(function(element) {
-      img(element.getAttribute('src'));
-    })
-    .catch(error => {
-      console.error(error);
-    });
+// Return the src attribute of an img tag
+const graphToImg = async(book) => {
+  const element = await viz.renderImageElement(generateGraph(book))
+  return element.getAttribute('src');
 }
 
-export {openGraph}
+export {generateGraph, graphToImg}

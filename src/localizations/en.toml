@@ -13,6 +13,7 @@ exist  = "Chapter already exists"
 
 name   = "Name"
 title  = "Title"
+group  = "Group"
 
 [dialogs.text]
 new    = "Book will be overwritten if not saved"
@@ -24,9 +25,9 @@ new   = "New"
 open  = "Open..."
 save  = "Download"
 
-[navbar.view]
-title = "View"
-graph = "Book graph"
+[navbar.book]
+title = "Book"
+graph = "View graph"
 
 [navbar.export]
 title = "Export"

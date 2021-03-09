@@ -19,6 +19,7 @@
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
+    "marked": "^2.0.1",
     "pkg": "^4.4.9",
     "rollup": "^2.40.0",
     "rollup-plugin-glob-import": "^0.4.5",
